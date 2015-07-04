@@ -1,0 +1,15 @@
+rootProject.name = 'sequence-parsers'
+
+include 'core'
+
+include 'bed'
+
+include 'gff'
+
+include 'vcf'
+
+include 'fasta'
+
+include 'pedigree'
+
+include 'chain'
