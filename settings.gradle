@@ -1,15 +1,3 @@
-rootProject.name = 'sequence-parsers'
+rootProject.name = 'genome-sequence-io'
 
-include 'core'
-
-include 'bed'
-
-include 'gff'
-
-include 'vcf'
-
-include 'fasta'
-
-include 'pedigree'
-
-include 'chain'
+include 'core', 'bed', 'gff', 'vcf', 'fasta', 'pedigree', 'chain'

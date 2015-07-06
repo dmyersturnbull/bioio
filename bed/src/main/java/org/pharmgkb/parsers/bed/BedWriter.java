@@ -58,6 +58,15 @@ public class BedWriter implements LineWriter<BedFeature> {
 			// write count
 			sb.append("\t").append(feature.getBlocks().size());
 
+			// write lengths
+			sb.append("\t");
+			for (int i = 0; i < feature.getBlocks().size(); i++) {
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append(feature.getBlocks().get(i).getLength());
+			}
+
 			// write starts
 			sb.append("\t");
 			for (int i = 0; i < feature.getBlocks().size(); i++) {
@@ -67,14 +76,6 @@ public class BedWriter implements LineWriter<BedFeature> {
 				sb.append(feature.getBlocks().get(i).getStart());
 			}
 
-			// write lengths
-			sb.append("\t");
-			for (int i = 0; i < feature.getBlocks().size(); i++) {
-				if (i > 0) {
-					sb.append(",");
-				}
-				sb.append(feature.getBlocks().get(i).getLength());
-			}
 		}
 		return sb.toString();
 	}

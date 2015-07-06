@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.pharmgkb.parsers.Strand;
 
 import java.awt.Color;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class BedFeatureTest {
 	@Test
 	public void testColor() throws Exception {
 		Optional<Color> color = new BedFeature.Builder("chr1", 1, 2)
-				.setColor("2,3,4").build().getColor();
+				.setColorFromString("2,3,4").build().getColor();
 		assertTrue(color.isPresent());
 		assertEquals(new Color(2, 3, 4), color.get());
 		assertFalse(new BedFeature.Builder("chr1", 1, 2)
@@ -31,7 +30,7 @@ public class BedFeatureTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testBadColor1() throws Exception {
-		new BedFeature.Builder("chr1", 1, 2).setColor("2,3,4,5");
+		new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -41,12 +40,12 @@ public class BedFeatureTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNegativeScore() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).setScore(new BigDecimal("-0.00001"));
+		new BedFeature.Builder("chr1", 0, 15).setScore(-1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testLargeScore() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).setScore(new BigDecimal("1000.00001"));
+		new BedFeature.Builder("chr1", 0, 15).setScore(1001);
 	}
 
 	@Test
@@ -90,18 +89,21 @@ public class BedFeatureTest {
 		new BedFeature.Builder("chr1", 0, 15).addBlock(8, 15).addBlock(0, 8).build();
 	}
 
-	@Test(expected = IllegalStateException.class)
 	public void testRebuild() throws Exception {
-		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15);
-		builder.build();
-		builder.build();
+		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).setScore(200);
+		BedFeature one = builder.setScore(200).build();
+		assertTrue(one.getScore().isPresent());
+		assertEquals(200, (int)one.getScore().get());
+		BedFeature two = builder.setScore(500).build();
+		assertTrue(two.getScore().isPresent());
+		assertEquals(500, (int)two.getScore().get());
 	}
 
 	@Test
 	public void testCopyConstructor() throws Exception {
 		BedFeature one = new BedFeature.Builder("chr1", 0, 15)
 				.setStrand(Strand.PLUS)
-				.setScore(new BigDecimal("4.12e-10"))
+				.setScore(200)
 				.setThickStart(5l).setThickEnd(8l)
 				.setColor(Color.RED)
 				.addBlock(0, 8).addBlock(8, 15).build();

@@ -5,7 +5,6 @@ import org.pharmgkb.parsers.Strand;
 
 import java.awt.Color;
 import java.io.File;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -22,18 +21,18 @@ public class BedWriterTest {
 		BedFeature first = new BedFeature.Builder("chr1", 0, 5).build();
 		BedFeature second = new BedFeature.Builder("chr2", 10, 20)
 				.setName("xxx")
-				.setScore(new BigDecimal(0))
+				.setScore(0)
 				.setStrand(Strand.PLUS)
 				.setThickStart(12l).setThickEnd(18l)
 				.setColor(Color.BLACK)
 				.build();
-		BedFeature third = new BedFeature.Builder("chr2", 30, 40)
+		BedFeature third = new BedFeature.Builder("chr2", 30, 50)
 				.setName("yyy")
-				.setScore(new BigDecimal(1000))
+				.setScore(1000)
 				.setStrand(Strand.MINUS)
 				.setThickStart(30l).setThickEnd(40l)
 				.setColor(Color.WHITE)
-				.addBlock(0, 5).addBlock(5, 15)
+				.addBlock(0, 5).addBlock(10, 20)
 				.build();
 		List<String> lines = Arrays.asList(first, second, third).stream()
 				.map(new BedWriter())
