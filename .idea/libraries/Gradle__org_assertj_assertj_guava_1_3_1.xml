@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.assertj:assertj-guava:1.3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-guava/1.3.1/276baa75d95909303b4d479c5502fe0c38d7cb4c/assertj-guava-1.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-guava/1.3.1/ea116a82c2d13e34bf26587877fa3b9221fbe525/assertj-guava-1.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -223,11 +224,24 @@ public class PedigreeBuilderTest {
 
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testMissingParent() throws Exception {
+	@Test
+	public void testMissingFather() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.addIndividual("f1", "A0_fa", "asdf", null, Sex.FEMALE, Collections.emptyList()); // this is ok
-		builder.build(); // this should break
+		assertThatThrownBy(builder::build)
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Father")
+				.hasMessageContaining("does not exist");
+	}
+
+	@Test
+	public void testMissingMother() throws Exception {
+		PedigreeBuilder builder = new PedigreeBuilder(true);
+		builder.addIndividual("f1", "A0_fa", null, "asdf", Sex.FEMALE, Collections.emptyList()); // this is ok
+		assertThatThrownBy(builder::build)
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Mother")
+				.hasMessageContaining("does not exist");
 	}
 
 	@Test(expected=IllegalArgumentException.class)

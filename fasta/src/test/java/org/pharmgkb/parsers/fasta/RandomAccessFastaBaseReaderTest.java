@@ -6,6 +6,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,10 +22,14 @@ public class RandomAccessFastaBaseReaderTest {
 		assertEquals(Arrays.asList("1", "2", "3"), stream.getHeaders());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testFileExists() throws Exception {
 		File file = Paths.get(RandomAccessFastaBaseReaderTest.class.getResource("test1.fasta").toURI()).toFile();
-		new RandomAccessFastaBaseReader.Builder(file).setnCharsInBuffer(5).keepTempFileOnExit().build();
+		RandomAccessFastaBaseReader.Builder builder = new RandomAccessFastaBaseReader.Builder(file).setnCharsInBuffer(5)
+				.keepTempFileOnExit();
+		assertThatThrownBy(builder::build)
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageStartingWith("Temporary file " + file.getPath() + " already exists");
 	}
 
 	public void debugTest() throws Exception {

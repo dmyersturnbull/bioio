@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests {@link BedParser}.
+ * @author Douglas Myers-Turnbull
+ */
 public class BedParserTest {
 
 	@Test
@@ -40,6 +44,16 @@ public class BedParserTest {
 			assertEquals(first, features.get(0));
 			assertEquals(second, features.get(1));
 			assertEquals(third, features.get(2));
+	}
+
+	@Test(expected = BadDataFormatException.class)
+	public void testJunkLine() throws Exception {
+		Collections.singletonList("asdf").stream().map(new BedParser()).count();
+	}
+
+	@Test(expected = BadDataFormatException.class)
+	public void testEmptyLine() throws Exception {
+		Collections.singletonList("").stream().map(new BedParser()).count();
 	}
 
 	@Test(expected = BadDataFormatException.class)

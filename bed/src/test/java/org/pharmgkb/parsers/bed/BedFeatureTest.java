@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -28,30 +29,40 @@ public class BedFeatureTest {
 				            .build().getColor().isPresent());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testBadColor1() throws Exception {
-		new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5");
+		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5"))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("color");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testBadColor2() throws Exception {
-		new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5));
+		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5)))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Color");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testNegativeScore() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).setScore(-1);
+		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(-1))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Score")
+				.hasMessageContaining("< 0");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testLargeScore() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).setScore(1001);
+		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(1001))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Score")
+				.hasMessageContaining("> 1000");
 	}
 
 	@Test
 	public void testNoBlocks() throws Exception {
-		assertTrue(new BedFeature.Builder("chr1", 0, 15)
-				           .build().getBlocks().isEmpty());
+		assertTrue(new BedFeature.Builder("chr1", 0, 15).build()
+				           .getBlocks().isEmpty());
 	}
 
 	@Test
@@ -64,31 +75,41 @@ public class BedFeatureTest {
 				             .build().getBlocks());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testOverlappingBlocks1() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(7, 15);
+		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8);
+		assertThatThrownBy(() -> builder.addBlock(7, 15))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("overlap");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testOverlappingBlocks2() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).addBlock(0, 5).addBlock(9, 12).addBlock(8, 10).addBlock(12, 15);
+		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 5).addBlock(9, 12);
+		assertThatThrownBy(() -> builder.addBlock(8, 10))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("overlap");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testBadBlockStart() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).addBlock(1, 8).addBlock(8, 15);
+		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15);
+		assertThatThrownBy(() -> builder.addBlock(1, 8))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("start")
+				.hasMessageContaining("!= 0");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testBadBlockEnd() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(8, 14).build();
+		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(8, 14);
+		assertThatThrownBy(builder::build)
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("The end of the last block must be the end of the feature")
+				.hasMessageEndingWith("instead of 15");
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testBadBlockOutOfOrder() throws Exception {
-		new BedFeature.Builder("chr1", 0, 15).addBlock(8, 15).addBlock(0, 8).build();
-	}
-
+	@Test
 	public void testRebuild() throws Exception {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).setScore(200);
 		BedFeature one = builder.setScore(200).build();

@@ -168,8 +168,12 @@ public class BedFeature {
 		private final List<BedBlock> m_blocks;
 
 		public Builder(@Nonnull String chromosome, @Nonnegative long start, @Nonnegative long end) {
-			Preconditions.checkArgument(start > -1, "Start " + start + " is negative");
-			Preconditions.checkArgument(end > -1, "End " + end + " is negative");
+			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains tabs");
+			Preconditions.checkArgument(!chromosome.contains(System.lineSeparator()),  "Chromosome name " + chromosome
+					+ " contains new lines");
+			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
+			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
+			Preconditions.checkArgument(start <= end, "Start " + start + " comes before end " + end);
 			m_chromosome = chromosome;
 			m_start = start;
 			m_end = end;
@@ -196,11 +200,12 @@ public class BedFeature {
 		}
 
 		@Nonnull
-		public Builder setName(@Nonnull String name) {
+		public Builder setName(@Nullable String name) {
 			return setName(Optional.ofNullable(name));
 		}
 		@Nonnull
-		public Builder setName(@Nullable Optional<String> name) {
+		public Builder setName(@Nonnull Optional<String> name) {
+			Preconditions.checkArgument(!name.isPresent() || !name.get().contains("\t") && !name.get().contains(System.lineSeparator()), "Feature name cannot contain tabs or newlines");
 			m_name = name;
 			return this;
 		}
@@ -212,10 +217,8 @@ public class BedFeature {
 		@Nonnull
 		public Builder setScore(@Nonnull Optional<Integer> score) {
 			if (score.isPresent()) {
-				Preconditions.checkArgument(score.get() > -1,
-				                            "Score is " + score.get() + " < 0");
-				Preconditions.checkArgument(score.get() < 1001,
-				                            "Score is " + score.get() + " > 1000");
+				Preconditions.checkArgument(score.get() > -1, "Score " + score.get() + " < 0");
+				Preconditions.checkArgument(score.get() < 1001, "Score " + score.get() + " > 1000");
 			}
 			m_score = score;
 			return this;
@@ -237,8 +240,8 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setThickStart(@Nonnull @Nonnegative Optional<Long> thickStart) {
-			Preconditions.checkArgument(!thickStart.isPresent() || thickStart.get() >= 0, "Thick start " + thickStart
-					+ " is negative");
+			Preconditions.checkArgument(!thickStart.isPresent() || thickStart.get() > -1, "Thick start " + thickStart
+					+ " < 0");
 			m_thickStart = thickStart;
 			return this;
 		}
@@ -249,7 +252,7 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setThickEnd(@Nonnull @Nonnegative Optional<Long> thickEnd) {
-			Preconditions.checkArgument(!thickEnd.isPresent() || thickEnd.get() >= 0, "Thick end " + thickEnd + " is negative");
+			Preconditions.checkArgument(!thickEnd.isPresent() || thickEnd.get() > -1, "Thick end " + thickEnd + " < 0");
 			m_thickEnd = thickEnd;
 			return this;
 		}
@@ -282,7 +285,7 @@ public class BedFeature {
 		@Nonnull
 		public Builder setColor(@Nonnull Optional<Color> color) {
 			if (color.isPresent()) {
-				Preconditions.checkArgument(color.get().getAlpha() == 255, "Item RGB has alpha " + color.get().getAlpha()
+				Preconditions.checkArgument(color.get().getAlpha() == 255, "Color has alpha " + color.get().getAlpha()
 						+ "; should be 255");
 			}
 			m_color = color;
@@ -298,7 +301,7 @@ public class BedFeature {
 		@Nonnull
 		public Builder addBlock(@Nonnull BedBlock block) {
 			Preconditions.checkArgument(!m_blocks.isEmpty() || block.getStart() == 0,
-			                            "The first block must start at 0, but started at " + block.getStart());
+			                            "The first block starts at " + block.getStart() + " != 0");
 			for (BedBlock other : m_blocks) {
 				Preconditions.checkArgument(block.getStart() >= other.getEnd() || block.getEnd() <= other.getStart(),
 				                            "block " + other + " overlaps with block " + block);
@@ -317,8 +320,8 @@ public class BedFeature {
 			if (!m_blocks.isEmpty()) {
 				long blockEnd = m_blocks.get(m_blocks.size() - 1).getEnd();
 				Preconditions.checkArgument(blockEnd == m_end - m_start,
-				                            "The end of the last block must be the end of the feature; was " + blockEnd
-						                  + " instead of " + (m_end - m_start));
+				                            "The end of the last block must be the end of the feature; is " + blockEnd
+						                            + " instead of " + (m_end - m_start));
 			}
 			return new BedFeature(this);
 		}
