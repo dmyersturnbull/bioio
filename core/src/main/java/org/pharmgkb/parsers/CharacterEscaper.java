@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * A way to escape and unescape text.
@@ -10,7 +11,23 @@ import javax.annotation.Nonnull;
  */
 public interface CharacterEscaper {
 
+	@Nonnull
+	default Optional<String> escape(Optional<String> string) {
+		if (string.isPresent()) {
+			return escape(string);
+		}
+		return string;
+	}
+
 	@Nonnull String escape(@Nonnull String string);
+
+	@Nonnull
+	default Optional<String> unescape(Optional<String> string) {
+		if (string.isPresent()) {
+			return unescape(string);
+		}
+		return string;
+	}
 
 	@Nonnull String unescape(@Nonnull String string);
 

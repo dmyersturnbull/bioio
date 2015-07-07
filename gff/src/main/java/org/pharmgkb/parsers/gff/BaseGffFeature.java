@@ -1,12 +1,14 @@
 package org.pharmgkb.parsers.gff;
 
 import com.google.common.base.MoreObjects;
+import org.pharmgkb.parsers.CharacterEscaper;
 import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
@@ -124,6 +126,7 @@ public abstract class BaseGffFeature {
 		return Objects.hash(m_coordinateSystemId, m_type, m_start, m_end, m_source, m_strand, m_phase, m_score);
 	}
 
+	@NotThreadSafe
 	protected abstract static class Builder<T, B extends Builder> implements ObjectBuilder<T> {
 
 		private String m_coordinateSystemId;
@@ -142,9 +145,15 @@ public abstract class BaseGffFeature {
 
 		private Optional<CdsPhase> m_phase;
 
+		@Nonnull
+		protected abstract CharacterEscaper fieldEscaper();
+
+		@Nonnull
+		protected abstract CharacterEscaper coordinateSystemIdEscaper();
+
 		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
 			m_coordinateSystemId = coordinateSystemId;
-			m_type = type;
+			m_type = coordinateSystemIdEscaper().escape(type);
 			m_start = start;
 			m_end = end;
 			m_source = Optional.empty();
@@ -158,7 +167,7 @@ public abstract class BaseGffFeature {
 		}
 		@Nonnull
 		public Builder setSource(@Nonnull Optional<String> source) {
-			m_source = source;
+			m_source = fieldEscaper().escape(source);
 			return this;
 		}
 
