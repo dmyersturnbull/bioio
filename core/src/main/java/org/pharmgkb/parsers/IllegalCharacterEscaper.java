@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
  */
 public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 
+	private static final Pattern sf_hexDigit = Pattern.compile("\\d|[A-Fa-f]");
+
 	private final Set<Character> m_illegalChars;
 
 	private final boolean m_inverseIllegality;
@@ -78,7 +80,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 					onDigit = new ArrayList<>();
 
 				} else if (onDigit != null) {
-					Preconditions.checkArgument(Character.isDigit(c), "Bad unescaped string " + string);
+					Preconditions.checkArgument(sf_hexDigit.matcher(String.valueOf(c)).matches(), "Bad escaped string " + string);
 					onDigit.add(c);
 					if (onDigit.size() > 1) {
 						String unescapedHex = "%" + String.valueOf(onDigit.get(0)) + String.valueOf(onDigit.get(1));
@@ -87,7 +89,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 					}
 
 				} else {
-					Preconditions.checkArgument(m_illegalChars.contains(c), "Bad unescaped string " + string);
+					Preconditions.checkArgument(m_illegalChars.contains(c), "Bad escaped string " + string);
 					sb.append(c);
 				}
 			}

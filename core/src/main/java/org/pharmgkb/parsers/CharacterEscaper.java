@@ -14,9 +14,9 @@ public interface CharacterEscaper {
 	@Nonnull
 	default Optional<String> escape(Optional<String> string) {
 		if (string.isPresent()) {
-			return escape(string);
+			return Optional.of(escape(string.get()));
 		}
-		return string;
+		return Optional.empty();
 	}
 
 	@Nonnull String escape(@Nonnull String string);
@@ -24,9 +24,9 @@ public interface CharacterEscaper {
 	@Nonnull
 	default Optional<String> unescape(Optional<String> string) {
 		if (string.isPresent()) {
-			return unescape(string);
+			return Optional.of(unescape(string.get()));
 		}
-		return string;
+		return Optional.empty();
 	}
 
 	@Nonnull String unescape(@Nonnull String string);

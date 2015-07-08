@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class Rfc3986Escaper extends IllegalCharacterEscaper {
 
-	private static final Pattern sf_encodedPattern = Pattern.compile("%\\d{2}");
+	private static final Pattern sf_encodedPattern = Pattern.compile("%(?:\\d|[A-Fa-f]){2}");
 
 	public Rfc3986Escaper(boolean inverseIllegality, @Nonnull char... illegalChars) {
 		super(inverseIllegality, illegalChars);
