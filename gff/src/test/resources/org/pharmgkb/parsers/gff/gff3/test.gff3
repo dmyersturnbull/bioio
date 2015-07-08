@@ -1,0 +1,7 @@
+##gff-version	3
+##sequence-region	ctg123	1	1497228
+a	.	gene	1	11	.	+	.	ID=id1
+b	.	gene	1	11	.	-	.	ID=id2
+c	.	mRNA	11	21	.	.	.	ID=id3;Name=aname
+#	this	is	a	comment
+d	.	mRNA	11	21	.	?	.	.

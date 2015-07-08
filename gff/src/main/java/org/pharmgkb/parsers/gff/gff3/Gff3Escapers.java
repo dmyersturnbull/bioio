@@ -13,24 +13,28 @@ import java.util.Set;
  */
 public class Gff3Escapers {
 
-	public static class MainGff3Escaper extends Rfc3986Escaper {
+	public static final Rfc3986Escaper FIELDS = new Fields();
+
+	public static final Rfc3986Escaper COORDINATE_SYSTEM_IDS = new CoordinateSystemIds();
+
+	private static class Fields extends Rfc3986Escaper {
 
 		private static Set<Character> sf_illegals = new HashSet<>();
 
 		static {
-			sf_illegals.addAll(Arrays.asList('\n', '\t', '\r', '%'));
+			sf_illegals.addAll(Arrays.asList('\n', '\t', '\r', '%', ';', '=', '&', ','));
 			for (int i = 0x0; i < 0x20; i++) {
 				sf_illegals.add((char)i);
 			}
 		}
 
-		public MainGff3Escaper() {
+		public Fields() {
 			super(false, sf_illegals);
 		}
 
 	}
 
-	public static class SequenceIdGff3Escaper extends Rfc3986Escaper {
+	private static class CoordinateSystemIds extends Rfc3986Escaper {
 
 		private static Set<Character> sf_legals = new HashSet<>();
 
@@ -47,16 +51,8 @@ public class Gff3Escapers {
 			}
 		}
 
-		public SequenceIdGff3Escaper() {
-			super(false, sf_legals);
-		}
-
-	}
-
-	public static class AttributeGff3Escaper extends Rfc3986Escaper {
-
-		public AttributeGff3Escaper() {
-			super(false, '\n', '\t', ',', '=', ';');
+		public CoordinateSystemIds() {
+			super(true, sf_legals);
 		}
 
 	}

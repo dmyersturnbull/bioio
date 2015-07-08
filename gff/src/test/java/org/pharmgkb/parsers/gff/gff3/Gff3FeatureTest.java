@@ -15,7 +15,7 @@ public class Gff3FeatureTest {
 
 	@Test
 	public void testAttributes() throws Exception {
-		Gff3Feature feature = new Gff3Feature.Builder("chr1", "ttt", 0, 5)
+		Gff3Feature feature = new Gff3Feature.Builder("chr1", "ttt", 0, 5).setSource("source")
 				.putAttributes("x", Arrays.asList("a", "b", "c"))
 				.putAttributes("y", Collections.emptyList())
 				.build();

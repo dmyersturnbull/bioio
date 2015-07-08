@@ -1,7 +1,7 @@
 package org.pharmgkb.parsers.gff;
 
 import com.google.common.base.MoreObjects;
-import org.pharmgkb.parsers.CharacterEscaper;
+import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnegative;
@@ -129,72 +129,77 @@ public abstract class BaseGffFeature {
 	@NotThreadSafe
 	protected abstract static class Builder<T, B extends Builder> implements ObjectBuilder<T> {
 
-		private String m_coordinateSystemId;
+		protected String m_coordinateSystemId;
 
-		private final String m_type;
+		protected final String m_type;
 
-		private final long m_start;
+		protected final long m_start;
 
-		private final long m_end;
+		protected final long m_end;
 
-		private Optional<String> m_source;
+		protected Optional<String> m_source;
 
-		private Optional<BigDecimal> m_score;
+		protected Optional<BigDecimal> m_score;
 
-		private GffStrand m_strand;
+		protected GffStrand m_strand;
 
-		private Optional<CdsPhase> m_phase;
+		protected Optional<CdsPhase> m_phase;
 
-		@Nonnull
-		protected abstract CharacterEscaper fieldEscaper();
-
-		@Nonnull
-		protected abstract CharacterEscaper coordinateSystemIdEscaper();
-
+		/**
+		 * The strand defaults to {@link GffStrand#UNSTRANDED}.
+		 */
 		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
+			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
+			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
+			Preconditions.checkArgument(start <= end, "Start " + start + " comes before end " + end);
 			m_coordinateSystemId = coordinateSystemId;
-			m_type = coordinateSystemIdEscaper().escape(type);
+			m_type = type;
 			m_start = start;
 			m_end = end;
 			m_source = Optional.empty();
 			m_score = Optional.empty();
+			m_strand = GffStrand.UNSTRANDED;
 			m_phase = Optional.empty();
 		}
 
 		@Nonnull
-		public Builder setSource(@Nullable String source) {
+		public B setSource(@Nullable String source) {
 			return setSource(Optional.ofNullable(source));
 		}
+		@SuppressWarnings("unchecked")
 		@Nonnull
-		public Builder setSource(@Nonnull Optional<String> source) {
-			m_source = fieldEscaper().escape(source);
-			return this;
+		public B setSource(@Nonnull Optional<String> source) {
+			m_source = source;
+			return (B) this;
 		}
 
 		@Nonnull
-		public Builder setScore(@Nullable BigDecimal score) {
+		public B setScore(@Nullable BigDecimal score) {
 			return setScore(Optional.ofNullable(score));
 		}
+		@SuppressWarnings("unchecked")
 		@Nonnull
-		public Builder setScore(@Nonnull Optional<BigDecimal> score) {
+		public B setScore(@Nonnull Optional<BigDecimal> score) {
 			m_score = score;
-			return this;
+			return (B) this;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Nonnull
-		public Builder setStrand(@Nonnull GffStrand strand) {
+		public B setStrand(@Nonnull GffStrand strand) {
 			m_strand = strand;
-			return this;
+			return (B) this;
 		}
 
 		@Nonnull
-		public Builder setPhase(@Nullable CdsPhase phase) {
+		public B setPhase(@Nullable CdsPhase phase) {
 			return setPhase(Optional.ofNullable(phase));
 		}
+		@SuppressWarnings("unchecked")
 		@Nonnull
-		public Builder setPhase(@Nonnull Optional<CdsPhase> phase) {
+		public B setPhase(@Nonnull Optional<CdsPhase> phase) {
 			m_phase = phase;
-			return this;
+			return (B) this;
 		}
 
 	}

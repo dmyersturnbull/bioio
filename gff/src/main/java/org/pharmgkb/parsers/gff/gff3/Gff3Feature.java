@@ -1,19 +1,19 @@
 package org.pharmgkb.parsers.gff.gff3;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import org.pharmgkb.parsers.CharacterEscaper;
 import org.pharmgkb.parsers.gff.BaseGffFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 /**
  * A line of GFF3 data, which contains key-value pairs, several of which are required.
@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
  */
 @Immutable
 public class Gff3Feature extends BaseGffFeature {
+
+	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private final ImmutableMap<String, List<String>> m_attributes;
 
@@ -42,8 +44,8 @@ public class Gff3Feature extends BaseGffFeature {
 	}
 
 	@Nonnull
-	public ImmutableSet<ImmutableMap.Entry<String, List<String>>> getAttributes() {
-		return ImmutableSet.copyOf(m_attributes.entrySet());
+	public ImmutableMap<String, List<String>> getAttributes() {
+		return m_attributes;
 	}
 
 	@NotThreadSafe
@@ -52,29 +54,20 @@ public class Gff3Feature extends BaseGffFeature {
 		private Map<String, List<String>> m_attributes;
 
 		@Nonnull
-		@Override
-		protected CharacterEscaper fieldEscaper() {
-			return new Gff3Escapers.MainGff3Escaper();
-		}
-
-		@Nonnull
-		@Override
-		protected CharacterEscaper coordinateSystemIdEscaper() {
-			return new Gff3Escapers.SequenceIdGff3Escaper();
-		}
-
-		@Nonnull
 		public Builder(@Nonnull String id, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
 			super(id, type, start, end);
 			m_attributes = new TreeMap<>(); // for obvious sort order
 		}
 
 		@Nonnull
+		public Builder putAttributes(@Nonnull Map<String, List<String>> attributes) {
+			m_attributes.putAll(attributes);
+			return this;
+		}
+
+		@Nonnull
 		public Builder putAttributes(@Nonnull String key, @Nonnull List<String> values) {
-			List<String> escaped = values.stream()
-					.map(value -> new Gff3Escapers.AttributeGff3Escaper().escape(value))
-					.collect(Collectors.toList());
-			m_attributes.put(fieldEscaper().escape(key), escaped);
+			m_attributes.put(key, values);
 			return this;
 		}
 
@@ -86,6 +79,9 @@ public class Gff3Feature extends BaseGffFeature {
 
 		@Nonnull
 		public Gff3Feature build() {
+			if ("CDS".equalsIgnoreCase(m_type) && !m_phase.isPresent()) {
+				sf_logger.warn("The feature starting at {} and ending at {} is of type CDS but no phase is given", m_start, m_end);
+			}
 			return new Gff3Feature(this);
 		}
 	}
