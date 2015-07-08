@@ -194,7 +194,7 @@ public class Individual implements Subtree<Individual>, Comparable<Individual> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Individual that = (Individual) o;
-		return m_id.equals(that.m_id);
+		return m_id.equals(that.m_id) && m_family.equals(that.m_family);
 	}
 
 	@Override
