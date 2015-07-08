@@ -2,7 +2,8 @@ package org.pharmgkb.parsers.pedigree;
 
 import org.junit.Test;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -38,9 +39,9 @@ public class PedigreeParserTest {
 	@Test
 	public void testWithoutData() throws Exception {
 
-		File file = Paths.get(getClass().getResource("without_data.ped").toURI()).toFile();
-		PedigreeParser parser = new PedigreeParser.Builder(file).build();
-		Pedigree pedigree = parser.parse();
+		Path file = Paths.get(getClass().getResource("without_data.ped").toURI());
+		PedigreeParser parser = new PedigreeParser.Builder().build();
+		Pedigree pedigree = parser.apply(Files.lines(file));
 		assertEquals(1, pedigree.getFamilies().size());
 		Family family = pedigree.getFamily("1");
 		assertNotNull(family);
@@ -91,9 +92,9 @@ public class PedigreeParserTest {
 	@Test
 	public void testWithData() throws Exception {
 
-		File file = Paths.get(getClass().getResource("with_data.ped").toURI()).toFile();
-		PedigreeParser parser = new PedigreeParser.Builder(file).build();
-		Pedigree pedigree = parser.parse();
+		Path file = Paths.get(getClass().getResource("with_data.ped").toURI());
+		PedigreeParser parser = new PedigreeParser.Builder().build();
+		Pedigree pedigree = parser.apply(Files.lines(file));
 		Family family = pedigree.getFamily("1");
 		assertNotNull(family);
 

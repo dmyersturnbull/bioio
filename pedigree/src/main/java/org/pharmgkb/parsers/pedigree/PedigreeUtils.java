@@ -13,9 +13,9 @@ class PedigreeUtils {
 	/**
 	 * Add the roots first!
 	 */
-	static void computateTopologicalOrdering(List<Individual> visited, Queue<Individual> queue,
-	                                         Set<Individual> fathersRemoved, Set<Individual> mothersRemoved,
-	                                         Individual root, String id) {
+	static void computeTopologicalOrdering(List<Individual> visited, Queue<Individual> queue,
+	                                       Set<Individual> fathersRemoved, Set<Individual> mothersRemoved,
+	                                       Individual root, String id) {
 		while (!queue.isEmpty()) {
 			Individual current = queue.poll();
 			visited.add(current);

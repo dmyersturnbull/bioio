@@ -111,7 +111,7 @@ public class Individual implements Subtree<Individual>, Comparable<Individual> {
 		List<Individual> visited = new ArrayList<>();
 		Queue<Individual> queue = new ArrayDeque<>();
 		queue.add(this);
-		PedigreeUtils.computateTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, this, m_id);
+		PedigreeUtils.computeTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, this, m_id);
 		return visited.iterator();
 	}
 

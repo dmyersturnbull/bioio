@@ -3,6 +3,10 @@ package org.pharmgkb.parsers.pedigree;
 import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * A subtree of a {@link org.pharmgkb.parsers.pedigree.Pedigree}
@@ -10,6 +14,8 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 public interface Subtree<T> extends Iterable<T> {
+
+	int SPLITERATOR_FLAGS = Spliterator.ORDERED | Spliterator.DISTINCT | Spliterator.IMMUTABLE | Spliterator.NONNULL;
 
 	@Nonnull
 	Optional<T> find(@Nonnull String individualId);
@@ -29,6 +35,54 @@ public interface Subtree<T> extends Iterable<T> {
 	@Override
 	default Iterator<T> iterator() {
 		return inOrder();
+	}
+
+	@Nonnull
+	default Stream<T> breadthFirstStream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(breadthFirst(), SPLITERATOR_FLAGS),
+				false
+		);
+	}
+
+	@Nonnull
+	default Stream<T> depthFirstStream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(depthFirst(), SPLITERATOR_FLAGS),
+				false
+		);
+	}
+
+	@Nonnull
+	default Stream<T> inOrderStream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(inOrder(), SPLITERATOR_FLAGS),
+				false
+		);
+	}
+
+	@Nonnull
+	default Stream<T> topologicalOrderStream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(topologicalOrder(), SPLITERATOR_FLAGS),
+				false
+		);
+	}
+
+	@Nonnull
+	default Stream<T> stream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(iterator(), SPLITERATOR_FLAGS),
+				false
+		);
+	}
+
+	@Nonnull
+	default Stream<T> parallelStream() {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(iterator(), SPLITERATOR_FLAGS),
+				true
+		);
 	}
 
 

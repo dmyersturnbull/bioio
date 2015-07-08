@@ -129,7 +129,7 @@ public class Family implements Subtree<Individual> {
 		Queue<Individual> queue = new ArrayDeque<>();
 		queue.addAll(m_roots);
 		for (Individual root : m_roots) {
-			PedigreeUtils.computateTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, root, m_id);
+			PedigreeUtils.computeTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, root, m_id);
 		}
 		return visited.iterator();
 	}
