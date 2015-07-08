@@ -49,13 +49,16 @@ public abstract class BaseGffFeature {
 		m_phase = builder.m_phase;
 	}
 
+	/**
+	 * @return Also known as the sequence ID
+	 */
 	@Nonnull
 	public String getCoordinateSystemName() {
 		return m_coordinateSystemId;
 	}
 
 	/**
-	 * <strong>Note that this is the GFF file value minus 1</strong>.
+	 * <strong>0-based: Note that this is the GFF file value minus 1</strong>.
 	 */
 	@Nonnegative
 	public long getStart() {
@@ -63,7 +66,7 @@ public abstract class BaseGffFeature {
 	}
 
 	/**
-	 * <strong>Note that this is the GFF file value minus 1</strong>.
+	 * <strong>0-based: Note that this is the GFF file value minus 1</strong>.
 	 */
 	@Nonnegative
 	public long getEnd() {
@@ -146,7 +149,11 @@ public abstract class BaseGffFeature {
 		protected Optional<CdsPhase> m_phase;
 
 		/**
-		 * The strand defaults to {@link GffStrand#UNSTRANDED}.
+		 * Note that the strand defaults to {@link GffStrand#UNSTRANDED}.
+		 * @param coordinateSystemId Also known as the sequence ID
+		 * @param type For example, "CDS"
+		 * @param start <strong>0-based</strong>
+		 * @param end <strong>0-based</strong>
 		 */
 		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");

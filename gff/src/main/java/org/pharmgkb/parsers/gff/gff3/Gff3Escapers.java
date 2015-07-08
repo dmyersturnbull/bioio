@@ -7,8 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Encoding and decoding for GFF3.
- * <em>This class is not intended for everyday use. Use it only if you're implementing a new GFF3-like format.</em>
+ * Escaping and unescaping of illegal characters in GFF3.
+ * This class is not intended for everyday use because {@link Gff3Parser} automatically unescapes and {@link Gff3Writer}
+ * automatically escapes.
+ * Therefore, use this class only if you're implementing a new GFF3-like format (e.g. GTF or GVF).
  * @author Douglas Myers-Turnbull
  */
 public class Gff3Escapers {

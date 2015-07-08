@@ -16,8 +16,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * A line of GFF3 data, which contains key-value pairs, several of which are required.
- * <a href="http://www.sequenceontology.org/gff3.shtml">http://www.sequenceontology.org/gff3.shtml</a>
+ * A line of GFF3 data.
+ * See {@link Gff3Parser} for more information.
+ * <strong>Note that coordinates here are 0-based, but they are 1-based in GFF3.</strong>
  * @author Douglas Myers-Turnbull
  */
 @Immutable
@@ -53,9 +54,12 @@ public class Gff3Feature extends BaseGffFeature {
 
 		private Map<String, List<String>> m_attributes;
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Nonnull
-		public Builder(@Nonnull String id, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
-			super(id, type, start, end);
+		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
+			super(coordinateSystemId, type, start, end);
 			m_attributes = new TreeMap<>(); // for obvious sort order
 		}
 

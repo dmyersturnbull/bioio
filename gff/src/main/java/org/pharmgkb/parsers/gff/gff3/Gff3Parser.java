@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
+import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
@@ -24,8 +25,40 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Reads GFF3.
- * <a href="http://www.sequenceontology.org/gff3.shtml">http://www.sequenceontology.org/gff3.shtml</a>
+ * Reads GFF3 data lines, ignoring comments and metadata.
+ *
+ * Calling {@link #parseAll(Stream)} or {@link #collectAll(File)} will filter comment and metadata lines.
+ *
+ * <h4>Example usages:</h4>
+ * <code>
+ *     // store in a list
+ *     List<Gff3Feature> features = new Gff3Parser().collectAll(file);
+ * </code>
+ * <code>
+ *     // get a stream of the ranges
+ *     new BedParser().parseAll(file)
+ *          .map(f -> f.getStart() + "-" + f.getEnd());
+ * </code>
+ *
+ * <h4>Important notes:</h4>
+ * <ul>
+ * <li>This class does not support the ##FASTA directive, which allows FASTA lines to follow GFF3. Such lines
+ * will cause the parser to throw a {@link BadDataFormatException}.</li>
+ * <li>For consistency across the whole project as well as mathematical convenience, <em>GFF3 coordinates are converted
+ * to 0-based</em>.</li>
+ * <li>The writer escapes strings as the specification requires, and the parser unescapes them. See {@link Gff3Escapers}
+ * for more details.</li>
+ * </ul>
+ *
+ * <h4>Assumptions made</h4>
+ * This class follows the <a href="http://www.sequenceontology.org/gff3.shtml">Sequence Ontology specification</a>.
+ * Because the specification is not completely clear, this package makes a few assumptions:
+ * <ul>
+ *     <li>The format is <em>case-insensitive, except for attributes IDs</em>.</li>
+ *     <li>Coordinate system ID (sequence ID), type, start, and end are all required.
+ *     <a href="http://gmod.org/wiki/GFF3">This page on GFF3</a> seems to interpret the specification this way.</li>
+ * </ul>
+ *
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe

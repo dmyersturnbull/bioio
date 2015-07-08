@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * Writes GFF3.
- * <a href="http://www.sequenceontology.org/gff3.shtml">http://www.sequenceontology.org/gff3.shtml</a>
+ * See {@link Gff3Parser} for more information.
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe
