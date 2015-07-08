@@ -18,6 +18,14 @@ import java.util.stream.Stream;
 
 /**
  * See <a href="https://genome.ucsc.edu/goldenPath/help/chain.html">https://genome.ucsc.edu/goldenPath/help/chain.html</a>.
+ * Example usage:
+ * <code>
+ *     // "lift over" a list of loci, ignoring ones that couldn't be lifted over
+ *     GenomeChain chain = new GenomeChainParser().apply(Files.lines(null));
+ *     List<Locus> liftedOver = lociList.parallelStream()
+ *                                      .map(chain).filter(Optional::isPresent)
+ *                                      .collect(Collectors.toList());
+ * </code>
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe

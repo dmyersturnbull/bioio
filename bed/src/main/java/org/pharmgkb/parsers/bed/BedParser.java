@@ -59,7 +59,7 @@ public class BedParser implements LineParser<BedFeature> {
 	}
 
 	@Override
-	public BedFeature apply(String line) throws BadDataFormatException {
+	public BedFeature apply(@Nonnull String line) throws BadDataFormatException {
 
 		if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
 			sf_logger.debug("Reading line #{}", m_lineNumber);

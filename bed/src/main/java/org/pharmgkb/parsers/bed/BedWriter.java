@@ -4,6 +4,7 @@ import org.pharmgkb.parsers.LineWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,6 +12,12 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Parses a UCSC BED file.
  * See <a href="http://genome.ucsc.edu/FAQ/FAQformat.html">http://genome.ucsc.edu/FAQ/FAQformat.html</a>.
+ *
+ * Example use:
+ * <code>
+ *     Stream&lt;String&gt; lines = new BedWriter().apply(features);
+ * </code>
+ *
  * @author Douglas Myers-Turnbull
  * @see org.pharmgkb.parsers.bed.BedFeature
  */
@@ -23,7 +30,7 @@ public class BedWriter implements LineWriter<BedFeature> {
 	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
 	@Override
-	public String apply(BedFeature feature) {
+	public String apply(@Nonnull BedFeature feature) {
 
 		if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
 			sf_logger.debug("Writing line #{}", m_lineNumber);

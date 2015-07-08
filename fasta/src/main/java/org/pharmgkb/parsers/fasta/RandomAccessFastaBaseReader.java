@@ -28,7 +28,7 @@ import java.util.Optional;
  * ATGC
  * </pre>
  * <code>
- * RandomAccessFastaStream stream = new RandomAccessFastaStream(file, RandomAccessFastaStream.ONE_MB);
+ * RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(1024).build();
  * stream.read("gene_1", 1); // returns 'T'
  * </code>
  * @author Douglas Myers-Turnbull
