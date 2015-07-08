@@ -1,0 +1,31 @@
+# "chain"   score chr size    strand  start   end chr    size    strand  start   end id
+
+chain   0   chr1    100 +   0   100  chr1    100   +   0   100  1
+100
+# This is a 100x100 alignment block
+
+# Notice the insertion in the target between blocks
+chain   0   chr1    100 +   100   200  chr1    100   +   200   300  2
+15   10  0
+# (100 + 25, 200 + 15)
+25  0   0
+# (100 + 50, 200 + 40)
+25  0   10
+# (100 + 75, 200 + 75)
+25
+
+# Notice that the source block is smaller
+chain   0   chr1    40  +   200 240 chr1    60  +   300 360 3
+10  5   5
+# There's no reason we can't have an insertion and a deletion in one line inside a block
+# (200 + 15, 300 + 15)
+5   0  20
+# (200 + 20, 300 + 40)
+20
+
+chain 0 chr1    10  +   240 250 chr1    10  +   360 370 4
+10
+
+chain 0 chr2    100  +   0 100 chr2    100  +   150 250 5
+100
+# This is a 100x100 alignment block
