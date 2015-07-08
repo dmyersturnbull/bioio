@@ -15,41 +15,51 @@ Also see https://github.com/PharmGKB/vcf-parser.
 ### Samples
 
 ```java
-// store GFF3 (or GVF, or GTF) features into a list
-List<Gff3Feature> features = new Gff3Parser().collectAll(file);
+// Store GFF3 (or GVF, or GTF) features into a list
+List<Gff3Feature> features = new Gff3Parser().collectAll(inputFile);
+features.get(0).getType(); // the parser unescaped this string
+
+// Now write the lines:
+new Gff3Writer().writeToFile(outputFile); 
+// The writer percent-encodes GFF3 fields as necessary
 ```
 
 ```java
-// From a BED file, get a stream of distinct chromosome names that start with "chr", in parallel
-Files.lines(file).map(new BedParser()) // alternatively use new BedParser().parseAll(file)
+// From a BED file, get a stream of distinct chromosome names that start with "chr", doing so in parallel
+Files.lines(file).map(new BedParser())
      .parallel()
      .map(BedFeature::getChromosome).distinct()
      .filter(chr -> chr.startsWith("chr"))
+// You can also use new BedParser().parseAll(file)
 ```
 
 ```java
 // From a pre-MAKEPED file, who are Harry Johnson's children?
 Pedigree pedigree = new PedigreeParser.Builder().build().apply(Files.lines(file));
-NavigableSet<Individual> children = pedigree.getFamily("Johnsons").find("Harry Johnson").getChildren();
+NavigableSet<Individual> children = pedigree.getFamily("Johnsons")
+                                            .find("Harry Johnson")
+                                            .getChildren();
 ```
 
 ```java
 // Traverse through a family pedigree in topological order
 Pedigree pedigree = new PedigreeParser.Builder().build().apply(Files.lines(file));
-Stream<Individual> = pedigree.getFamily("Johnsons").topologicalOrderStream();
+Stream<Individual> = pedigree.getFamily("Johnsons")
+                             .topologicalOrderStream();
 ```
 
 ```java
 // "Lift over" coordinates using a UCSC chain file, filtering out those that couldn't be lifted over
 GenomeChain chain = new GenomeChainParser().apply(Files.lines(hg19ToGrch38ChainFile));
 List<Locus> liftedOver = lociList.parallelStream()
-                                 .map(chain).filter(Optional::isPresent)
+                                 .map(chain)
+                                 .filter(Optional::isPresent)
                                  .collect(Collectors.toList());
-
+// You can also use new GenomeChainParser().parse(hg19ToGrch38ChainFile)
 ```
 
-``java
+```java
 // Read FASTA bases with a buffered random-access reader
-RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(1024).build();
+RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(4096).build();
 char base = stream.read("gene_1", 58523);
 ```
