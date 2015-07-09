@@ -29,7 +29,8 @@ public class RandomAccessFastaBaseReaderTest {
 				.keepTempFileOnExit();
 		assertThatThrownBy(builder::build)
 				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageStartingWith("Temporary file " + file.getPath() + " already exists");
+				.hasMessageContaining("already exists")
+				.hasMessageStartingWith("Temporary file " + file.getPath() + ".no_breaks");
 	}
 
 	public void debugTest() throws Exception {

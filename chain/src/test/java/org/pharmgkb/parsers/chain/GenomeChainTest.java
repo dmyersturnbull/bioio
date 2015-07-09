@@ -19,7 +19,7 @@ public class GenomeChainTest {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		GenomeChain c = chain.build();
-		Optional<Locus> got = c.map(new Locus("chr1", 2, Strand.PLUS));
+		Optional<Locus> got = c.apply(new Locus("chr1", 2, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 4, Strand.PLUS)), got);
 	}
 
@@ -29,9 +29,9 @@ public class GenomeChainTest {
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 5, 10, 7, 12);
 		GenomeChain c = chain.build();
-		Optional<Locus> got1 = c.map(new Locus("chr1", 2, Strand.PLUS));
+		Optional<Locus> got1 = c.apply(new Locus("chr1", 2, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 4, Strand.PLUS)), got1);
-		Optional<Locus> got2 = c.map(new Locus("chr1", 6, Strand.PLUS));
+		Optional<Locus> got2 = c.apply(new Locus("chr1", 6, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 8, Strand.PLUS)), got2);
 	}
 
@@ -42,13 +42,13 @@ public class GenomeChainTest {
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 20, 25, 15, 20);
 		GenomeChain c = chain.build();
-		Optional<Locus> got1 = c.map(new Locus("chr1", 2, Strand.PLUS));
+		Optional<Locus> got1 = c.apply(new Locus("chr1", 2, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 4, Strand.PLUS)), got1);
-		Optional<Locus> got2 = c.map(new Locus("chr1", 6, Strand.PLUS));
+		Optional<Locus> got2 = c.apply(new Locus("chr1", 6, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 8, Strand.PLUS)), got2);
-		Optional<Locus> got3 = c.map(new Locus("chr1", 21, Strand.PLUS));
+		Optional<Locus> got3 = c.apply(new Locus("chr1", 21, Strand.PLUS));
 		assertEquals(Optional.of(new Locus("chr1", 16, Strand.PLUS)), got3);
-		Optional<Locus> got4 = c.map(new Locus("chr1", 17, Strand.PLUS));
+		Optional<Locus> got4 = c.apply(new Locus("chr1", 17, Strand.PLUS));
 		assertEquals(Optional.empty(), got4);
 	}
 
@@ -115,7 +115,7 @@ public class GenomeChainTest {
 		Locus sourceLocus = new Locus("chr1", 5, Strand.PLUS);
 		Locus targetLocus = new Locus("chr2", 5, Strand.MINUS);
 		assertNotNull(targetLocus);
-		assertEquals(Optional.of(targetLocus), c.map(sourceLocus));
+		assertEquals(Optional.of(targetLocus), c.apply(sourceLocus));
 	}
 
 	private void addToChain(GenomeChain.Builder chain, int sourceStart, int sourceStop, int targetStart, int targetStop) {
