@@ -20,3 +20,9 @@ subprojects {
 		compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
 	}
 }
+
+def mainProjects = [':core',':bed',':chain', ':fasta', ':gff', ':pedigree', ':vcf']
+task jarAll( type: Jar , dependsOn: mainProjects.collect{ it+":compileJava"}) {
+	baseName = rootProject.name + '-all'
+	from files(mainProjects.collect{ project(it).sourceSets.main.output })
+}
