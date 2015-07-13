@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.chain;
 
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 import org.pharmgkb.parsers.Strand;
 
@@ -50,10 +51,8 @@ public class Locus implements Comparable<Locus> {
 	 */
 	public Locus(@Nonnull String chromosome, @Nonnegative long position, @Nonnull String strand) {
         Optional<Strand> s = Strand.lookupBySymbol(strand);
-        if (s.isPresent()) {
-            init(new ChromosomeName(chromosome), position, s.get());
-        }
-        throw new IllegalArgumentException("Bad strand " + strand);
+        Preconditions.checkArgument(s.isPresent(), "Bad strand " + strand);
+        init(new ChromosomeName(chromosome), position, s.get());
 	}
 
     /**
@@ -69,9 +68,7 @@ public class Locus implements Comparable<Locus> {
 	}
 
     private void init(@Nonnull ChromosomeName chromosome, @Nonnegative long position, @Nonnull Strand strand) {
-        if (position < 0) {
-            throw new IllegalArgumentException("Position " + position + " is negative");
-        }
+        Preconditions.checkArgument(position > -1, "Position " + position + " < 0");
         m_chromosome = chromosome;
         m_position = position;
         m_strand = strand;
@@ -123,7 +120,7 @@ public class Locus implements Comparable<Locus> {
     }
 
     @Override
-    public int compareTo(Locus o) {
+    public int compareTo(@Nonnull Locus o) {
         return ComparisonChain.start()
                 .compare(m_chromosome, o.m_chromosome)
                 .compare(m_position, o.m_position)

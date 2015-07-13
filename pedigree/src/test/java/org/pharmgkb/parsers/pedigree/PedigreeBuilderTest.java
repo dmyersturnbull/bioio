@@ -15,6 +15,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests {@link PedigreeBuilder}.
+ * @author Douglas Myers-Turnbull
+ */
 public class PedigreeBuilderTest {
 
 	private static Family m_family;
@@ -41,21 +45,21 @@ public class PedigreeBuilderTest {
 	 */
 	private static Family buildFamily() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
-		builder.addIndividual("f1", "A0_fb", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fc", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_f_", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A1_ma", "A0_ma", "A0_fa", Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A2_ma", "A1_ma", null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_fa", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_fb", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_fc", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_ua", null, "A0_fb", Sex.UNKNOWN, Collections.emptyList());
-		builder.addIndividual("f1", "A3_ma", "A2_ma", null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A4_ma", null, "A3_fc", Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A4_fa", "A3_ma", "A0_fc", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A5_ua", "A4_ma", "A4_fa", Sex.UNKNOWN, Collections.emptyList());
+		builder.add("f1", "A0_fb", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_fc", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_f_", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A1_ma", "A0_ma", "A0_fa", Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A2_ma", "A1_ma", null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A3_fa", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A3_fb", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A3_fc", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A3_ua", null, "A0_fb", Sex.UNKNOWN, Collections.emptyList());
+		builder.add("f1", "A3_ma", "A2_ma", null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A4_ma", null, "A3_fc", Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A4_fa", "A3_ma", "A0_fc", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A5_ua", "A4_ma", "A4_fa", Sex.UNKNOWN, Collections.emptyList());
 
 		Pedigree pedigree = builder.build();
 		assertNotNull(pedigree);
@@ -154,21 +158,21 @@ public class PedigreeBuilderTest {
 	@Test
 	public void buildFamilyOutOfOrder() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(false);
-		builder.addIndividual("f1", "A3_fb", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fc", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A2_ma", "A1_ma", null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_f_", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A4_fa", "A3_ma", "A0_fc", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A1_ma", "A0_ma", "A0_fa", Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_ma", "A2_ma", null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fb", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A4_ma", null, "A3_fc", Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A5_ua", "A4_ma", "A4_fa", Sex.UNKNOWN, Collections.emptyList());
-		builder.addIndividual("f1", "A3_fa", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_ua", null, "A0_fb", Sex.UNKNOWN, Collections.emptyList());
-		builder.addIndividual("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A3_fc", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A3_fb", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_fc", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A2_ma", "A1_ma", null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A0_f_", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A4_fa", "A3_ma", "A0_fc", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A1_ma", "A0_ma", "A0_fa", Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A3_ma", "A2_ma", null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_fb", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A4_ma", null, "A3_fc", Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A5_ua", "A4_ma", "A4_fa", Sex.UNKNOWN, Collections.emptyList());
+		builder.add("f1", "A3_fa", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A3_ua", null, "A0_fb", Sex.UNKNOWN, Collections.emptyList());
+		builder.add("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A3_fc", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
 
 		Pedigree pedigree = builder.build(); // this is really the check
 		assertNotNull(pedigree);
@@ -197,13 +201,13 @@ public class PedigreeBuilderTest {
 	public void testTwoFamilies() throws Exception {
 
 		PedigreeBuilder builder = new PedigreeBuilder(true);
-		builder.addIndividual("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f1", "A1_fa", "A0_ma", "A0_fa", Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
+		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f1", "A1_fa", "A0_ma", "A0_fa", Sex.FEMALE, Collections.emptyList());
 
-		builder.addIndividual("f2", "B0_ma", null, null, Sex.MALE, Collections.emptyList());
-		builder.addIndividual("f2", "B0_fa", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f2", "B1_fa", "B0_ma", "B0_fa", Sex.FEMALE, Collections.emptyList());
+		builder.add("f2", "B0_ma", null, null, Sex.MALE, Collections.emptyList());
+		builder.add("f2", "B0_fa", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f2", "B1_fa", "B0_ma", "B0_fa", Sex.FEMALE, Collections.emptyList());
 
 		Pedigree pedigree = builder.build();
 		assertNotNull(pedigree);
@@ -227,7 +231,7 @@ public class PedigreeBuilderTest {
 	@Test
 	public void testMissingFather() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
-		builder.addIndividual("f1", "A0_fa", "asdf", null, Sex.FEMALE, Collections.emptyList()); // this is ok
+		builder.add("f1", "A0_fa", "asdf", null, Sex.FEMALE, Collections.emptyList()); // this is ok
 		assertThatThrownBy(builder::build)
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("Father")
@@ -237,7 +241,7 @@ public class PedigreeBuilderTest {
 	@Test
 	public void testMissingMother() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
-		builder.addIndividual("f1", "A0_fa", null, "asdf", Sex.FEMALE, Collections.emptyList()); // this is ok
+		builder.add("f1", "A0_fa", null, "asdf", Sex.FEMALE, Collections.emptyList()); // this is ok
 		assertThatThrownBy(builder::build)
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("Mother")
@@ -247,8 +251,8 @@ public class PedigreeBuilderTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void testDifferentFamilies() throws Exception {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
-		builder.addIndividual("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
-		builder.addIndividual("f2", "B0_fa", null, "A0_fa", Sex.FEMALE, Collections.emptyList()); // this is ok
+		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
+		builder.add("f2", "B0_fa", null, "A0_fa", Sex.FEMALE, Collections.emptyList()); // this is ok
 		builder.build(); // this should break
 	}
 }

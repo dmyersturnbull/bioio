@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -52,16 +53,21 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 	 *
 	 * Adds an individual. If inOrder in the constructor is true, this individual's parents, if any, must already have been added.
 	 *
-	 * Note that the sex of a parent must be correct: if A is the mother of B, then A must have {@link org.pharmgkb.genome.parse.pedigree.Sex} FEMALE (cannot be MALE or UNKNOWN).
+	 * Note that the sex of a parent must be correct: if A is the mother of B, then A must have {@link org.pharmgkb.parsers.pedigree.Sex} FEMALE (cannot be MALE or UNKNOWN).
 	 *
 	 * @throws IllegalStateException If {@link #build()} was already called
 	 *
 	 * @throws java.lang.IllegalArgumentException If an Individual with the same {@code individualId} was already added,
 	 *         or the mother or father (if non-null) does not exist or has the wrong Sex
 	 */
-//	public void addIndividual(@Nonnull Individual individual) {
-//		addIndividual(individual.getFamily().getId(), individual.getId(), individual.getFather()==null? null : individual.getFather().getId(), individual.getMother()==null? null : individual.getMother().getId(), individual.getSex(), new ArrayList<>(individual.getInfo())); // make sure we're making a copy of everything
-//	}
+	@Nonnull
+	public PedigreeBuilder add(@Nonnull String familyId, @Nonnull String individualId,
+	                                     @Nullable String fatherId, @Nullable String motherId,
+	                                     @Nonnull Sex sex, @Nonnull List<String> info) {
+		return addIndividual(familyId, individualId, Optional.ofNullable(fatherId), Optional.ofNullable(motherId),
+		                     sex, info);
+	}
+
 
 	/**
 	 *
@@ -74,7 +80,10 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 	 * @throws java.lang.IllegalArgumentException If an Individual with the same {@code individualId} was already added,
 	 *         or the mother or father (if non-null) does not exist or has the wrong Sex
 	 */
-	public PedigreeBuilder addIndividual(@Nonnull String familyId, @Nonnull String individualId, @Nullable String fatherId, @Nullable String motherId, @Nonnull Sex sex, @Nonnull List<String> info) {
+	@Nonnull
+	public PedigreeBuilder addIndividual(@Nonnull String familyId, @Nonnull String individualId,
+	                                     @Nonnull Optional<String> fatherId, @Nonnull Optional<String> motherId,
+	                                     @Nonnull Sex sex, @Nonnull List<String> info) {
 
 		// enforces immutability; see build()
 		if (m_pedigree == null) {
@@ -96,19 +105,19 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 		Individual individual = new Individual(individualId, sex, family, info);
 
-		if (fatherId == null && motherId == null) {
+		if (!fatherId.isPresent() && !motherId.isPresent()) {
 			family.getRootsRaw().add(individual);
 		} else {
-			if (fatherId != null) {
-				boolean fatherAttached = attachFather(individual, fatherId);
+			if (fatherId.isPresent()) {
+				boolean fatherAttached = attachFather(individual, fatherId.get());
 				if (!fatherAttached) {
-					m_fatherPlaceholders.put(individual, fatherId);
+					m_fatherPlaceholders.put(individual, fatherId.get());
 				}
 			}
-			if (motherId != null) {
-				boolean motherAttached = attachMother(individual, motherId);
+			if (motherId.isPresent()) {
+				boolean motherAttached = attachMother(individual, motherId.get());
 				if (!motherAttached) {
-					m_motherPlaceholders.put(individual, motherId);
+					m_motherPlaceholders.put(individual, motherId.get());
 				}
 			}
 		}
@@ -123,7 +132,8 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 	/**
 	 * Builds the {@link org.pharmgkb.parsers.pedigree.Pedigree}. After this method is called, calls to
-	 * {@link #addIndividual(String, String, String, String, Sex, List)} will result in a {@link java.lang.IllegalStateException} being thrown.
+	 * {@link #addIndividual(String, String, Optional, Optional, Sex, List)} will result in a
+	 * {@link java.lang.IllegalStateException} being thrown.
 	 */
 	@Nonnull
 	public Pedigree build() {
@@ -139,7 +149,8 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 			if (fatherId.equals(test.getId())) {
 				if (test.getSex() != Sex.MALE) {
-					throw new IllegalArgumentException("Individual " + individual.getId() + " must have a male father (Id: " + test.getId() + ")");
+					throw new IllegalArgumentException("Individual " + individual.getId()
+							                                   + " must have a male father (Id: " + test.getId() + ")");
 				}
 				test.getChildrenRaw().add(individual);
 				individual.setFather(test);
@@ -157,7 +168,8 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 			if (motherId.equals(test.getId())) {
 				if (test.getSex() != Sex.FEMALE) {
-					throw new IllegalArgumentException("Individual " + individual.getId() + " must have a female mother (Id: " + test.getId() + ")");
+					throw new IllegalArgumentException("Individual " +individual.getId()+ " must have a female"
+							                                   + " mother (Id: " + test.getId() + ")");
 				}
 				test.getChildrenRaw().add(individual);
 				individual.setMother(test);
@@ -177,15 +189,20 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 			String fatherId = entry.getValue();
 			boolean attached = attachFather(individual, fatherId);
 			if (require && !attached) {
-				throw new IllegalArgumentException("Father of individual " + individual.getId() + " with father " + fatherId + " does not exist in family " + individual.getFamily().getId());
+				throw new IllegalArgumentException("Father of individual " + individual.getId() +
+						                                   " with father "+ fatherId + " does not exist in family "
+						                                   + individual.getFamily().getId());
 			}
 		}
+
 		for (Map.Entry<Individual, String> entry : m_motherPlaceholders.entrySet()) {
 			Individual individual = entry.getKey();
 			String motherId = entry.getValue();
 			boolean attached = attachMother(individual, motherId);
 			if (require && !attached) {
-				throw new IllegalArgumentException("Mother of individual " + individual.getId() + " with mother " + motherId + " does not exist in family " + individual.getFamily().getId());
+				throw new IllegalArgumentException("Mother of individual " + individual.getId() + " with mother "
+						                                   + motherId + " does not exist in family "
+						                                   + individual.getFamily().getId());
 			}
 		}
 	}

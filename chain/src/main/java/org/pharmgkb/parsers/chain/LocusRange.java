@@ -1,10 +1,10 @@
 package org.pharmgkb.parsers.chain;
 
+import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.Strand;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 import java.util.Optional;
@@ -61,10 +61,11 @@ public class LocusRange {
      * @throws java.lang.IllegalArgumentException If the strand of {@code locus} does not match the strand of this range
      */
     public boolean contains(@Nonnull Locus locus) {
-        if (locus.getStrand() != getStrand()) {
-	        throw new IllegalArgumentException("Cannot compare loci " + "belonging to different strands");
-        }
-        return locus.getChromosome().equals(getChromosome()) && locus.getPosition() >= m_start.getPosition() && locus.getPosition() <= m_end.getPosition();
+        Preconditions.checkArgument(locus.getStrand() == getStrand(),
+                                    "Cannot compare loci " + "belonging to different strands");
+        return locus.getChromosome().equals(getChromosome())
+                && locus.getPosition() >= m_start.getPosition()
+                && locus.getPosition() <= m_end.getPosition();
     }
 
     public boolean overlapsWith(@Nonnull LocusRange locusRange) {
@@ -75,15 +76,16 @@ public class LocusRange {
 	 * @return The number of overlapping positions <strong>minus 1</strong>
 	 */
     public long calcOverlappingDensity(@Nonnull LocusRange locusRange) {
-        if (locusRange.getStrand() != getStrand()) {
-	        throw new IllegalArgumentException("Cannot compare loci belonging to different strands");
-        }
+        Preconditions.checkArgument(locusRange.getStrand() == getStrand(),
+                                    "Cannot compare loci " + "belonging to different strands");
         if (!locusRange.getChromosome().equals(getChromosome())) return 0;
-        return Math.min(m_end.getPosition(), locusRange.getEnd().getPosition()) - Math.max(m_start.getPosition(), locusRange.getStart().getPosition());
+        return Math.min(m_end.getPosition(), locusRange.getEnd().getPosition())
+                - Math.max(m_start.getPosition(), locusRange.getStart().getPosition()
+        );
     }
 
-    public boolean isCompatibleWith(@Nullable LocusRange range) {
-        return range != null && getChromosome().equals(range.getChromosome()) && getStrand() == range.getStrand();
+    public boolean isCompatibleWith(@Nonnull LocusRange range) {
+        return getChromosome().equals(range.getChromosome()) && getStrand() == range.getStrand();
     }
 
 	@Nonnegative
@@ -106,15 +108,16 @@ public class LocusRange {
 
     @Override
     public String toString() {
-        return m_start.getChromosome() + "(" + m_start.getStrand().getSymbol() + "):" + m_start.getPosition() + '-' + m_end.getPosition();
+        return m_start.getChromosome() +
+                "(" + m_start.getStrand().getSymbol() + ")"
+                + ":" + m_start.getPosition()
+                + '-' + m_end.getPosition();
     }
 
 	@Nonnull
     public static LocusRange parse(@Nonnull String string) {
         Matcher matcher = sf_pattern.matcher(string);
-        if (!matcher.matches()) {
-	        throw new IllegalArgumentException("String " + string + " is not a valid locus range");
-        }
+        Preconditions.checkArgument(matcher.matches(), "String " + string + " is not a valid locus range");
         String chromosome = matcher.group(1);
         Optional<Strand> strand = Strand.lookupBySymbol(matcher.group(2));
         if (strand.isPresent()) {

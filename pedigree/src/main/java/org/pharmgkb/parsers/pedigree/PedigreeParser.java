@@ -105,7 +105,7 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 			if (parts.length > 5) {
 				info.addAll(Arrays.asList(parts).subList(6, parts.length));
 			}
-			builder.addIndividual(parts[0], parts[1], fatherId, motherId, sex, info);
+			builder.add(parts[0], parts[1], fatherId, motherId, sex, info);
 		});
 		return builder.build();
 	}

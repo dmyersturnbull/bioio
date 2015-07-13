@@ -4,6 +4,7 @@ import org.pharmgkb.parsers.LineStructureWriter;
 import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.stream.Stream;
 
 /**
@@ -25,7 +26,6 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 		m_maleCode = builder.m_maleCode;
 		m_unknownCode = builder.m_unknownCode;
 	}
-
 
 	@Override
 	@Nonnull
@@ -60,6 +60,7 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 
 	}
 
+	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<PedigreeWriter> {
 
 		private String m_noParentMarker = "0";

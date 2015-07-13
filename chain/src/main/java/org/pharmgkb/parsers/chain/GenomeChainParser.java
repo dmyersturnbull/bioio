@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * </code>
  * @author Douglas Myers-Turnbull
  */
-@ThreadSafe
+@ThreadSafe // note that this is still thread safe even though LineConsumer is not
 public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
 	private static final Pattern sf_whitespace = Pattern.compile("\\s+");
@@ -45,7 +45,8 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 
-		stream.filter(line -> !line.trim().isEmpty() && !line.startsWith("#")).forEach(new LineConsumer(chain));
+		stream.filter(line -> !line.trim().isEmpty() && !line.startsWith("#"))
+				.forEach(new LineConsumer(chain));
 
 		return chain.build();
 	}

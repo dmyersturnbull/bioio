@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
  * A member of a {@link org.pharmgkb.parsers.pedigree.Family}.
  * Associated with an {@link #getId() Id} that is unique for this {@link org.pharmgkb.parsers.pedigree.Pedigree}.
  *
- * Implements {@link org.pharmgkb.parsers.pedigree.Subtree} for search and traversals using <em>this node</em> as a root.
- * For example, if A is a child of B, and C is a child of B, calling B.find("C") will return C, but calling B.find("A") will return null.
+ * Implements {@link org.pharmgkb.parsers.pedigree.Subtree} for search and traversals using <em>this node</em> as root.
+ * For example, if A is a child of B, and C is a child of B, calling B.find("C") will return C,but calling B.find("A")
+ * will return null.
  * Similarly, the iterator B.breadthFirst() will contain (B, C); it will not contain A.
  * @author Douglas Myers-Turnbull
  */
