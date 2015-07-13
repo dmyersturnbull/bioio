@@ -37,6 +37,20 @@ public class BedFeatureTest {
 	}
 
 	@Test
+	public void testContainsTab() throws Exception {
+		assertThatThrownBy(() -> new BedFeature.Builder("a\tb", 1, 2))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("tab");
+	}
+
+	@Test
+	public void testContainsNewline() throws Exception {
+		assertThatThrownBy(() -> new BedFeature.Builder("a" + System.lineSeparator() + "b", 1, 2))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("newline");
+	}
+
+	@Test
 	public void testBadColor2() throws Exception {
 		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5)))
 				.isInstanceOf(IllegalArgumentException.class)

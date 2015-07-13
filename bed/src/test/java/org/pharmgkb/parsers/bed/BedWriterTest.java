@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests {@link BedWriter}.
+ * @author Douglas Myers-Turnbull
+ */
 public class BedWriterTest {
 
 	@Test

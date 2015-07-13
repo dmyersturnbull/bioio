@@ -147,11 +147,11 @@ public class BedFeature {
 	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<BedFeature> {
 
-		private final String m_chromosome;
+		private String m_chromosome;
 
-		private final long m_start;
+		private long m_start;
 
-		private final long m_end;
+		private long m_end;
 
 		private Optional<String> m_name;
 
@@ -168,9 +168,9 @@ public class BedFeature {
 		private final List<BedBlock> m_blocks;
 
 		public Builder(@Nonnull String chromosome, @Nonnegative long start, @Nonnegative long end) {
-			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains tabs");
+			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains a tab");
 			Preconditions.checkArgument(!chromosome.contains(System.lineSeparator()),  "Chromosome name " + chromosome
-					+ " contains new lines");
+					+ " contains a newline");
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
 			Preconditions.checkArgument(start <= end, "Start " + start + " comes before end " + end);
@@ -200,12 +200,39 @@ public class BedFeature {
 		}
 
 		@Nonnull
+		public Builder setChromosome(@Nonnull String chromosome) {
+			Preconditions.checkArgument(!chromosome.contains("\t"),
+			                             "Chromosome name contains a tab");
+			Preconditions.checkArgument(!chromosome.contains(System.lineSeparator()),
+			                            "Chromosome name contains a newline");
+			m_chromosome = chromosome;
+			return this;
+		}
+
+		@Nonnull
+		public Builder setStart(@Nonnegative long start) {
+			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
+			m_start = start;
+			return this;
+		}
+
+		@Nonnull
+		public Builder setEnd(@Nonnegative long end) {
+			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
+			m_end = end;
+			return this;
+		}
+
+		@Nonnull
 		public Builder setName(@Nullable String name) {
 			return setName(Optional.ofNullable(name));
 		}
 		@Nonnull
 		public Builder setName(@Nonnull Optional<String> name) {
-			Preconditions.checkArgument(!name.isPresent() || !name.get().contains("\t") && !name.get().contains(System.lineSeparator()), "Feature name cannot contain tabs or newlines");
+			Preconditions.checkArgument(!name.isPresent() || !name.get().contains("\t"),
+			                            "Feature name contains a tab");
+			Preconditions.checkArgument(!name.isPresent() || !name.get().contains(System.lineSeparator()),
+			                            "Feature name contains a newline");
 			m_name = name;
 			return this;
 		}

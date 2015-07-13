@@ -134,11 +134,11 @@ public abstract class BaseGffFeature {
 
 		protected String m_coordinateSystemId;
 
-		protected final String m_type;
+		protected String m_type;
 
-		protected final long m_start;
+		protected long m_start;
 
-		protected final long m_end;
+		protected long m_end;
 
 		protected Optional<String> m_source;
 
@@ -167,6 +167,49 @@ public abstract class BaseGffFeature {
 			m_score = Optional.empty();
 			m_strand = GffStrand.UNSTRANDED;
 			m_phase = Optional.empty();
+		}
+
+		public Builder(@Nonnull BaseGffFeature feature) {
+			m_coordinateSystemId = feature.m_coordinateSystemId;
+			m_type = feature.m_type;
+			m_start = feature.m_start;
+			m_end = feature.m_end;
+			m_source = feature.m_source;
+			m_score = feature.m_score;
+			m_strand = feature.m_strand;
+			m_phase = feature.m_phase;
+		}
+
+		@Nonnull
+		public Builder setCoordinateSystemId(@Nonnull String coordinateSystemId) {
+			m_coordinateSystemId = coordinateSystemId;
+			return this;
+		}
+
+		@SuppressWarnings({"ConstantConditions", "unchecked"})
+		@Nonnull
+		public B setType(@Nonnull String type) {
+			if (type == null) {
+				throw new NullPointerException("Type is null");
+			}
+			m_type = type;
+			return (B) this;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B setStart(@Nonnegative long start) {
+			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
+			m_start = start;
+			return (B) this;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B setEnd(@Nonnegative long end) {
+			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
+			m_end = end;
+			return (B) this;
 		}
 
 		@Nonnull
