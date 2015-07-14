@@ -1,4 +1,4 @@
-package org.pharmgkb.parsers.chain;
+package org.pharmgkb.parsers.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

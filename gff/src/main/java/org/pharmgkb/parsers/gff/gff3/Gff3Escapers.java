@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.gff.gff3;
 
-import org.pharmgkb.parsers.Rfc3986Escaper;
+import org.pharmgkb.parsers.escape.Rfc3986Escaper;
 
 import java.util.Arrays;
 import java.util.HashSet;

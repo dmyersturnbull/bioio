@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.gff;
 
-import org.pharmgkb.parsers.Strand;
+import org.pharmgkb.parsers.model.Strand;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;

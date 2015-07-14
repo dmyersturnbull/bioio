@@ -1,16 +1,18 @@
 # genome-sequence-io
-Read and write from various bioinformatics sequence formats, currently BED, GFF3, GTF, GVF, VCF, FASTA, chain (genome alignment), and pre-MAKEPED (pedigree).
+Read and write from various bioinformatics sequence formats, currently BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), and pre-MAKEPED (pedigree). VCF readers and writers are currently at https://github.com/PharmGKB/vcf-parser instead.
 
-Also see https://github.com/PharmGKB/vcf-parser.
+This project has moderately high test coverage and is quite usable, but it is incomplete. Subsequent versions may break backwards-compatibility.
 
 ### Guiding principles
-  1. Where possible, a parser is a `Function<String, R>`, and writer is a `Function<R, String>`. [Java 8 Streams](http://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html) should be used.
-  2. Null values are banned from public methods in favor of [`Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html). See http://www.oracle.com/technetwork/articles/java/java8-optional-2175753.html for more information.
-  3. All operations are thread-safe, as annotated by `javax.annotation.concurrent.ThreadSafe`. Builder patterns are an exception.
+  1. Where possible, a parser is a `Function<String, R>` or `Function<Stream<String>, R>`, and writer is a `Function<R, String>` or  `Function<R, Stream<String>>`. [Java 8 Streams](http://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html) are therefore expected to be used.
+  2. Null values are generally banned from public methods in favor of [`Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html). See http://www.oracle.com/technetwork/articles/java/java8-optional-2175753.html for more information.
+  3. Most operations are thread-safe. Thread safety is annotated using `javax.annotation.concurrent`.
   4. Top-level data classes are immutable, as annotated by  or `javax.annotation.concurrent.Immutable`.
-  5. The builder pattern is used for non-trivial classes in favor of constructors or static factory methods.
-  6. Format specifications are linked. In cases where the specification is ambiguous, the interpretation used is documented.
-  7. Moderate strictness is used when parsing, and greater strictness is used when writing.
+  5. The builder pattern is used for non-trivial classes. Each builder has a copy constructor.
+  6. Links to specifications are provided. Any interpretation used for an ambiguous specification is documented.
+  7. Parsing and writing is _moderately_ strict. Severe violations throw a `BadDataFormatException`, and milder violations are logged as warnings using SLF4J. Not every aspect of a specification is validated.
+  8. For specification-mandated escape sequences, encoding and decoding is automatic.
+  9. Coordinates are _always 0-based_, even for 1-based formats. This is to ensure consistency as well as arithmetic simplicity.
   
 ### Samples
 
@@ -25,7 +27,7 @@ new Gff3Writer().writeToFile(outputFile);
 ```
 
 ```java
-// From a BED file, get a stream of distinct chromosome names that start with "chr", doing so in parallel
+// From a BED file, get distinct chromosome names that start with "chr", in parallel
 Files.lines(file).map(new BedParser())
      .parallel()
      .map(BedFeature::getChromosome).distinct()
@@ -49,7 +51,8 @@ Stream<Individual> = pedigree.getFamily("Johnsons")
 ```
 
 ```java
-// "Lift over" coordinates using a UCSC chain file, filtering out those that couldn't be lifted over
+// "Lift over" coordinates using a UCSC chain file
+// Filter out those that couldn't be lifted over
 GenomeChain chain = new GenomeChainParser().apply(Files.lines(hg19ToGrch38ChainFile));
 List<Locus> liftedOver = lociList.parallelStream()
                                  .map(chain)
@@ -60,6 +63,8 @@ List<Locus> liftedOver = lociList.parallelStream()
 
 ```java
 // Read FASTA bases with a buffered random-access reader
-RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(4096).build();
+RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file)
+                                 .setnCharsInBuffer(4096)
+                                 .build();
 char base = stream.read("gene_1", 58523);
 ```

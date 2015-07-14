@@ -3,7 +3,7 @@ apply plugin: 'idea'
 allprojects {
 	apply plugin: 'java'
 	sourceCompatibility = 1.8
-	version = '0.1'
+	version = '0.2'
 }
 
 subprojects {
@@ -21,8 +21,13 @@ subprojects {
 	}
 }
 
-def mainProjects = [':core',':bed',':chain', ':fasta', ':gff', ':pedigree', ':vcf']
+def mainProjects = [':core',':bed',':chain', ':fasta', ':gff', ':pedigree']
 task jarAll( type: Jar , dependsOn: mainProjects.collect{ it+":compileJava"}) {
 	baseName = rootProject.name + '-all'
 	from files(mainProjects.collect{ project(it).sourceSets.main.output })
+}
+
+configure(jarAll) {
+	group = 'build'
+	description = 'Build a JAR file containing all subprojects'
 }

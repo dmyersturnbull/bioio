@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.pharmgkb.parsers.ObjectBuilder;
-import org.pharmgkb.parsers.Strand;
+import org.pharmgkb.parsers.model.Strand;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

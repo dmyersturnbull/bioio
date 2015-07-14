@@ -2,7 +2,7 @@ package org.pharmgkb.parsers.bed;
 
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineParser;
-import org.pharmgkb.parsers.Strand;
+import org.pharmgkb.parsers.model.Strand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

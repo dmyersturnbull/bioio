@@ -1,9 +1,8 @@
-package org.pharmgkb.parsers.chain;
+package org.pharmgkb.parsers.model;
 
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
-import org.pharmgkb.parsers.Strand;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

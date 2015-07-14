@@ -1,7 +1,8 @@
 package org.pharmgkb.parsers.chain;
 
 import org.junit.Test;
-import org.pharmgkb.parsers.Strand;
+import org.pharmgkb.parsers.model.Locus;
+import org.pharmgkb.parsers.model.Strand;
 
 import java.io.File;
 import java.nio.file.Paths;

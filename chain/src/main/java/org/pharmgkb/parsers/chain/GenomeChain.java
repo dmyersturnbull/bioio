@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.pharmgkb.parsers.model.ChromosomeName;
+import org.pharmgkb.parsers.model.Locus;
+import org.pharmgkb.parsers.model.LocusRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

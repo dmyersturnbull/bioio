@@ -1,4 +1,6 @@
-package org.pharmgkb.parsers;
+package org.pharmgkb.parsers.escape;
+
+import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnull;
 import java.util.function.Function;

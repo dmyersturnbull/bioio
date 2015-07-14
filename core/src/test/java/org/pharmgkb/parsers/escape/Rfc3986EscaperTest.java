@@ -1,4 +1,4 @@
-package org.pharmgkb.parsers;
+package org.pharmgkb.parsers.escape;
 
 import org.junit.Test;
 

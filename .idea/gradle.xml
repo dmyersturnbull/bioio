@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/fasta" />
             <option value="$PROJECT_DIR$/gff" />
             <option value="$PROJECT_DIR$/pedigree" />
-            <option value="$PROJECT_DIR$/vcf" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

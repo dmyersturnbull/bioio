@@ -1,7 +1,7 @@
 package org.pharmgkb.parsers.gff;
 
 import org.junit.Test;
-import org.pharmgkb.parsers.Strand;
+import org.pharmgkb.parsers.model.Strand;
 
 import java.util.Optional;
 
