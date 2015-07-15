@@ -2,9 +2,14 @@ package org.pharmgkb.parsers.pedigree;
 
 import org.pharmgkb.parsers.LineStructureWriter;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.lang.invoke.MethodHandles;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 /**
@@ -13,11 +18,17 @@ import java.util.stream.Stream;
  */
 public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 
+	private static final long sf_logEvery = 10000;
+
+	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
 	private String m_noParentMarker;
 	private String m_fieldSeparator;
 	private String m_femaleCode;
 	private String m_maleCode;
 	private String m_unknownCode;
+
+	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
 	private PedigreeWriter(@Nonnull Builder builder) {
 		m_noParentMarker = builder.m_noParentMarker;
@@ -34,6 +45,11 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 		return pedigree.getFamilies().values().parallelStream()
 				.flatMap(family -> family.topologicalOrderStream()
 						.map(individual -> {
+
+							if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
+								sf_logger.debug("Reading line #{}", m_lineNumber);
+							}
+
 							StringBuilder sb = new StringBuilder();
 							sb.append(family.getId()).append(m_fieldSeparator);
 							sb.append(individual.getId()).append(m_fieldSeparator);
@@ -56,8 +72,15 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 								sb.append(m_fieldSeparator).append(info);
 							}
 							return sb.toString();
-						}));
+						})
+				);
 
+	}
+
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
 	}
 
 	@NotThreadSafe

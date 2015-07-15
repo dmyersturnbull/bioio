@@ -6,6 +6,7 @@ import org.pharmgkb.parsers.model.Strand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
@@ -53,11 +54,13 @@ public class BedParser implements LineParser<BedFeature> {
 
 	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
+	@Nonnull
 	@Override
 	public Stream<BedFeature> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
 		return stream.map(this);
 	}
 
+	@Nonnull
 	@Override
 	public BedFeature apply(@Nonnull String line) throws BadDataFormatException {
 
@@ -113,5 +116,10 @@ public class BedParser implements LineParser<BedFeature> {
 			throw new BadDataFormatException("Bad data format on line #" + m_lineNumber.get()
 					                                 + "; line is [[[" + line + "]]]", e);
 		}
+	}
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
 	}
 }

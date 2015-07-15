@@ -4,11 +4,13 @@ import org.pharmgkb.parsers.LineWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
@@ -19,11 +21,20 @@ import java.util.stream.Collectors;
 @ThreadSafe
 public class Gff3Writer implements LineWriter<Gff3Feature> {
 
+	private static final long sf_logEvery = 10000;
+
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
 	@Nonnull
 	@Override
 	public String apply(@Nonnull Gff3Feature f) {
+
+		if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
+			sf_logger.debug("Reading line #{}", m_lineNumber);
+		}
+
 		return tabify(Gff3Escapers.COORDINATE_SYSTEM_IDS.escape(f.getCoordinateSystemName()),
 		              f.getSource().map(Gff3Escapers.FIELDS::escape).orElse(null),
 		              Gff3Escapers.FIELDS.escape(f.getType()),
@@ -59,4 +70,9 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 		return sb.toString();
 	}
 
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
+	}
 }

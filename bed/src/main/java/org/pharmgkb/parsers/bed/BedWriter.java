@@ -4,6 +4,7 @@ import org.pharmgkb.parsers.LineWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
@@ -85,5 +86,11 @@ public class BedWriter implements LineWriter<BedFeature> {
 
 		}
 		return sb.toString();
+	}
+
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
 	}
 }

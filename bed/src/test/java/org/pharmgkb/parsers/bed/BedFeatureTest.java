@@ -45,7 +45,10 @@ public class BedFeatureTest {
 
 	@Test
 	public void testContainsNewline() throws Exception {
-		assertThatThrownBy(() -> new BedFeature.Builder("a" + System.lineSeparator() + "b", 1, 2))
+		assertThatThrownBy(() -> new BedFeature.Builder("a\nb", 1, 2))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("newline");
+		assertThatThrownBy(() -> new BedFeature.Builder("a\rb", 1, 2))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("newline");
 	}

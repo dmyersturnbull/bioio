@@ -1,5 +1,6 @@
 package org.pharmgkb.parsers;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,4 +24,11 @@ public interface LineStructureWriter<S> extends Function<S, Stream<String>> {
 			apply(structure).forEach(pw::println);
 		}
 	}
+
+	/**
+	 * @return The total number of lines this writer processed since its creation
+	 */
+	@Nonnegative
+	long nLinesProcessed();
+
 }

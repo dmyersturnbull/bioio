@@ -10,11 +10,13 @@ import org.pharmgkb.parsers.model.Strand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -34,13 +36,18 @@ import java.util.stream.Stream;
 @ThreadSafe // note that this is still thread safe even though LineConsumer is not
 public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
+	private static final long sf_logEvery = 10000;
+
 	private static final Pattern sf_whitespace = Pattern.compile("\\s+");
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	private AtomicLong m_lineNumber = new AtomicLong(0l);
+
 	/**
 	 * @throws IllegalArgumentException If {@code stream} is parallel
 	 */
+	@Nonnull
 	@Override
 	public GenomeChain apply(@Nonnull Stream<String> stream) {
 
@@ -55,7 +62,7 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 	}
 
 	@NotThreadSafe
-	private static final class LineConsumer implements Consumer<String> {
+	private final class LineConsumer implements Consumer<String> {
 
 		private long sourcePosition = 0;
 		private long targetPosition = 0;
@@ -65,7 +72,6 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 		private ChromosomeName targetChr = null;
 		private Optional<Strand> sourceStrand = Optional.empty();
 		private Optional<Strand> targetStrand = Optional.empty();
-		private long m_lineNumber = 0;
 
 		private GenomeChain.Builder m_chain;
 
@@ -75,6 +81,10 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
 		@Override
 		public void accept(@Nonnull String line) {
+
+			if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
+				sf_logger.debug("Reading line #{}", m_lineNumber);
+			}
 
 			try {
 				String[] parts = sf_whitespace.split(line);
@@ -133,5 +143,11 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 				throw new BadDataFormatException("Couldn't parse line #" + m_lineNumber, e);
 			}
 		}
+	}
+
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
 	}
 }

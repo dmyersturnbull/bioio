@@ -8,6 +8,7 @@ import uk.ac.ebi.pride.tools.braf.BufferedRandomAccessFile;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.Closeable;
 import java.io.File;
@@ -21,7 +22,21 @@ import java.util.Optional;
 
 /**
  * A buffered arbitrary-position interface to read FASTA bases.
+ *
  * Reads the file once to 1) write a file containing no within-sequence line breaks and 2) map the position (in bytes) of each header in the new file.
+ *
+ *
+ * The FASTA grammar is taken to be:
+ * <pre>
+ *     fasta      ::= '&gt;'header newline sequence (newline fasta)?
+ *     header     ::= [^\n\r]+
+ *     sequence   ::= [^\n\r]+
+ * </pre>
+ * Where {@code newline} is taken to be the platform-dependent newline sequence.
+ * Notice that, even though the newline is platform-dependent, neither the header nor sequence can contain a CL or LF,
+ * which is a platform-independent choice. Also notice that comments and empty lines are not part of the grammar.
+ *
+ *
  * Example usage:
  * <pre>
  * >gene_1
@@ -31,6 +46,7 @@ import java.util.Optional;
  * RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(1024).build();
  * stream.read("gene_1", 1); // returns 'T'
  * </code>
+ *
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe
@@ -163,6 +179,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 		m_stream.close();
 	}
 
+	@NotThreadSafe
 	public static class Builder {
 
 		private File m_file;

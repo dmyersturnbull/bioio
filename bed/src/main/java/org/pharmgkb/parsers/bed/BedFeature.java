@@ -169,8 +169,8 @@ public class BedFeature {
 
 		public Builder(@Nonnull String chromosome, @Nonnegative long start, @Nonnegative long end) {
 			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains a tab");
-			Preconditions.checkArgument(!chromosome.contains(System.lineSeparator()),  "Chromosome name " + chromosome
-					+ " contains a newline");
+			Preconditions.checkArgument(!chromosome.contains("\n") && !chromosome.contains("\r"),  "Chromosome name " + chromosome
+					+ " contains a newline (LF or CR)");
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
 			Preconditions.checkArgument(start <= end, "Start " + start + " comes before end " + end);
@@ -203,8 +203,8 @@ public class BedFeature {
 		public Builder setChromosome(@Nonnull String chromosome) {
 			Preconditions.checkArgument(!chromosome.contains("\t"),
 			                             "Chromosome name contains a tab");
-			Preconditions.checkArgument(!chromosome.contains(System.lineSeparator()),
-			                            "Chromosome name contains a newline");
+			Preconditions.checkArgument(!chromosome.contains("\n") && !chromosome.contains("\r"),
+			                            "Chromosome name contains a newline (LF or CR)");
 			m_chromosome = chromosome;
 			return this;
 		}

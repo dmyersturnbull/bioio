@@ -1,5 +1,6 @@
 package org.pharmgkb.parsers;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,4 +31,18 @@ public interface LineWriter<T> extends Function<T, String> {
 			stream.forEach(pw::println);
 		}
 	}
+
+	/**
+	 * Override this to add post- or pre- validation or processing.
+	 */
+	@Nonnull
+	default Stream<String> writeAll(@Nonnull Stream<T> stream) {
+		return stream.map(this);
+	}
+
+	/**
+	 * @return The total number of lines this writer processed since its creation
+	 */
+	@Nonnegative
+	long nLinesProcessed();
 }

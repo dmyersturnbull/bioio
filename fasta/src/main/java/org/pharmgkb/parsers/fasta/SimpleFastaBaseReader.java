@@ -3,6 +3,7 @@ package org.pharmgkb.parsers.fasta;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.Closeable;
 import java.io.EOFException;
@@ -17,6 +18,18 @@ import java.util.Optional;
 
 /**
  * A character stream for FASTA, which reads base-by-base.
+ *
+ * The FASTA grammar is taken to be:
+ * <pre>
+ *     fasta      ::= '&gt;'header newline sequence (newline fasta)?
+ *     header     ::= [^\n\r]+
+ *     sequence   ::= [^\n\r]+
+ * </pre>
+ * Where {@code newline} is taken to be the platform-dependent newline sequence.
+ * Notice that, even though the newline is platform-dependent, neither the header nor sequence can contain a CL or LF,
+ * which is a platform-independent choice. Also notice that comments and empty lines are not part of the grammar.
+ *
+ *
  * Example usage:
  * <pre>
  * >gene_1
@@ -36,6 +49,7 @@ import java.util.Optional;
  *     stream.readNextBase(); // returns 'C'
  *     stream.readNextBase(); // returns null
  * </code>
+ *
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe
@@ -74,7 +88,7 @@ public class SimpleFastaBaseReader implements Closeable {
 				if (base == null) {
 					return Optional.empty();
 				}
-			} while (base == '\n');
+			} while (base == '\n' || base == '\r');
 			if (base == '>') {
 				readHeader();
 				base = doRead();
@@ -144,15 +158,16 @@ public class SimpleFastaBaseReader implements Closeable {
 			c = doRead();
 			if (c == null) {
 				throw new EOFException("Stream ended unexpectedly in header");
-			} else if (c != '\n') {
+			} else if (c != '\n' && c != '\r') {
 				header.append(c);
 			}
-		} while (c != '\n');
+		} while (c != '\n' && c != '\r');
 		m_header = header.toString();
 		m_nBasesSinceHeader = 0;
 		m_nHeadersRead++;
 	}
 
+	@NotThreadSafe
 	public static class Builder {
 
 		private Reader m_reader;

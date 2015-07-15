@@ -6,6 +6,7 @@ import org.pharmgkb.parsers.ObjectBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.invoke.MethodHandles;
@@ -59,6 +60,8 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 	private final ImmutableSet<String> m_unknownCodes;
 	private final boolean m_parentsAddedFirst;
 
+	private AtomicLong m_lineNumber = new AtomicLong(0l);
+
 	private PedigreeParser(@Nonnull Builder builder) {
 		m_noParentMarker = builder.m_noParentMarker;
 		m_fieldSeparator = builder.m_fieldSeparator;
@@ -71,17 +74,17 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 	@Nonnull
 	@Override
 	public Pedigree apply(@Nonnull Stream<String> stream) {
-		final AtomicLong lineNumber = new AtomicLong(0l);
+
 		PedigreeBuilder builder = new PedigreeBuilder(m_parentsAddedFirst);
 		stream.forEach(line -> {
 
-			if (lineNumber.incrementAndGet() % sf_logEvery == 0) {
-				sf_logger.debug("Reading line #{}", lineNumber);
+			if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
+				sf_logger.debug("Reading line #{}", m_lineNumber);
 			}
 
 			String[] parts = m_fieldSeparator.split(line);
 			if (parts.length < 5) {
-				throw new IllegalArgumentException("Line #" + lineNumber.get() + " contains fewer than 5 columns");
+				throw new IllegalArgumentException("Line #" + m_lineNumber + " contains fewer than 5 columns");
 			}
 			String fatherId = null;
 			if (!parts[2].equals(m_noParentMarker)) {
@@ -108,6 +111,12 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 			builder.add(parts[0], parts[1], fatherId, motherId, sex, info);
 		});
 		return builder.build();
+	}
+
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
 	}
 
 	@NotThreadSafe

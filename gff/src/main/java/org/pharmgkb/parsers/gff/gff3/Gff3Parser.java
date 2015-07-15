@@ -7,6 +7,7 @@ import org.pharmgkb.parsers.gff.GffStrand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.File;
@@ -74,6 +75,7 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 
 	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
+	@Nonnull
 	@Override
 	public Stream<Gff3Feature> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
 		return stream.filter(s -> !s.startsWith("#")).map(this);
@@ -170,4 +172,9 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 		return map;
 	}
 
+	@Nonnegative
+	@Override
+	public long nLinesProcessed() {
+		return m_lineNumber.get();
+	}
 }
