@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.model;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class LocusRange {
+public class LocusRange implements Comparable<LocusRange> {
 
     private static Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([\\+-])\\):(\\d+)-(\\d+)$");
 
@@ -32,6 +33,9 @@ public class LocusRange {
         return m_start.getChromosome();
     }
 
+    /**
+     * @throws IllegalArgumentException If start and end belong to different chromosomes or strands, or if end comes before start
+     */
     public LocusRange(@Nonnull Locus start, @Nonnull Locus end) {
         if (!start.getChromosome().equals(end.getChromosome())) {
             throw new IllegalArgumentException("Start and end must have the same chromosome");
@@ -39,7 +43,7 @@ public class LocusRange {
         if (start.getStrand() != end.getStrand()) {
             throw new IllegalArgumentException("Start and end must belong to the same strand");
         }
-        if (start.getPosition() >= end.getPosition()) {
+        if (start.getPosition() > end.getPosition()) {
             throw new IllegalArgumentException("End " + end + " was not after start " + start);
         }
         m_start = start;
@@ -73,6 +77,7 @@ public class LocusRange {
 
 	/**
 	 * @return The number of overlapping positions <strong>minus 1</strong>
+     * @throws IllegalArgumentException If {@code locusRange} belongs to a different strand
 	 */
     public long calcOverlappingDensity(@Nonnull LocusRange locusRange) {
         Preconditions.checkArgument(locusRange.getStrand() == getStrand(),
@@ -83,6 +88,9 @@ public class LocusRange {
         );
     }
 
+    /**
+     * @return True if and only if the chromosomes and strands are the same
+     */
     public boolean isCompatibleWith(@Nonnull LocusRange range) {
         return getChromosome().equals(range.getChromosome()) && getStrand() == range.getStrand();
     }
@@ -105,6 +113,9 @@ public class LocusRange {
 	    return Objects.hash(m_start, m_end);
     }
 
+    /**
+     * @return A string chromosome(strand):start-end; e.g. chr1(+):5-10
+     */
     @Override
     public String toString() {
         return m_start.getChromosome() +
@@ -113,6 +124,21 @@ public class LocusRange {
                 + '-' + m_end.getPosition();
     }
 
+    /**
+     * Compares the start locus followed by the end locus.
+     * @see Locus#compareTo(Locus)
+     */
+    @Override
+    public int compareTo(@Nonnull LocusRange o) {
+        return ComparisonChain.start()
+                .compare(m_start, o.m_start)
+                .compare(m_end, o.m_end)
+                .result();
+    }
+
+    /**
+     * @param string A string in the form chromosome(strand):start-end; e.g. chr1(+):5-10
+     */
 	@Nonnull
     public static LocusRange parse(@Nonnull String string) {
         Matcher matcher = sf_pattern.matcher(string);

@@ -118,6 +118,9 @@ public class Locus implements Comparable<Locus> {
 	    return Objects.hash(m_chromosome, m_position, m_strand);
     }
 
+    /**
+     * Compares the chromosome, followed by the position, followed by the strand.
+     */
     @Override
     public int compareTo(@Nonnull Locus o) {
         return ComparisonChain.start()

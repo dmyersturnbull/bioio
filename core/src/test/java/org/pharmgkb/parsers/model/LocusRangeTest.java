@@ -37,6 +37,12 @@ public class LocusRangeTest {
 	}
 
 	@Test
+	public void testZeroLength() {
+		LocusRange a = new LocusRange(new Locus("chrX", 1, Strand.MINUS), new Locus("chrX",1, Strand.MINUS));
+		assertEquals(0, a.length());
+	}
+
+	@Test
 	public void testNOverlapping() {
 		LocusRange a = new LocusRange(new Locus("chrX", 0, Strand.MINUS), new Locus("chrX", 5, Strand.MINUS));
 		LocusRange b = new LocusRange(new Locus("chrX", 4, Strand.MINUS), new Locus("chrX", 10, Strand.MINUS));
