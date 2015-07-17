@@ -25,6 +25,7 @@ import java.util.function.Function;
 /**
  * A mapping between reference coordinate sets according tot he UCSC "chain format".
  * See <a href="https://genome.ucsc.edu/goldenPath/help/chain.html">the UCSC specification</a>.
+ * Coordinates are 0-based.
  * @author Douglas Myers-Turnbull
  */
 @Immutable
@@ -39,9 +40,28 @@ public class GenomeChain implements Function<Locus, Optional<Locus>> {
 	private final ImmutableMap<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> m_map;
 
 	private GenomeChain(@Nonnull Builder builder) {
+		this(builder.m_map);
+	}
+
+	private GenomeChain(@Nonnull Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> mutableMap) {
 		Map<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> map = new HashMap<>();
-		builder.m_map.forEach((name, values) -> map.put(name, ImmutableSortedMap.copyOfSorted(values)));
+		mutableMap.forEach((name, values) -> map.put(name, ImmutableSortedMap.copyOfSorted(values)));
 		m_map = ImmutableMap.copyOf(map);
+	}
+
+	/**
+	 * @return A new GenomeChain with the source and target assemblies swapped
+	 */
+	@Nonnull
+	public GenomeChain invert() {
+		Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> map = new HashMap<>();
+		for (ChromosomeName chr: m_map.keySet()) {
+			map.put(chr, new TreeMap<>());
+			for (Map.Entry<LocusRange, LocusRange> entry : m_map.get(chr).entrySet()) {
+				map.get(chr).put(entry.getValue(), entry.getKey());
+			}
+		}
+		return new GenomeChain(map);
 	}
 
 	@Nonnull

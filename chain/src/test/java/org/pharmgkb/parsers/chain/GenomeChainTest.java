@@ -54,6 +54,21 @@ public class GenomeChainTest {
 		assertEquals(Optional.empty(), got4);
 	}
 
+	@Test
+	public void testComplexInverted() throws Exception {
+		GenomeChain.Builder chain = new GenomeChain.Builder();
+		addToChain(chain, 5, 10, 7, 12);
+		addToChain(chain, 1, 5, 3, 7);
+		addToChain(chain, 20, 25, 15, 20);
+		GenomeChain c = chain.build().invert();
+		Optional<Locus> got1 = c.apply(new Locus("chr1", 4, Strand.PLUS));
+		assertEquals(Optional.of(new Locus("chr1", 2, Strand.PLUS)), got1);
+		Optional<Locus> got2 = c.apply(new Locus("chr1", 8, Strand.PLUS));
+		assertEquals(Optional.of(new Locus("chr1", 6, Strand.PLUS)), got2);
+		Optional<Locus> got3 = c.apply(new Locus("chr1", 16, Strand.PLUS));
+		assertEquals(Optional.of(new Locus("chr1", 21, Strand.PLUS)), got3);
+	}
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testSourceOverlapBefore() throws Exception {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
@@ -90,13 +105,6 @@ public class GenomeChainTest {
 	public void testWrongSize() throws Exception {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 6);
-		chain.build();
-	}
-
-	@Test(expected=IllegalArgumentException.class)
-	public void testZeroLength() throws Exception {
-		GenomeChain.Builder chain = new GenomeChain.Builder();
-		addToChain(chain, 1, 1, 3, 3);
 		chain.build();
 	}
 
