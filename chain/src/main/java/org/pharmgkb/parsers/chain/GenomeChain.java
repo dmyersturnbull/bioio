@@ -96,8 +96,40 @@ public class GenomeChain implements Function<Locus, Optional<Locus>> {
 
 		private Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> m_map = new HashMap<>();
 
+		public Builder() {
+
+		}
+
+		public Builder(@Nonnull Builder builder) {
+			builder.m_map.forEach((chr, map) -> {
+				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>();
+				newMap.putAll(map);
+				m_map.put(chr, newMap);
+			});
+		}
+
+		public Builder(@Nonnull GenomeChain chain) {
+			chain.m_map.forEach((chr, map) -> {
+				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>();
+				newMap.putAll(map);
+				m_map.put(chr, newMap);
+			});
+		}
+
+		/**
+		 * Removes the mapping from {@code source} to some (any) other {@link LocusRange}.
+		 */
 		@Nonnull
-		public Builder addMapEntry(@Nonnull LocusRange source, @Nonnull LocusRange target) {
+		public Builder remove(@Nonnull LocusRange source) {
+			ChromosomeName chr = source.getChromosome();
+			if (m_map.containsKey(chr)) {
+				m_map.get(chr).remove(source);
+			}
+			return this;
+		}
+
+		@Nonnull
+		public Builder add(@Nonnull LocusRange source, @Nonnull LocusRange target) {
 
 			final long sourceSize = source.length();
 			final long targetSize = target.length();
@@ -106,7 +138,7 @@ public class GenomeChain implements Function<Locus, Optional<Locus>> {
 			                            source + " has size " + sourceSize
 					                            + " but " + target + " has size " + targetSize);
 
-			final ChromosomeName sourceChr = source.getStart().getChromosome();
+			final ChromosomeName sourceChr = source.getChromosome();
 			if (!m_map.containsKey(sourceChr)) {
 				m_map.put(sourceChr, new TreeMap<>(sf_comparator));
 			}

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests {@link GenomeChain}.
@@ -112,7 +113,7 @@ public class GenomeChainTest {
 	public void testWrongChromosome() throws Exception {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr2", 10, Strand.PLUS));
-		chain.addMapEntry(source, source);
+		chain.add(source, source);
 	}
 
 	@Test
@@ -120,7 +121,7 @@ public class GenomeChainTest {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr1", 10, Strand.PLUS));
 		LocusRange target = new LocusRange(new Locus("chr2", 5, Strand.MINUS), new Locus("chr2", 10, Strand.MINUS));
-		chain.addMapEntry(source, target);
+		chain.add(source, target);
 		GenomeChain c = chain.build();
 		Locus sourceLocus = new Locus("chr1", 5, Strand.PLUS);
 		Locus targetLocus = new Locus("chr2", 5, Strand.MINUS);
@@ -128,9 +129,32 @@ public class GenomeChainTest {
 		assertEquals(Optional.of(targetLocus), c.apply(sourceLocus));
 	}
 
+	@Test
+	public void testCopyConstructor() {
+		GenomeChain.Builder builder1 = new GenomeChain.Builder();
+		GenomeChain.Builder builder2 = new GenomeChain.Builder(builder1);
+		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr1", 10, Strand.PLUS));
+		LocusRange target = new LocusRange(new Locus("chr2", 5, Strand.MINUS), new Locus("chr2", 10, Strand.MINUS));
+		builder1.add(source, target); // shouldn't affect builder2
+		assertEquals(Optional.empty(), builder2.build().apply(new Locus("chr1", 6, Strand.PLUS)));
+	}
+
+	@Test
+	public void testRemove() {
+		GenomeChain.Builder builder = new GenomeChain.Builder();
+		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr1", 10, Strand.PLUS));
+		LocusRange target = new LocusRange(new Locus("chr2", 5, Strand.MINUS), new Locus("chr2", 10, Strand.MINUS));
+		builder.add(source, target);
+		Optional<Locus> result1 = builder.build().apply(new Locus("chr1", 6, Strand.PLUS));
+		assertTrue(result1.isPresent());
+		builder.remove(source);
+		Optional<Locus> result2 = builder.build().apply(new Locus("chr1", 6, Strand.PLUS));
+		assertEquals(Optional.empty(), result2);
+	}
+
 	private void addToChain(GenomeChain.Builder chain, int sourceStart, int sourceStop, int targetStart, int targetStop) {
 		LocusRange source = new LocusRange(new Locus("chr1", sourceStart, Strand.PLUS), new Locus("chr1", sourceStop, Strand.PLUS));
 		LocusRange target = new LocusRange(new Locus("chr1", targetStart, Strand.PLUS), new Locus("chr1", targetStop, Strand.PLUS));
-		chain.addMapEntry(source, target);
+		chain.add(source, target);
 	}
 }

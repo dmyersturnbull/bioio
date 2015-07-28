@@ -55,7 +55,7 @@ public interface LineParser<R> extends Function<String, R> {
 
 	@Nonnull
 	@Override
-	R apply(String line) throws BadDataFormatException;
+	R apply(@Nonnull String line) throws BadDataFormatException;
 
 	/**
 	 * @return The total number of lines this writer processed since its creation

@@ -16,6 +16,7 @@ import java.util.stream.Stream;
  * @author Douglas Myers-Turnbull
  */
 public interface LineStructureWriter<S> extends Function<S, Stream<String>> {
+
 	default void writeToFile(@Nonnull S structure, @Nonnull Path file) throws IOException {
 		writeToFile(structure, file.toFile());
 	}
@@ -31,4 +32,7 @@ public interface LineStructureWriter<S> extends Function<S, Stream<String>> {
 	@Nonnegative
 	long nLinesProcessed();
 
+	@Override
+	@Nonnull
+	Stream<String> apply(@Nonnull S structure);
 }

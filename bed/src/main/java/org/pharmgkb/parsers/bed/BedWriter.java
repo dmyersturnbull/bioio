@@ -30,6 +30,7 @@ public class BedWriter implements LineWriter<BedFeature> {
 
 	private AtomicLong m_lineNumber = new AtomicLong(0l);
 
+	@Nonnull
 	@Override
 	public String apply(@Nonnull BedFeature feature) {
 

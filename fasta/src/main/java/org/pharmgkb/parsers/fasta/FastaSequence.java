@@ -23,8 +23,8 @@ public class FastaSequence implements Comparable<FastaSequence> {
 	 * @throws IllegalArgumentException If the header or sequence contains either newline character LF (\n) or CR (\n)
 	 */
 	public FastaSequence(@Nonnull String header, @Nonnull String sequence) {
-		Preconditions.checkArgument(!header.contains("\n") && !header.contains("\r"), "Header contains a newline");
-		Preconditions.checkArgument(!sequence.contains("\n") && !sequence.contains("\r"), "Sequence contains a newline");
+		Preconditions.checkArgument(!header.contains("\n") && !header.contains("\r"), "Header \"" + header + "\" contains a newline");
+		Preconditions.checkArgument(!sequence.contains("\n") && !sequence.contains("\r"), "Sequence \"" + sequence + "\" contains a newline");
 		m_header = header;
 		m_sequence = sequence;
 	}
@@ -37,6 +37,12 @@ public class FastaSequence implements Comparable<FastaSequence> {
 	@Nonnull
 	public String getSequence() {
 		return m_sequence;
+	}
+
+	@Nonnull
+	@Override
+	public String toString() {
+		return ">" + m_header + System.lineSeparator() + m_sequence;
 	}
 
 	@Override

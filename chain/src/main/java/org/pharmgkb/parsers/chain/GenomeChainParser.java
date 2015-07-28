@@ -122,7 +122,7 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 					);
 
 					sf_logger.trace(source + "    ---->    " + target);
-					m_chain.addMapEntry(source, target);
+					m_chain.add(source, target);
 					sourcePosition += diagonal + sourceGap;
 					targetPosition += diagonal + targetGap;
 

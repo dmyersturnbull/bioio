@@ -169,6 +169,18 @@ public abstract class BaseGffFeature {
 			m_phase = Optional.empty();
 		}
 
+		@SuppressWarnings("unchecked")
+		public Builder(@Nonnull Builder builder) {
+			m_coordinateSystemId = builder.m_coordinateSystemId;
+			m_type = builder.m_type;
+			m_start = builder.m_start;
+			m_end = builder.m_end;
+			m_source = builder.m_source;
+			m_score = builder.m_score;
+			m_strand = builder.m_strand;
+			m_phase = builder.m_phase;
+		}
+
 		public Builder(@Nonnull BaseGffFeature feature) {
 			m_coordinateSystemId = feature.m_coordinateSystemId;
 			m_type = feature.m_type;

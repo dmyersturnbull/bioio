@@ -17,6 +17,11 @@ import java.util.stream.Stream;
 /**
  * Reads a FASTA file sequence-by-sequence.
  *
+ * <strong>
+ *     This parser requires FASTA sequences to be on a single line.
+ *     See {@link FastaSequenceReader} if you need to process multi-line sequences.
+ * </strong>
+ *
  * The grammar is taken to be:
  * <pre>
  *     fasta      ::= '&gt;'header newline sequence (newline fasta)?

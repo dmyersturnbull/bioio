@@ -63,6 +63,12 @@ public class Gff3Feature extends BaseGffFeature {
 			m_attributes = new TreeMap<>(); // for obvious sort order
 		}
 
+		public Builder(@Nonnull Builder builder) {
+			super(builder);
+			m_attributes = new TreeMap<>(); // for obvious sort order
+			builder.m_attributes.forEach(m_attributes::put);
+		}
+
 		public Builder(@Nonnull Gff3Feature feature) {
 			super(feature);
 			m_attributes = new TreeMap<>(); // for obvious sort order

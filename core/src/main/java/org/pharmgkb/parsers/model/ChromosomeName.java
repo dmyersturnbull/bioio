@@ -1,5 +1,6 @@
 package org.pharmgkb.parsers.model;
 
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,7 @@ public class ChromosomeName implements Comparable<ChromosomeName> {
 	private final String m_name;
 
 	public ChromosomeName(@Nonnull String name) {
+		Preconditions.checkNotNull(name);
 		Matcher matcher = sf_pattern.matcher(name);
 		if (matcher.matches()) {
 			String chrName = matcher.group(1).equals("MT")? "M" : matcher.group(1); // dbSNP and Ensembl use this, but neither GRC nor UCSC do

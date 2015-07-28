@@ -27,7 +27,7 @@ public interface LineStructureParser<S> extends Function<Stream<String>, S> {
 
 	@Nonnull
 	@Override
-	S apply(Stream<String> stringStream);
+	S apply(@Nonnull Stream<String> stream) throws BadDataFormatException;
 
 	/**
 	 * @return The total number of lines this parser processed since its creation

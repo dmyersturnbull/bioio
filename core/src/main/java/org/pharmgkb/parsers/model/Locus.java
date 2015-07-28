@@ -30,6 +30,7 @@ public class Locus implements Comparable<Locus> {
 
 	@Nonnull
 	public static Locus parse(@Nonnull String string) {
+        Preconditions.checkNotNull(string);
 		Matcher matcher = sf_pattern.matcher(string);
 		if (matcher.matches()) {
 			ChromosomeName chr = new ChromosomeName(matcher.group(1));
@@ -67,6 +68,8 @@ public class Locus implements Comparable<Locus> {
 	}
 
     private void init(@Nonnull ChromosomeName chromosome, @Nonnegative long position, @Nonnull Strand strand) {
+        Preconditions.checkNotNull(chromosome);
+        Preconditions.checkNotNull(strand);
         Preconditions.checkArgument(position > -1, "Position " + position + " < 0");
         m_chromosome = chromosome;
         m_position = position;

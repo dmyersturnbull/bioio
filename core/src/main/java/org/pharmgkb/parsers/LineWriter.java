@@ -45,4 +45,8 @@ public interface LineWriter<T> extends Function<T, String> {
 	 */
 	@Nonnegative
 	long nLinesProcessed();
+
+	@Override
+	@Nonnull
+	String apply(@Nonnull T t);
 }

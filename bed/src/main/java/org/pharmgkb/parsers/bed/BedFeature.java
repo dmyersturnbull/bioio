@@ -110,6 +110,7 @@ public class BedFeature {
 		m_blocks = ImmutableList.copyOf(builder.m_blocks);
 	}
 
+	@Nonnull
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("chromosome", m_chromosome).add("start", m_start).add("end", m_end)
