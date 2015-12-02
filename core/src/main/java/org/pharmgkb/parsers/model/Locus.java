@@ -113,7 +113,6 @@ public class Locus implements Comparable<Locus> {
         if (o == null || getClass() != o.getClass()) return false;
         Locus locus = (Locus) o;
         return m_position == locus.m_position && m_chromosome.equals(locus.m_chromosome) && m_strand == locus.m_strand;
-
     }
 
     @Override
