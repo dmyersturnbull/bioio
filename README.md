@@ -3,6 +3,13 @@ Read and write from various bioinformatics sequence formats, currently BED, GFF3
 
 This project has moderately high test coverage and is quite usable. However, it's incomplete, so subsequent versions may break backwards-compatibility.
 
+### Build instructions
+
+The project is not currently on Maven Central. To JAR all subprojects, run `gradle jarAll`.
+To build a single subproject, run `gradle :xxx:jar`, where `xxx` is the name of the subproject (for example, `gradle :gff:jar`).
+
+You can also run tests with `gradle :xxx:test` and compile (without JARing) using `gradle :xxx:build`. Note that running `gradle :xxx:gff` will only run tests for `gff`, `core`.
+
 ### Examples
 
 ```java
