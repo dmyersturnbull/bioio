@@ -19,8 +19,7 @@ public interface LineWriter<T> extends Function<T, String> {
 
   default void writeToFile(@Nonnull Collection<T> lines, @Nonnull Path file) throws IOException {
     try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(file))) {
-      lines.stream()
-          .map(this)
+      writeAll(lines.stream())
           .forEach(pw::println);
     }
   }
