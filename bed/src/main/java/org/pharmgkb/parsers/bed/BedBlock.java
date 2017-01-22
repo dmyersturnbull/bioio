@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -11,8 +12,9 @@ import java.util.Objects;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedBlock {
+public class BedBlock implements Serializable {
 
+	private static final long serialVersionUID = 3728077750509042933L;
 	private final long m_start;
 
 	private final long m_end;

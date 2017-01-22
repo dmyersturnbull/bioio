@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,9 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedFeature {
+public class BedFeature implements Serializable {
+
+	private static final long serialVersionUID = -8858823092862934231L;
 
 	private final String m_chromosome;
 

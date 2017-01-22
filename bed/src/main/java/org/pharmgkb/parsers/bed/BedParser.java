@@ -115,6 +115,11 @@ public class BedParser implements LineParser<BedFeature> {
 		} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
 			throw new BadDataFormatException("Bad data format on line #" + m_lineNumber.get()
 					                                 + "; line is [[[" + line + "]]]", e);
+		} catch (RuntimeException e) {
+			// this is a little weird, but it's helpful
+			// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.
+			e.addSuppressed(new RuntimeException("Unexpectedly failed to parse line " + m_lineNumber));
+			throw e;
 		}
 	}
 	@Nonnegative

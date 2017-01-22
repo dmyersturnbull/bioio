@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests {@link BedBlock}.
@@ -26,7 +25,7 @@ public class BedBlockTest {
 		BedBlock block1 = new BedBlock(5, 9);
 		BedBlock block2 = new BedBlock(5, 9);
 		BedBlock block3 = new BedBlock(18, 20);
-		assertTrue(block1.equals(block2));
+		assertEquals(block1, block2);
 		assertFalse(block1.equals(block3));
 	}
 }
