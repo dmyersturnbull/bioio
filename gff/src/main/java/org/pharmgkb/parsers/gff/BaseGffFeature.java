@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +20,9 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public abstract class BaseGffFeature {
+public abstract class BaseGffFeature implements Serializable {
+
+	private static final long serialVersionUID = -2740395042215712465L;
 
 	private final String m_coordinateSystemId;
 
@@ -37,8 +40,7 @@ public abstract class BaseGffFeature {
 
 	private final Optional<CdsPhase> m_phase;
 
-	@SuppressWarnings("unchecked") // because Builder is generic
-	protected BaseGffFeature(@Nonnull Builder builder) {
+	protected BaseGffFeature(@Nonnull Builder<?, ?> builder) {
 		m_coordinateSystemId = builder.m_coordinateSystemId;
 		m_type = builder.m_type;
 		m_start = builder.m_start;
@@ -130,7 +132,7 @@ public abstract class BaseGffFeature {
 	}
 
 	@NotThreadSafe
-	protected abstract static class Builder<T, B extends Builder> implements ObjectBuilder<T> {
+	protected abstract static class Builder<T, B extends Builder<?, ?>> implements ObjectBuilder<T> {
 
 		protected String m_coordinateSystemId;
 
@@ -169,8 +171,7 @@ public abstract class BaseGffFeature {
 			m_phase = Optional.empty();
 		}
 
-		@SuppressWarnings("unchecked")
-		public Builder(@Nonnull Builder builder) {
+		public Builder(@Nonnull Builder<?, ?> builder) {
 			m_coordinateSystemId = builder.m_coordinateSystemId;
 			m_type = builder.m_type;
 			m_start = builder.m_start;
@@ -193,7 +194,7 @@ public abstract class BaseGffFeature {
 		}
 
 		@Nonnull
-		public Builder setCoordinateSystemId(@Nonnull String coordinateSystemId) {
+		public Builder<?, ?> setCoordinateSystemId(@Nonnull String coordinateSystemId) {
 			m_coordinateSystemId = coordinateSystemId;
 			return this;
 		}

@@ -25,6 +25,7 @@ import java.util.TreeMap;
 public class Gff3Feature extends BaseGffFeature {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	private static final long serialVersionUID = 8330668777279186990L;
 
 	private final ImmutableMap<String, List<String>> m_attributes;
 

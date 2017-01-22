@@ -35,14 +35,16 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 			sf_logger.debug("Reading line #{}", m_lineNumber);
 		}
 
-		return tabify(Gff3Escapers.COORDINATE_SYSTEM_IDS.escape(f.getCoordinateSystemName()),
-		              f.getSource().map(Gff3Escapers.FIELDS::escape).orElse(null),
-		              Gff3Escapers.FIELDS.escape(f.getType()),
-		              f.getStart() + 1, f.getEnd() + 1,
-		              f.getScore().orElse(null),
-		              f.getStrand().getSymbol(),
-		              f.getPhase().orElse(null),
-		              mapToString(f.getAttributes()));
+		return tabify(
+				Gff3Escapers.COORDINATE_SYSTEM_IDS.escape(f.getCoordinateSystemName()),
+				f.getSource().map(Gff3Escapers.FIELDS::escape).orElse(null),
+				Gff3Escapers.FIELDS.escape(f.getType()),
+				f.getStart() + 1, f.getEnd() + 1,
+				f.getScore().orElse(null),
+				f.getStrand().getSymbol(),
+				f.getPhase().orElse(null),
+				mapToString(f.getAttributes())
+		);
 	}
 
 	@Nonnull
@@ -52,9 +54,9 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 		}
 		return attributes.entrySet().stream()
 				.map(entry -> Gff3Escapers.FIELDS.escape(entry.getKey())
-						     + "=" + entry.getValue().stream()
-						     .map(Gff3Escapers.FIELDS::escape)
-						     .collect(Collectors.joining(","))
+							 + "=" + entry.getValue().stream()
+							 .map(Gff3Escapers.FIELDS::escape)
+							 .collect(Collectors.joining(","))
 				).collect(Collectors.joining(";"));
 	}
 

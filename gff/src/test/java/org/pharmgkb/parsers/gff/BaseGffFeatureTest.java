@@ -5,7 +5,7 @@ import org.junit.Test;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
-import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -66,7 +66,7 @@ public class BaseGffFeatureTest {
 	}
 
 	private static class Feature extends BaseGffFeature {
-		protected Feature(@Nonnull Builder builder) {
+		protected Feature(@Nonnull Builder<Feature, BaseGffFeatureTest.Builder> builder) {
 			super(builder);
 		}
 	}
