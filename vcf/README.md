@@ -28,7 +28,7 @@ There are a few types worth explicit mention:
 ## Package organization
 
 - [org.pharmgkb.parsers.vcf](./src/main/java/org/pharmgkb/parsers/vcf/) contains the parsers and writers, and a [validator](./src/main/java/org/pharmgkb/parsers/vcf/VcfValidator.java).
-- [org.pharmgkb.parsers.vcf.model](./src/main/java/org/pharmgkb/parsers/vcf/model/) contains high-level classes like [VcfPosition.java](./src/main/java/org/pharmgkb/parsers/vcf/model/VcfPosition.java), [src/main/java/org/pharmgkb/parsers/vcf/model/VcfSample.java](VcfSample), and [VcfMetadataCollection](./src/main/java/org/pharmgkb/parsers/vcf/model/VcfMetdataCollection.java)
+- [org.pharmgkb.parsers.vcf.model](./src/main/java/org/pharmgkb/parsers/vcf/model/) contains high-level classes like [VcfPosition.java](./src/main/java/org/pharmgkb/parsers/vcf/model/VcfPosition.java), [VcfSample](./src/main/java/org/pharmgkb/parsers/vcf/model/VcfSample.java), and [VcfMetadataCollection](./src/main/java/org/pharmgkb/parsers/vcf/model/VcfMetdataCollection.java)
 - [org.pharmgkb.parsers.vcf.model.metadata](./src/main/java/org/pharmgkb/parsers/vcf/model/metadata/) contains the metadata subclasses
 - [org.pharmgkb.parsers.vcf.model.allele](./src/main/java/org/pharmgkb/parsers/vcf/model/allele/) contains a model for `REF` and `ALT` alleles in VCF data lines
 - [org.pharmgkb.parsers.vcf.model.extra](./src/main/java/org/pharmgkb/parsers/vcf/model/extra/) contains additional classes such as [VcfGenotype](./src/main/java/org/pharmgkb/parsers/vcf/model/extra/VcfGenotype.java) and [ReservedFormatProperty](./src/main/java/org/pharmgkb/parsers/vcf/model/ReservedFormatProperty.java)
