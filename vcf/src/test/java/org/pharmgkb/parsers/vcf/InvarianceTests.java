@@ -12,4 +12,5 @@ package org.pharmgkb.parsers.vcf;
  *
  */
 public class InvarianceTests {
+	// TODO
 }

@@ -12,6 +12,6 @@ public class VcfValidatorTest {
 
 	@Test
 	public void testAccept() throws Exception {
-
+		// TODO
 	}
 }
