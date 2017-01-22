@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.pedigree;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Family implements Subtree<Individual> {
+public class Family implements Subtree<Individual>, Serializable {
+
+	private static final long serialVersionUID = 1305199874793758907L;
 
 	private String m_id;
 

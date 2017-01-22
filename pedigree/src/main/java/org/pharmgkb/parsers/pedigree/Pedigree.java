@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.pedigree;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -14,7 +15,9 @@ import java.util.TreeMap;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Pedigree implements Iterable<Family> {
+public class Pedigree implements Iterable<Family>, Serializable {
+
+	private static final long serialVersionUID = 1854716609059295075L;
 
 	private NavigableMap<String, Family> m_families;
 

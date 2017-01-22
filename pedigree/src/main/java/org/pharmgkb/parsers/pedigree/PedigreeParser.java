@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.pedigree;
 
 import com.google.common.collect.ImmutableSet;
+import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineStructureParser;
 import org.pharmgkb.parsers.ObjectBuilder;
 import org.slf4j.Logger;
@@ -78,37 +79,46 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 		PedigreeBuilder builder = new PedigreeBuilder(m_parentsAddedFirst);
 		stream.forEach(line -> {
 
-			if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
-				sf_logger.debug("Reading line #{}", m_lineNumber);
-			}
+			try {
 
-			String[] parts = m_fieldSeparator.split(line);
-			if (parts.length < 5) {
-				throw new IllegalArgumentException("Line #" + m_lineNumber + " contains fewer than 5 columns");
+				if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
+					sf_logger.debug("Reading line #{}", m_lineNumber);
+				}
+
+				String[] parts = m_fieldSeparator.split(line);
+				if (parts.length < 5) {
+					throw new BadDataFormatException("Line #" + m_lineNumber + " contains fewer than 5 columns");
+				}
+				String fatherId = null;
+				if (!parts[2].equals(m_noParentMarker)) {
+					fatherId = parts[2];
+				}
+				String motherId = null;
+				if (!parts[3].equals(m_noParentMarker)) {
+					motherId = parts[3];
+				}
+				Sex sex;
+				if (m_femaleCodes.contains(parts[4])) {
+					sex = Sex.FEMALE;
+				} else if (m_maleCodes.contains(parts[4])) {
+					sex = Sex.MALE;
+				} else if (m_unknownCodes.contains(parts[4])) {
+					sex = Sex.UNKNOWN;
+				} else {
+					throw new IllegalArgumentException("Sex " + parts[4] + " not recognized");
+				}
+				List<String> info = new ArrayList<>(parts.length - 5);
+				if (parts.length > 5) {
+					info.addAll(Arrays.asList(parts).subList(6, parts.length));
+				}
+				builder.add(parts[0], parts[1], fatherId, motherId, sex, info);
+
+			} catch (RuntimeException e) {
+				// this is a little weird, but it's helpful
+				// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.
+				e.addSuppressed(new RuntimeException("Unexpectedly failed to parse line " + m_lineNumber));
+				throw e;
 			}
-			String fatherId = null;
-			if (!parts[2].equals(m_noParentMarker)) {
-				fatherId = parts[2];
-			}
-			String motherId = null;
-			if (!parts[3].equals(m_noParentMarker)) {
-				motherId = parts[3];
-			}
-			Sex sex;
-			if (m_femaleCodes.contains(parts[4])) {
-				sex = Sex.FEMALE;
-			} else if (m_maleCodes.contains(parts[4])) {
-				sex = Sex.MALE;
-			} else if (m_unknownCodes.contains(parts[4])) {
-				sex = Sex.UNKNOWN;
-			} else {
-				throw new IllegalArgumentException("Sex " + parts[4] + " not recognized");
-			}
-			List<String> info = new ArrayList<>(parts.length - 5);
-			if (parts.length > 5) {
-				info.addAll(Arrays.asList(parts).subList(6, parts.length));
-			}
-			builder.add(parts[0], parts[1], fatherId, motherId, sex, info);
 		});
 		return builder.build();
 	}
@@ -190,6 +200,7 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 			return this;
 		}
 
+		@Override
 		@Nonnull
 		public PedigreeParser build() {
 			return new PedigreeParser(this);
