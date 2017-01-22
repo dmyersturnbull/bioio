@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bed/bed.iml" filepath="$PROJECT_DIR$/bed/bed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chain/chain.iml" filepath="$PROJECT_DIR$/chain/chain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fasta/fasta.iml" filepath="$PROJECT_DIR$/fasta/fasta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/genome-sequence-io.iml" filepath="$PROJECT_DIR$/genome-sequence-io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gff/gff.iml" filepath="$PROJECT_DIR$/gff/gff.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pedigree/pedigree.iml" filepath="$PROJECT_DIR$/pedigree/pedigree.iml" />
+    </modules>
+  </component>
+</project>

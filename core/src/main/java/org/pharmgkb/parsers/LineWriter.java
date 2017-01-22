@@ -1,19 +1,22 @@
 package org.pharmgkb.parsers;
 
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
+import java.util.stream.StreamSupport
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 
 /**
  * Counterpart to {@link LineParser}.
+ *
  * @author Douglas Myers-Turnbull
  */
 public interface LineWriter<T> extends Function<T, String> {
@@ -46,12 +49,18 @@ public interface LineWriter<T> extends Function<T, String> {
 			stream.forEach(pw::println);
 		}
 	}
+	default void writeToFile(@Nonnull Collection<T> lines, @Nonnull Path file) throws IOException {
+		try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(file))) {
+			writeAll(lines.stream())
+					.forEach(pw::println);
+		}
+	}
+
 
 	/**
 	 * Override this to add post- or pre- validation or processing.
 	 */
-	@Nonnull
-	default Stream<String> writeAll(@Nonnull Stream<T> stream) {
+	default @Nonnull Stream<String> writeAll(@Nonnull Stream<T> stream) {
 		return stream.map(this);
 	}
 
@@ -62,6 +71,5 @@ public interface LineWriter<T> extends Function<T, String> {
 	long nLinesProcessed();
 
 	@Override
-	@Nonnull
-	String apply(@Nonnull T t);
+	@Nonnull String apply(@Nonnull T t);
 }
