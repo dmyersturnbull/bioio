@@ -61,7 +61,9 @@ import java.util.stream.StreamSupport;
  * which is a platform-independent choice.
  *
  * @author Douglas Myers-Turnbull
+ * @deprecated Use {@link MultilineFastaSequenceParser} instead
  */
+@Deprecated
 @ThreadSafe
 public class FastaSequenceReader implements Closeable {
 

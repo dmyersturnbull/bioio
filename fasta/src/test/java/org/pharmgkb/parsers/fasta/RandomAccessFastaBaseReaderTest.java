@@ -6,7 +6,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 
 /**

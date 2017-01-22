@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
  * Writes {@link FastaSequence FastaSequences}.
  * @author Douglas Myers-Turnbull
  */
+@ThreadSafe
 public class FastaSequenceWriter implements LineStructureWriter<FastaSequence> {
 
 	private static final long sf_logEvery = 10000;

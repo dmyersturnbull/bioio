@@ -6,6 +6,7 @@ import com.google.common.collect.ComparisonChain;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 
 /**
  * A fasta sequence and header.
@@ -13,7 +14,9 @@ import javax.annotation.concurrent.Immutable;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class FastaSequence implements Comparable<FastaSequence> {
+public class FastaSequence implements Comparable<FastaSequence>, Serializable {
+
+	private static final long serialVersionUID = -9016565377345851470L;
 
 	private final String m_header;
 
