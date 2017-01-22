@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -29,9 +30,10 @@ import java.util.function.Function;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class GenomeChain implements Function<Locus, Optional<Locus>> {
+public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializable {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	private static final long serialVersionUID = -1764679353559518393L;
 
 	// only compares loci of the same chromosome and strand
 	private static Comparator<LocusRange> sf_comparator

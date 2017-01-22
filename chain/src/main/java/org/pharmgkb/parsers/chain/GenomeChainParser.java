@@ -141,6 +141,11 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
 			} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
 				throw new BadDataFormatException("Couldn't parse line #" + m_lineNumber, e);
+			} catch (RuntimeException e) {
+				// this is a little weird, but it's helpful
+				// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.
+				e.addSuppressed(new RuntimeException("Unexpectedly failed to parse line " + m_lineNumber));
+				throw e;
 			}
 		}
 	}
