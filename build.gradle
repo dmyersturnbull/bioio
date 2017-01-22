@@ -3,7 +3,7 @@ apply plugin: 'idea'
 allprojects {
 	apply plugin: 'java'
 	sourceCompatibility = 1.8
-	version = '0.2'
+	version = '0.3'
 }
 
 subprojects {
@@ -12,19 +12,19 @@ subprojects {
 	}
 	dependencies {
 		testCompile group: 'junit', name: 'junit', version: '4.12'
-		testCompile group: 'org.assertj', name: 'assertj-core', version: '3.1.0'
-		testCompile group: 'org.assertj', name: 'assertj-guava', version: '1.3.1'
-		testCompile group: 'org.mockito', name: 'mockito-core', version: '2.0.26-beta'
-		compile group: 'com.google.guava', name: 'guava', version: '18.0'
-		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.12'
+		testCompile group: 'org.assertj', name: 'assertj-core', version: '3.3.0'
+		testCompile group: 'org.assertj', name: 'assertj-guava', version: '3.0.0'
+		testCompile group: 'org.mockito', name: 'mockito-core', version: '2.6.5'
+		compile group: 'com.google.guava', name: 'guava', version: '20.0'
+		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 		compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
 	}
 }
 
-def mainProjects = [':core',':bed',':chain', ':fasta', ':gff', ':pedigree']
-task jarAll( type: Jar , dependsOn: mainProjects.collect{ it+":compileJava"}) {
+def mainProjects = [':core',':bed',':chain', ':fasta', ':gff', ':pedigree', ':vcf']
+task jarAll(type: Jar , dependsOn: mainProjects.collect{it + ":compileJava"}) {
 	baseName = rootProject.name + '-all'
-	from files(mainProjects.collect{ project(it).sourceSets.main.output })
+	from files(mainProjects.collect{project(it).sourceSets.main.output})
 }
 
 configure(jarAll) {
