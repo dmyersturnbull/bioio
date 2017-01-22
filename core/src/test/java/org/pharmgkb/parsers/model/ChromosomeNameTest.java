@@ -9,14 +9,12 @@ public class ChromosomeNameTest {
 	@Test
 	public void test1() throws Exception {
 		assertEquals("chr1", new ChromosomeName("chr1").toString());
-		assertEquals("chr1", new ChromosomeName("1").toString());
 	}
 
 	@Test
-	public void testM() throws Exception {
-		assertEquals("chrM", new ChromosomeName("chrM").toString());
-		assertEquals("chrM", new ChromosomeName("chrMT").toString());
-		assertEquals("chrM", new ChromosomeName("MT").toString());
+	public void testUcsc() throws Exception {
+		assertEquals("chr1", ChromosomeName.ucscWithFailure("1").toString());
+		assertEquals("chrM", ChromosomeName.ucscWithFailure("MT").toString());
 	}
 
 	@Test

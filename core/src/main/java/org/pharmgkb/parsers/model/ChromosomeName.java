@@ -31,6 +31,7 @@ public class ChromosomeName implements Comparable<ChromosomeName>, Serializable 
 	public static ChromosomeName ucscWithFailure(@Nonnull String name) {
 		Function<String, String> standardizer = s -> {
 			Matcher matcher = sf_pattern.matcher(s);
+			Preconditions.checkArgument(matcher.matches(), "Chromosome name " + s + " does not match the required pattern");
 			Preconditions.checkArgument(sf_pattern.matcher(s).matches(), "Chromosome name " + s + " is not standardized");
 			String chrName = matcher.group(1).equals("MT")? "M" : matcher.group(1); // dbSNP and Ensembl use this, but neither GRC nor UCSC do
 			return "chr" + chrName + (matcher.group(2)==null? "" : matcher.group(2));
@@ -53,6 +54,7 @@ public class ChromosomeName implements Comparable<ChromosomeName>, Serializable 
 		return standardized(name, standardizer);
 	}
 
+	@Nonnull
 	public static ChromosomeName standardized(@Nonnull String name, @Nonnull Function<String, String> standardizer) {
 		return new ChromosomeName(name, standardizer.apply(name));
 	}
@@ -82,15 +84,15 @@ public class ChromosomeName implements Comparable<ChromosomeName>, Serializable 
 	// TODO these aren't guaranteed to work for every convention
 
 	public boolean isMitochondial() {
-		return m_name.equals("chrM");
+		return m_name.equals("chrM") || m_name.equals("M") || m_name.equals("MT") || m_name.equals("chrMT");
 	}
 
 	public boolean isX() {
-		return m_name.equals("chrX");
+		return m_name.equals("chrX") || m_name.equals("X");
 	}
 
 	public boolean isY() {
-		return m_name.equals("chrY");
+		return m_name.equals("chrY") || m_name.equals("Y");
 	}
 
 	public boolean isNonstandard() {

@@ -14,9 +14,9 @@ public class LocusTest {
 		assertEquals(new Locus("chrX", 5, Strand.PLUS), locus);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
 	public void testNegative() throws Exception {
-		new Locus("chrX", -5, Strand.MINUS);
+		Locus locus = Locus.parse("chrX(-):-5");
+		assertEquals(new Locus("chrX", -5, Strand.MINUS), locus);
 	}
 
 	@Test

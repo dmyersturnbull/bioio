@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A locus on a reference genome.
+ * A locus on a reference genome. As always in this package, the position is 0-based. Negative values are permitted.
  * @author Douglas Myers-Turnbull
  */
 @Immutable
