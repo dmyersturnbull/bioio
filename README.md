@@ -1,7 +1,7 @@
 # genome-sequence-io
-Read and write from various bioinformatics sequence formats, currently BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), and pre-MAKEPED (pedigree). VCF readers and writers are currently at https://github.com/PharmGKB/vcf-parser instead.
+Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), and pre-MAKEPED (pedigree). This project has moderately high test coverage and is quite usable.
 
-This project has moderately high test coverage and is quite usable. However, it's incomplete, so subsequent versions may break backwards-compatibility.
+This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that includes a VCF parser of the same spirit.
 
 ### Examples
 
@@ -61,16 +61,38 @@ char base = stream.read("gene_1", 58523);
 ```java
 // Suppose you have a 2GB FASTA file and a method smithWaterman that returns AlignmentResults
 // Align each sequence and get the top 10 results, in parallel
-try (FastaSequenceReader reader = new FastaSequenceReader.Builder(file).allowComments().build()) {
-    List<AlignmentResult> topScores = reader.read()
-        .parallel()
-        .peek(sequence -> logger.info("Read {}", sequence.getHeader())
-        .map(sequence -> smithWaterman(sequence.getSequence(), reference))
-        .sorted() // assuming AlignmentResult implements Comparable
-        .limit(10);
+MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().build();
+List<AlignmentResult> topScores = parser.parseAll(Files.lines(fastaFile))
+    .parallel()
+    .peek(sequence -> logger.info("Aligning {}", sequence.getHeader())
+    .map(sequence -> smithWaterman(sequence.getSequence(), reference))
+    .sorted() // assuming AlignmentResult implements Comparable
+    .limit(10);
 }
 ```
 
+```java
+// Parse VCF, validate it, and write a new VCF file containing only positions whose QUAL field
+// is at least 10, each with its FILTER field cleared
+VcfMetadataCollection metadata = new VcfMetadataParser().parse(input); // short-circuits during read
+Stream<VcfPosition> data = new VcfDataParser().parseAll(input)
+	.filter(p -> p.getQuality().isPresent() && p.getQuality().get().greaterThanOrEqual("10"))
+	.map(p -> new VcfPosition.Builder(p).clearFilters().build())
+	.peek(new VcfValidator.Builder(metadata).warnOnly().build()); // verify consistent with metadata
+new VcfMetadataWriter().writeToFile(metadata.getLines(), output);
+new VcfDataWriter().appendToFile(data, output);
+```
+
+
+```java
+// From a VCF file, associate every GT with its number of occurrences, in parallel
+Map<String, Long> genotypeCounts = new VcfDataParser().parseAll(input)
+	.parallel()
+	.flatMap(p -> p.getSamples().stream())
+	.filter(s -> s.containsKey(ReservedFormatProperty.Genotype))
+	.map(s -> s.get(ReservedFormatProperty.Genotype).get())
+	.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+```
 
 ### Guiding principles
   1. Where possible, a parser is a `Function<String, R>` or `Function<Stream<String>, R>`, and writer is a `Function<R, String>` or  `Function<R, Stream<String>>`. [Java 8 Streams](http://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html) are therefore expected to be used.
@@ -82,4 +104,3 @@ try (FastaSequenceReader reader = new FastaSequenceReader.Builder(file).allowCom
   7. Parsing and writing is _moderately_ strict. Severe violations throw a `BadDataFormatException`, and milder violations are logged as warnings using SLF4J. Not every aspect of a specification is validated.
   8. For specification-mandated escape sequences, encoding and decoding is automatic.
   9. Coordinates are _always 0-based_, even for 1-based formats. This is to ensure consistency as well as arithmetic simplicity.
-  
