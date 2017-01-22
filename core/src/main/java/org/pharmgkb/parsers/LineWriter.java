@@ -17,6 +17,21 @@ import java.util.stream.StreamSupport;
  * @author Douglas Myers-Turnbull
  */
 public interface LineWriter<T> extends Function<T, String> {
+
+	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws IOException {
+		appendToFile(stream, file.toFile());
+	}
+	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull Path file) throws IOException {
+		appendToFile(lines, file.toFile());
+	}
+	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull File file) throws IOException {
+		appendToFile(StreamSupport.stream(lines.spliterator(), false), file);
+	}
+	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull File file) throws IOException {
+		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file, true)), true)) {
+			stream.forEach(pw::println);
+		}
+	}
 	default void writeToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws IOException {
 		writeToFile(stream, file.toFile());
 	}

@@ -1,19 +1,22 @@
 package org.pharmgkb.parsers.escape;
 
 import com.google.common.base.Preconditions;
+import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
  * Escapes and unescapes characters in a set of illegal characters.
+ * Can also escape and unescape every character that is <em>not</em> in the set.
+ * </code>
  * @author Douglas Myers-Turnbull
  */
+@ThreadSafe
 public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 
 	private static final Pattern sf_hexDigit = Pattern.compile("\\d|[A-Fa-f]");
@@ -31,7 +34,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 	/**
 	 * @param inverseIllegality If true, escapes and unescapes characters <em>not</em> in the list instead
 	 */
-	public IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull char... illegalChars) {
+	protected IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull char... illegalChars) {
 		m_inverseIllegality = inverseIllegality;
 		m_illegalChars = new HashSet<>();
 		for (char c : illegalChars) {
@@ -42,7 +45,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 	/**
 	 * @param inverseIllegality If true, escapes and unescapes characters <em>not</em> in the list instead
 	 */
-	public IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull Set<Character> illegalChars) {
+	protected IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull Set<Character> illegalChars) {
 		m_inverseIllegality = inverseIllegality;
 		m_illegalChars = illegalChars;
 	}
@@ -105,6 +108,56 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 			return replaced;
 
 		}
+	}
+
+	@NotThreadSafe
+	protected abstract static class Builder<T, B extends Builder<?, ?>> implements ObjectBuilder<T> {
+
+		protected boolean m_inverse = false;
+		protected Set<Character> m_chars = new HashSet<>();
+
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B inverseLegality() {
+			m_inverse = true;
+			return (B) this;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B addChars(@Nonnull Collection<Character> chars) {
+			m_chars.addAll(chars);
+			return (B) this;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B addChars(@Nonnull char... chars) {
+			for (char c : chars) m_chars.add(c);
+			return (B) this;
+		}
+
+		/**
+		 * Adds the characters from {@code start} to {@code end}, inclusive.
+		 */
+		@SuppressWarnings("unchecked")
+		@Nonnull
+		public B addCharRange(char start, char end) {
+			for (int i = start; i < end; i++) {
+				m_chars.add((char) i);
+			}
+			return (B) this;
+		}
+
+		/**
+		 * Adds the characters from {@code start} to {@code end}, inclusive.
+		 * Simply casts the ints to chars.
+		 */
+		@Nonnull
+		public B addCharRange(int start, int end) {
+			return addCharRange((char) start, (char) end);
+		}
+
 	}
 
 }

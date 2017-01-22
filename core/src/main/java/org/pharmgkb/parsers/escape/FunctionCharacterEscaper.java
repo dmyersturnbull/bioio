@@ -3,6 +3,8 @@ package org.pharmgkb.parsers.escape;
 import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.function.Function;
 
 /**
@@ -10,6 +12,7 @@ import java.util.function.Function;
  * and a {@link java.util.function.Function}&lt;String, String&gt; to unescape.
  * @author Douglas Myers-Turnbull
  */
+@NotThreadSafe // because the function can have state
 public class FunctionCharacterEscaper implements CharacterEscaper {
 
 	private final Function<String, String> m_escaper;
@@ -41,6 +44,7 @@ public class FunctionCharacterEscaper implements CharacterEscaper {
 	 * escaper.escape("x"); // returns x
 	 * </code>
 	 */
+	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<FunctionCharacterEscaper> {
 
 		private Function<String, String> m_escaper = s -> s;

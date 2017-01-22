@@ -8,6 +8,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -18,11 +19,12 @@ import java.util.regex.Pattern;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Locus implements Comparable<Locus> {
+public class Locus implements Comparable<Locus>, Serializable {
 
 	private static final Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([\\+\\-\\?])\\):(\\d+)$");
+	private static final long serialVersionUID = -5433030717744488483L;
 
-    private ChromosomeName m_chromosome;
+	private ChromosomeName m_chromosome;
 
     private long m_position;
 
@@ -59,18 +61,17 @@ public class Locus implements Comparable<Locus> {
      * @param chromosome A chromosome name from GRCh38 (starts with "chr"; the mitochrondrial chromosome is "chrM")
      * @param position A 0-based position on the chromosome
      */
-    public Locus(@Nonnull ChromosomeName chromosome, @Nonnegative long position, @Nonnull Strand strand) {
+    public Locus(@Nonnull ChromosomeName chromosome, long position, @Nonnull Strand strand) {
         init(chromosome, position, strand);
     }
 
-	public Locus(@Nonnull String chromosome, @Nonnegative long position, @Nonnull Strand strand) {
+	public Locus(@Nonnull String chromosome, long position, @Nonnull Strand strand) {
 		init(new ChromosomeName(chromosome), position, strand);
 	}
 
-    private void init(@Nonnull ChromosomeName chromosome, @Nonnegative long position, @Nonnull Strand strand) {
+    private void init(@Nonnull ChromosomeName chromosome, long position, @Nonnull Strand strand) {
         Preconditions.checkNotNull(chromosome);
         Preconditions.checkNotNull(strand);
-        Preconditions.checkArgument(position > -1, "Position " + position + " < 0");
         m_chromosome = chromosome;
         m_position = position;
         m_strand = strand;
@@ -87,7 +88,6 @@ public class Locus implements Comparable<Locus> {
     /**
      * @return A 0-based position on the chromosome.
      */
-    @Nonnegative
     public long getPosition() {
         return m_position;
     }

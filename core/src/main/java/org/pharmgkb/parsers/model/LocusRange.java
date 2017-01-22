@@ -6,6 +6,7 @@ import com.google.common.collect.ComparisonChain;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -16,8 +17,9 @@ import java.util.regex.Pattern;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class LocusRange implements Comparable<LocusRange> {
+public class LocusRange implements Comparable<LocusRange>, Serializable {
 
+    private static final long serialVersionUID = -1452867522785239185L;
     private static Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([\\+-])\\):(\\d+)-(\\d+)$");
 
     private final Locus m_start;

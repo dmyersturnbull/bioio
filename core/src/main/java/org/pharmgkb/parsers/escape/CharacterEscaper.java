@@ -12,21 +12,15 @@ import java.util.Optional;
 public interface CharacterEscaper {
 
 	@Nonnull
-	default Optional<String> escape(Optional<String> string) {
-		if (string.isPresent()) {
-			return Optional.of(escape(string.get()));
-		}
-		return Optional.empty();
+	default Optional<String> escape(@Nonnull Optional<String> string) {
+		return string.map(this::escape);
 	}
 
 	@Nonnull String escape(@Nonnull String string);
 
 	@Nonnull
-	default Optional<String> unescape(Optional<String> string) {
-		if (string.isPresent()) {
-			return Optional.of(unescape(string.get()));
-		}
-		return Optional.empty();
+	default Optional<String> unescape(@Nonnull Optional<String> string) {
+		return string.map(this::unescape);
 	}
 
 	@Nonnull String unescape(@Nonnull String string);

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * A parser that transforms or more lines into one or more data structures.
+ * A parser that transforms one or more lines into one or more data structures.
  * To be used with {@link Stream#flatMap(Function)}.
  * @author Douglas Myers-Turnbull
  */
@@ -56,7 +56,7 @@ public interface MultilineParser<R> extends Function<String, Stream<R>> {
 
 	@Nonnull
 	@Override
-	Stream<R> apply(String s);
+	Stream<R> apply(@Nonnull String s);
 
 	/**
 	 * @return The total number of lines this parser processed since its creation
