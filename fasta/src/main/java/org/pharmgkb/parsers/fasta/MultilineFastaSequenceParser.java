@@ -77,8 +77,7 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 		}
 
 		FastaSequence seq = readNext(line);
-		if (seq == null) return Stream.empty();
-		return Stream.of(seq);
+		return Stream.ofNullable(seq);
 	}
 
 	@Nullable
@@ -119,39 +118,6 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 	@Override
 	public long nLinesProcessed() {
 		return m_nLines;
-	}
-
-	/**
-	 * Throws an {@link IllegalStateException} if the termination sequence of the stream was not reached.
-	 * <em>Do not rely on this method.</em>
-	 * Note that {@link java.util.stream.BaseStream} is {@link AutoCloseable},
-	 * so you can use it with try-with-resources and {@link Stream#onClose(Runnable)} if you really feel the need:
-	 * {@code
-	 * Parser parser = new MultilineFastaSequenceParser.Builder().build();
-	 * try (Stream<String> strings = Files.lines(file).onClose(parser.getCloseHandler()) { // <--- note the onClose()
-	 *     Stream<FastaSequence> seqs = strings.flatMap(parser);
-	 * }
-	 * }
-	 * The try-with-resources above will throw an {@link IllegalStateException} because the terminal sequence
-	 * was never reached (assuming it wasn't somehow read from the text file).
-	 * Instead, call {@link #appendTermination(Stream)} (or {@link Stream#concat(Stream, Stream)}) on the stream.
-	 * These methods work even if {@link Builder#setTermination(char)} is called.
-	 *
-	 * <em>Better yet, just use {@link #parseAll(Stream)}, {@link #collectAll(File)}, etc.</em> These methods will
-	 * automatically call {@link #appendTermination(Stream)}.
-	 * {@code
-	 * Stream<FastaSequence> = new MultilineFastaSequenceParser.Builder().build().parseAll(file);
-	 * }
-	 * @throws IllegalStateException If the termination was not reached
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		/*
-		DO NOT REMOVE THIS METHOD.
-		This check does no harm and might catch a bug.
-		 */
-		super.finalize();
-		getCloseHandler().run();
 	}
 
 	@NotThreadSafe

@@ -1,5 +1,6 @@
 # genome-sequence-io
-Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), and pre-MAKEPED (pedigree). This project has moderately high test coverage and is quite usable.
+Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), GenBank, and pre-MAKEPED (pedigree).
+This project has moderately high test coverage and is quite usable. The Genbank parsers are currently experimental.
 
 This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that includes a VCF parser of the same spirit. Although integration tests pass, some parts of this API are untested.
 

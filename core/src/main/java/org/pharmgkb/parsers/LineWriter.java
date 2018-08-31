@@ -2,7 +2,7 @@ package org.pharmgkb.parsers;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.util.stream.StreamSupport
+import java.util.stream.StreamSupport;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
