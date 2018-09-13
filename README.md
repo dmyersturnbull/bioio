@@ -59,6 +59,29 @@ List<Locus> liftedOver = lociList.parallelStream()
 ```
 
 ```java
+// Print formal species names from a GenBank file
+Path input = Paths.get("plasmid.genbank");
+properties = new GenbankParser().parseAll(input)
+	.filter(record -> record instanceof SourceAnnotation)
+	.map(record -> record.getFormalName())
+	.forEach(System.out::println)
+```
+
+```java
+// Parse a GenBank file
+// Get the set of "color" properties of features on the complement starting before the sequence
+Set<String> properties = new GenbankParser().parseAll(input)
+	.filter(record -> record instanceof FeaturesAnnotation)
+	.flatMap(record -> record.getFeatures())
+	.filter(feature -> record.range.isComplement());
+	.filter(feature -> record.range.start() < 0);
+	.flatMap(feature -> feature.getProperties().entrySet().stream())
+	.filter(prop -> prop.getKey().equals("color"))
+	.map(prop -> prop.getValue())
+	.collect(Collectors.toSet())
+```
+
+```java
 // Parse a GenBank file
 // Get the set of "color" properties of features on the complement starting before the sequence
 Path input = Paths.get("plasmid.genbank");
