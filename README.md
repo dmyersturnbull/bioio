@@ -59,6 +59,21 @@ List<Locus> liftedOver = lociList.parallelStream()
 ```
 
 ```java
+// Parse a GenBank file
+// Get the set of "color" properties of features on the complement starting before the sequence
+Path input = Paths.get("plasmid.genbank");
+Set<String> properties = new GenbankParser().parseAll(input)
+    .filter(record -> record instanceof FeaturesAnnotation)
+    .flatMap(record -> record.getFeatures())
+    .filter(feature -> record.range.isComplement());
+    .filter(feature -> record.range.start() < 0);
+    .flatMap(feature -> feature.getProperties().entrySet().stream())
+    .filter(prop -> prop.getKey().equals("color"))
+    .map(prop -> prop.getValue())
+    .collect(Collectors.toSet())
+```
+
+```java
 // Read FASTA bases with a buffered random-access reader
 RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file)
                                  .setnCharsInBuffer(4096)
