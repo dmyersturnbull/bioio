@@ -26,9 +26,9 @@ new Gff3Writer().writeToFile(outputFile);
 ```java
 // From a BED file, get distinct chromosome names that start with "chr", in parallel
 Files.lines(file).map(new BedParser())
-     .parallel()
-     .map(BedFeature::getChromosome).distinct()
-     .filter(chr -> chr.startsWith("chr"))
+	.parallel()
+	.map(BedFeature::getChromosome).distinct()
+	.filter(chr -> chr.startsWith("chr"))
 // You can also use new BedParser().parseAll(file)
 ```
 
@@ -36,15 +36,15 @@ Files.lines(file).map(new BedParser())
 // From a pre-MAKEPED file, who are Harry Johnson's children?
 Pedigree pedigree = new PedigreeParser.Builder().build().apply(Files.lines(file));
 NavigableSet<Individual> children = pedigree.getFamily("Johnsons")
-                                            .find("Harry Johnson")
-                                            .getChildren();
+	.find("Harry Johnson")
+	.getChildren();
 ```
 
 ```java
 // Traverse through a family pedigree in topological order
 Pedigree pedigree = new PedigreeParser.Builder().build().apply(Files.lines(file));
 Stream<Individual> = pedigree.getFamily("Johnsons")
-                             .topologicalOrderStream();
+	.topologicalOrderStream();
 ```
 
 ```java
@@ -52,9 +52,9 @@ Stream<Individual> = pedigree.getFamily("Johnsons")
 // Filter out those that couldn't be lifted over
 GenomeChain chain = new GenomeChainParser().apply(Files.lines(hg19ToGrch38ChainFile));
 List<Locus> liftedOver = lociList.parallelStream()
-                                 .map(chain)
-                                 .filter(Optional::isPresent)
-                                 .collect(Collectors.toList());
+	.map(chain)
+	.filter(Optional::isPresent)
+	.collect(Collectors.toList());
 // You can also use new GenomeChainParser().parse(hg19ToGrch38ChainFile)
 ```
 
@@ -63,21 +63,21 @@ List<Locus> liftedOver = lociList.parallelStream()
 // Get the set of "color" properties of features on the complement starting before the sequence
 Path input = Paths.get("plasmid.genbank");
 Set<String> properties = new GenbankParser().parseAll(input)
-    .filter(record -> record instanceof FeaturesAnnotation)
-    .flatMap(record -> record.getFeatures())
-    .filter(feature -> record.range.isComplement());
-    .filter(feature -> record.range.start() < 0);
-    .flatMap(feature -> feature.getProperties().entrySet().stream())
-    .filter(prop -> prop.getKey().equals("color"))
-    .map(prop -> prop.getValue())
-    .collect(Collectors.toSet())
+	.filter(record -> record instanceof FeaturesAnnotation)
+	.flatMap(record -> record.getFeatures())
+	.filter(feature -> record.range.isComplement());
+	.filter(feature -> record.range.start() < 0);
+	.flatMap(feature -> feature.getProperties().entrySet().stream())
+	.filter(prop -> prop.getKey().equals("color"))
+	.map(prop -> prop.getValue())
+	.collect(Collectors.toSet())
 ```
 
 ```java
 // Read FASTA bases with a buffered random-access reader
 RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file)
-                                 .setnCharsInBuffer(4096)
-                                 .build();
+	.setnCharsInBuffer(4096)
+	.build();
 char base = stream.read("gene_1", 58523);
 ```
 
@@ -86,11 +86,11 @@ char base = stream.read("gene_1", 58523);
 // Align each sequence and get the top 10 results, in parallel
 MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().build();
 List<AlignmentResult> topScores = parser.parseAll(Files.lines(fastaFile))
-    .parallel()
-    .peek(sequence -> logger.info("Aligning {}", sequence.getHeader())
-    .map(sequence -> smithWaterman(sequence.getSequence(), reference))
-    .sorted() // assuming AlignmentResult implements Comparable
-    .limit(10);
+	.parallel()
+	.peek(sequence -> logger.info("Aligning {}", sequence.getHeader())
+	.map(sequence -> smithWaterman(sequence.getSequence(), reference))
+	.sorted() // assuming AlignmentResult implements Comparable
+	.limit(10);
 }
 ```
 
