@@ -1,8 +1,8 @@
 # genome-sequence-io
-Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), GenBank, and pre-MAKEPED (pedigree).
-This project has moderately high test coverage and is quite usable. The Genbank parsers are currently experimental.
+Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), GenBank, Turtle (for RDF), and pre-MAKEPED (pedigree).
+This project has moderately high test coverage and is quite usable. The Genbank and Turtle parsers are currently experimental.
 
-This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that includes a VCF parser of the same spirit. Although integration tests pass, some parts of this API are untested.
+This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that adds VCF, GenBank, and Turtle parsers in the same spirit as the others.
 
 ### Build instructions
 
@@ -115,6 +115,23 @@ List<AlignmentResult> topScores = parser.parseAll(Files.lines(fastaFile))
 	.sorted() // assuming AlignmentResult implements Comparable
 	.limit(10);
 }
+```
+
+```java
+// Stream Triples in Turtle format from a URL
+/*
+@prefix myPrefix: <http://abc#owner> .
+<http://abc#cat> "belongsTo" @myPrefix ;
+	"hasSynonym" <http://abc#feline> .
+ */
+Stream<String> input = null;
+try (BufferedReader reader = new BufferedReader(new InputStreamReader((HttpURLConnection) myUrl.openConnection()).getInputStream()))) {
+	input = reader.lines();
+}
+TripleParser parser = new TripleParser(true);  // usePrefixes=true will replace prefixes
+Stream<Triple> stream = input.map(new TripleParser());
+// contains:  List[ http://abc#cat belongsTo http://abc#owner , http://abc#cat hasSynonym http://abc#feline ]
+List<Prefix> prefixes = parser.getPrefixes();
 ```
 
 ```java

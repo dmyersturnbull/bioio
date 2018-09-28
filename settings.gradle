@@ -1,3 +1,4 @@
 rootProject.name = 'genome-sequence-io'
 
-include 'core', 'bed', 'gff', 'fasta', 'pedigree', 'chain', 'vcf', 'genbank'
+include 'core', 'bed', 'gff', 'fasta', 'pedigree', 'chain', 'vcf', 'genbank', 'turtle'
+
