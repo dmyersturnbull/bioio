@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 import javax.lang.model.util.Elements;
 import javax.xml.transform.Source;
 import java.io.IOException;
@@ -33,6 +35,7 @@ import java.util.stream.Stream;
 /**
  * <strong>WARNING: This is experimental.</strong>
  */
+@NotThreadSafe
 public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 
 	private static Pattern pattern = Pattern.compile("\\/([^=]+)=(\"?[^\"]+\"?)");

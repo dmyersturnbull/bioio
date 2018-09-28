@@ -67,13 +67,13 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 
 	private static final long sf_logEvery = 10000;
 	private static final Pattern sf_comma = Pattern.compile(",");
-	private static final Pattern sf_semicolon= Pattern.compile(";");
+	private static final Pattern sf_semicolon = Pattern.compile(";");
 	private static final Pattern sf_tab = Pattern.compile("\t");
 	private static final Pattern sf_equals = Pattern.compile("=");
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	@Nonnull
 	@Override
@@ -169,7 +169,7 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 				throw new IllegalArgumentException("Bad attribute " + part + " for map " + string);
 			}
 			String key = Gff3Escapers.FIELDS.unescape(v[0]);
-			List<String> values = Arrays.asList(sf_comma.split(v[1])).stream()
+			List<String> values = Arrays.stream(sf_comma.split(v[1]))
 					.map(Gff3Escapers.FIELDS::unescape)
 					.collect(Collectors.toList());
 			map.put(key, values);
