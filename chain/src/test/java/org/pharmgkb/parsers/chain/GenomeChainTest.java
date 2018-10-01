@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class GenomeChainTest {
 
 	@Test
-	public void test1() throws Exception {
+	public void test1() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		GenomeChain c = chain.build();
@@ -27,7 +27,7 @@ public class GenomeChainTest {
 	}
 
 	@Test
-	public void test2() throws Exception {
+	public void test2() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 5, 10, 7, 12);
@@ -39,7 +39,7 @@ public class GenomeChainTest {
 	}
 
 	@Test
-	public void testComplex() throws Exception {
+	public void testComplex() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 5, 10, 7, 12);
 		addToChain(chain, 1, 5, 3, 7);
@@ -56,7 +56,7 @@ public class GenomeChainTest {
 	}
 
 	@Test
-	public void testComplexInverted() throws Exception {
+	public void testComplexInverted() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 5, 10, 7, 12);
 		addToChain(chain, 1, 5, 3, 7);
@@ -71,7 +71,7 @@ public class GenomeChainTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testSourceOverlapBefore() throws Exception {
+	public void testSourceOverlapBefore() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 4, 6, 10, 11);
 		addToChain(chain, 1, 5, 3, 7);
@@ -79,7 +79,7 @@ public class GenomeChainTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testSourceOverlapAfter() throws Exception {
+	public void testSourceOverlapAfter() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 4, 6, 10, 11);
@@ -87,7 +87,7 @@ public class GenomeChainTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testTargetOverlapBefore() throws Exception {
+	public void testTargetOverlapBefore() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 6, 7, 6, 8);
 		addToChain(chain, 1, 5, 3, 7);
@@ -95,7 +95,7 @@ public class GenomeChainTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testTargetOverlapAfter() throws Exception {
+	public void testTargetOverlapAfter() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 6, 7, 6, 8);
@@ -103,21 +103,21 @@ public class GenomeChainTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testWrongSize() throws Exception {
+	public void testWrongSize() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 6);
 		chain.build();
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testWrongChromosome() throws Exception {
+	public void testWrongChromosome() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr2", 10, Strand.PLUS));
 		chain.add(source, source);
 	}
 
 	@Test
-	public void testDifferentChromosomeAndStrand() throws Exception {
+	public void testDifferentChromosomeAndStrand() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr1", 10, Strand.PLUS));
 		LocusRange target = new LocusRange(new Locus("chr2", 5, Strand.MINUS), new Locus("chr2", 10, Strand.MINUS));

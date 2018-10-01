@@ -1,7 +1,6 @@
 package org.pharmgkb.parsers.turtle;
 
 import org.pharmgkb.parsers.BadDataFormatException;
-import org.pharmgkb.parsers.LineParser;
 import org.pharmgkb.parsers.MultilineParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
+/**
+ * @author Douglas Myers-Turnbull
+ */
 @NotThreadSafe
 public class TurtleParser implements MultilineParser<Triple> {
 
@@ -84,9 +84,12 @@ public class TurtleParser implements MultilineParser<Triple> {
 				m_subject.set(null);
 			}
 			return Stream.of(triple);
-		} catch (BadDataFormatException | NullPointerException e) {
-			sf_logger.error("Failed on line " + m_lineNumber.get());
-			sf_logger.error(e.getMessage());
+		} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+			throw new BadDataFormatException("Couldn't parse line #" + m_lineNumber, e);
+		} catch (RuntimeException e) {
+			// this is a little weird, but it's helpful
+			// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.
+			e.addSuppressed(new RuntimeException("Unexpectedly failed to parse line " + m_lineNumber));
 			throw e;
 		}
 	}
@@ -132,8 +135,17 @@ public class TurtleParser implements MultilineParser<Triple> {
 
 	protected Node parseNode(String string) {
 		Matcher matcher = sf_nodePattern.matcher(string);
-		matcher.matches();
+		assert matcher.matches();
 		return new Node(matcher.group(1), Optional.ofNullable(matcher.group(2)),  Optional.ofNullable(matcher.group(3)));
 	}
 
+	@Override
+	public String toString() {
+		return "TurtleParser{" +
+				"usePrefixes=" + m_usePrefixes +
+				", lineNumber=" + m_lineNumber.get() +
+				", prefixes=" + m_prefixes +
+				", subject=" + m_subject +
+				'}';
+	}
 }

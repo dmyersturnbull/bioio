@@ -1,20 +1,27 @@
 package org.pharmgkb.parsers.genbank;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class GenbankFeature {
 
 	private String m_kind;
 	private GenbankSequenceRange m_range;
-	private LinkedHashMap<String, String> m_properties;
-	private List<String> m_extraLines;
+	private ImmutableMap<String, String> m_properties;
+	private ImmutableList<String> m_extraLines;
 
-	public GenbankFeature(String kind, GenbankSequenceRange range, LinkedHashMap<String, String> properties, List<String> extraLines) {
+	public GenbankFeature(String kind, GenbankSequenceRange range, ImmutableMap<String, String> properties, ImmutableList<String> extraLines) {
 		m_kind = kind;
 		m_range = range;
 		m_properties = properties;
@@ -34,9 +41,10 @@ public class GenbankFeature {
 	/**
 	 * All of the properties beginning with '/'.
 	 * The slash is removed from the key, and quotes are stripped from the values.
+	 * Will be in the same order as the original.
 	 */
 	@Nonnull
-	public LinkedHashMap<String, String> getProperties() {
+	public ImmutableMap<String, String> getProperties() {
 		return m_properties;
 	}
 
@@ -44,17 +52,17 @@ public class GenbankFeature {
 	 * Lines at the end not conforming to GenBank format. Whitespace is still trimmed.
 	 */
 	@Nonnull
-	public List<String> getExtraLines() {
+	public ImmutableList<String> getExtraLines() {
 		return m_extraLines;
 	}
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				.add("m_kind", m_kind)
-				.add("m_range", m_range)
-				.add("m_properties", m_properties)
-				.add("m_extraLines", m_extraLines)
+				.add("kind", m_kind)
+				.add("range", m_range)
+				.add("properties", m_properties)
+				.add("extraLines", m_extraLines)
 				.toString();
 	}
 

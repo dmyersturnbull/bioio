@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class GeneralizedBigDecimalTest {
 
 	@Test
-	public void testGetValue() throws Exception {
+	public void testGetValue() {
 		assertEquals(new BigDecimal("0.5"), new GeneralizedBigDecimal("0.5").getValue().get());
 		assertFalse(new GeneralizedBigDecimal("Inf").getValue().isPresent());
 		assertFalse(new GeneralizedBigDecimal("+Inf").getValue().isPresent());
@@ -23,7 +23,7 @@ public class GeneralizedBigDecimalTest {
 	}
 
 	@Test
-	public void testToString() throws Exception {
+	public void testToString() {
 		assertEquals("0.5", new GeneralizedBigDecimal("0.5").toString());
 		assertEquals("Inf", new GeneralizedBigDecimal("Inf").toString());
 		assertEquals("+Inf", new GeneralizedBigDecimal("+Inf").toString());
@@ -31,7 +31,7 @@ public class GeneralizedBigDecimalTest {
 	}
 
 	@Test
-	public void testEquals() throws Exception {
+	public void testEquals() {
 		assertEquals(new GeneralizedBigDecimal("0.5").toString(), new GeneralizedBigDecimal("0.5").toString());
 		assertNotEquals(new GeneralizedBigDecimal("0.4").toString(), new GeneralizedBigDecimal("0.5").toString());
 		assertNotEquals(new GeneralizedBigDecimal("0.5").toString(), new GeneralizedBigDecimal("Inf").toString());
@@ -41,7 +41,7 @@ public class GeneralizedBigDecimalTest {
 	}
 
 	@Test
-	public void testCompareTo() throws Exception {
+	public void testCompareTo() {
 
 		assertTrue(new GeneralizedBigDecimal("0.4").lessThan(new GeneralizedBigDecimal("0.5")));
 		assertFalse(new GeneralizedBigDecimal("0.5").lessThan(new GeneralizedBigDecimal("0.5")));

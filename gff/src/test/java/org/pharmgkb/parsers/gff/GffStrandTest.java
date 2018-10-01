@@ -15,7 +15,7 @@ import static org.junit.Assert.assertFalse;
 public class GffStrandTest {
 
 	@Test
-	public void testToGeneralStrand() throws Exception {
+	public void testToGeneralStrand() {
 		assertEquals(Optional.of(Strand.PLUS), GffStrand.PLUS.toGeneralStrand());
 		assertEquals(Optional.of(Strand.MINUS), GffStrand.MINUS.toGeneralStrand());
 		assertFalse(GffStrand.UNSTRANDED.toGeneralStrand().isPresent());
@@ -23,7 +23,7 @@ public class GffStrandTest {
 	}
 
 	@Test
-	public void testLookupBySymbol() throws Exception {
+	public void testLookupBySymbol() {
 
 		assertEquals(Optional.of(GffStrand.PLUS), GffStrand.lookupBySymbol("+"));
 		assertEquals(Optional.of(GffStrand.MINUS), GffStrand.lookupBySymbol("-"));

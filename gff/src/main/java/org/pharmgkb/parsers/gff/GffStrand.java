@@ -41,6 +41,10 @@ public enum GffStrand {
 				return Optional.of(Strand.PLUS);
 			case MINUS:
 				return Optional.of(Strand.MINUS);
+			case UNSTRANDED:
+				return Optional.empty();
+			case UNKNOWN:
+				return Optional.empty();
 			default:
 				return Optional.empty();
 		}

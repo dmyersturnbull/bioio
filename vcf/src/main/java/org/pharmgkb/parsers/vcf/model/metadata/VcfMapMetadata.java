@@ -87,9 +87,8 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 	protected void ensureNoExtras(@Nonnull String... names) {
 		Set<String> set = new HashSet<>();
 		Collections.addAll(set, names);
-		m_properties.keySet().stream().filter(property -> !set.contains(property)).forEach(property -> {
-			sf_logger.warn("Metadata line contains unexpected property {}", property);
-		});
+		m_properties.keySet().stream().filter(property -> !set.contains(property)).forEach(property ->
+				sf_logger.warn("Metadata line contains unexpected property {}", property));
 	}
 
 	@Override
@@ -106,7 +105,6 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 		return Objects.hashCode(m_type, m_properties);
 	}
 
-	@Nonnull
 	@Override
 	public String toString() {
 		return m_type + ": {"
@@ -127,11 +125,7 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 	}
 
 	private static String ifUnquoted(Function<String, String> fn, String value) {
-		if (value.startsWith("\"") && value.endsWith("\"")) {
-			return value.charAt(0) + fn.apply(value.substring(1, value.length() - 1)) + value.charAt(value.length() - 1);
-		} else {
-			return fn.apply(value);
-		}
+		return value.startsWith("\"") && value.endsWith("\"") ? value.charAt(0) + fn.apply(value.substring(1, value.length() - 1)) + value.charAt(value.length() - 1) : fn.apply(value);
 	}
 
 }

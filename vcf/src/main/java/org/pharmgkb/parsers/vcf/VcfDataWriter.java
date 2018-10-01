@@ -110,4 +110,10 @@ public class VcfDataWriter implements LineWriter<VcfPosition> {
 		return m_lineNumber.get();
 	}
 
+	@Override
+	public String toString() {
+		return "VcfDataWriter{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

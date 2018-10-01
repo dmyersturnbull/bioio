@@ -236,4 +236,8 @@ public class VcfMetadataCollection {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "VcfMetadataCollection{" + m_lines.size() + " lines}";
+	}
 }

@@ -38,7 +38,7 @@ public class PedigreeParserTest {
 	  1   6   3  4  1
 	  </pre>
 
-	 * @throws Exception
+	 * @throws Exception For issues
 	 */
 	@Test
 	public void testWithoutData() throws Exception {
@@ -91,7 +91,7 @@ public class PedigreeParserTest {
 	 1   5   3  4  2   2  1.234   1 3   2 2
 	 1   6   3  4  1   2  4.321   2 4   2 2
 	 * </pre>
-	 * @throws Exception
+	 * @throws Exception For issues
 	 */
 	@Test
 	public void testWithData() throws Exception {

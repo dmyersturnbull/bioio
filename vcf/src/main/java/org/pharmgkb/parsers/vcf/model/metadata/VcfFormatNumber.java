@@ -10,9 +10,8 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class VcfFormatNumber implements Serializable {
+public class VcfFormatNumber {
 
-	private static final long serialVersionUID = 6838866729954945786L;
 	private final Optional<VcfNumberFlag> m_flag;
 	private final Optional<Long> m_number;
 

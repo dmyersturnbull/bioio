@@ -9,12 +9,13 @@ import static org.junit.Assert.assertTrue;
 public class LocusTest {
 
 	@Test
-	public void testParse() throws Exception {
+	public void testParse() {
 		Locus locus = Locus.parse("chrX(+):5");
 		assertEquals(new Locus("chrX", 5, Strand.PLUS), locus);
 	}
 
-	public void testNegative() throws Exception {
+	@Test
+	public void testNegative() {
 		Locus locus = Locus.parse("chrX(-):-5");
 		assertEquals(new Locus("chrX", -5, Strand.MINUS), locus);
 	}

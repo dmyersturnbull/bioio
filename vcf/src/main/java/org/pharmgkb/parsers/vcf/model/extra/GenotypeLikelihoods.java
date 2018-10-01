@@ -78,4 +78,10 @@ public class GenotypeLikelihoods {
 		return results;
 	}
 
+	@Override
+	public String toString() {
+		return "GenotypeLikelihoods{" +
+				"position=" + m_position +
+				'}';
+	}
 }

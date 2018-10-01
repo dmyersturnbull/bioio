@@ -45,11 +45,11 @@ public interface MultilineParser<R> extends Function<String, Stream<R>> {
 
 	/**
 	 * For example:
-	 * <code>
+	 * {@code
 	 *     return stream.filter(s -> s.isEmpty() || s.startsWith("#")).map(this);
-	 * </code>
-	 * @throws IOException
-	 * @throws BadDataFormatException
+	 * }
+	 * @throws IOException For IO errors
+	 * @throws BadDataFormatException For most formatting errors
 	 */
 	@Nonnull
 	Stream<R> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException;

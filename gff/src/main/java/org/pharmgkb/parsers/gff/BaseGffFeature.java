@@ -20,9 +20,7 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public abstract class BaseGffFeature implements Serializable {
-
-	private static final long serialVersionUID = -2740395042215712465L;
+public abstract class BaseGffFeature {
 
 	private final String m_coordinateSystemId;
 

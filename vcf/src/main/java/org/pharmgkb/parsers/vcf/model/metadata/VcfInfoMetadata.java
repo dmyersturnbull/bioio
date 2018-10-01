@@ -101,4 +101,11 @@ public class VcfInfoMetadata extends VcfIdMetadata {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "VcfInfoMetadata{" +
+				"type=" + m_type +
+				", number=" + m_number +
+				'}';
+	}
 }

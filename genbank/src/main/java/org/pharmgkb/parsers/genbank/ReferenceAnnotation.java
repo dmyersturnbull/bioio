@@ -4,11 +4,16 @@ import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class ReferenceAnnotation implements GenbankAnnotation {
 
 	private String m_header;

@@ -182,4 +182,11 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
 	}
+
+	@Override
+	public String toString() {
+		return "Gff3Parser{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 public class PedigreeWriterTest {
 
 	@Test
-	public void testWrite() throws Exception {
+	public void testWrite() {
 
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fb", null, null, Sex.FEMALE, Collections.singletonList("no disease"));

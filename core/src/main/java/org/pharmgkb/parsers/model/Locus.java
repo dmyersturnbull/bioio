@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 @Immutable
 public class Locus implements Comparable<Locus>, Serializable {
 
-	private static final Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([\\+\\-\\?])\\):(\\d+)$");
+	private static final Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([+\\-?])\\):(-?\\d+)$");
 	private static final long serialVersionUID = -5433030717744488483L;
 
 	private ChromosomeName m_chromosome;

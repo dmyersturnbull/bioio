@@ -127,4 +127,11 @@ public class BedParser implements LineParser<BedFeature> {
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
 	}
+
+	@Override
+	public String toString() {
+		return "BedParser{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

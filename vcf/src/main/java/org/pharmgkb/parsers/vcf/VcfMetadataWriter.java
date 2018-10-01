@@ -20,9 +20,9 @@ import java.util.stream.Stream;
  * A metadata line is any line that begins with a {@code #}, including the {@code vcfVersion line} and the header line.
  *
  * For example, using {@link VcfMetadataCollection}:
- * <code>
+ * {@code
  *     new VcfMetadataWriter().writeToFile(metadataCollection.getLines(), outputFile);
- * </code>
+ * }
  *
  * This writer is <strong>not thread-safe</strong>. This is because certain metadata lines need to be written in a
  * particular order to follow the VCF specification.
@@ -58,4 +58,10 @@ public class VcfMetadataWriter implements LineWriter<VcfMetadata> {
 		return vcfMetadata.toVcfLine();
 	}
 
+	@Override
+	public String toString() {
+		return "VcfMetadataWriter{" +
+				"lineNumber=" + m_lineNumber +
+				'}';
+	}
 }

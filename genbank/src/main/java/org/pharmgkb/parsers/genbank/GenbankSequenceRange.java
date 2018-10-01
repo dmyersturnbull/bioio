@@ -3,13 +3,18 @@ package org.pharmgkb.parsers.genbank;
 import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class GenbankSequenceRange {
 
-	private static Pattern pattern = Pattern.compile("(complement\\()?(<)?(\\-?\\d+)\\.{2}(\\-?\\d+)(>)?\\)?");
+	private static Pattern pattern = Pattern.compile("(complement\\()?(<)?(-?\\d+)\\.{2}(-?\\d+)(>)?\\)?");
 
 	private String m_text;
 

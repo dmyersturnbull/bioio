@@ -143,4 +143,15 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "PedigreeWriter{" +
+				"noParentMarker='" + m_noParentMarker + '\'' +
+				", fieldSeparator='" + m_fieldSeparator + '\'' +
+				", femaleCode='" + m_femaleCode + '\'' +
+				", maleCode='" + m_maleCode + '\'' +
+				", unknownCode='" + m_unknownCode + '\'' +
+				", lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

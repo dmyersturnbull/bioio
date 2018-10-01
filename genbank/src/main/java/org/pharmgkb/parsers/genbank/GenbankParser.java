@@ -1,30 +1,21 @@
 package org.pharmgkb.parsers.genbank;
 
-import com.codepoetics.protonpack.StreamUtils;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.pharmgkb.parsers.BadDataFormatException;
-import org.pharmgkb.parsers.LineParser;
-import org.pharmgkb.parsers.LineStructureParser;
 import org.pharmgkb.parsers.MultilineParser;
-import org.pharmgkb.parsers.model.Strand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-import javax.lang.model.util.Elements;
-import javax.xml.transform.Source;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,11 +25,12 @@ import java.util.stream.Stream;
 
 /**
  * <strong>WARNING: This is experimental.</strong>
+ * @author Douglas Myers-Turnbull
  */
 @NotThreadSafe
 public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 
-	private static Pattern pattern = Pattern.compile("\\/([^=]+)=(\"?[^\"]+\"?)");
+	private static Pattern pattern = Pattern.compile("/([^=]+)=(\"?[^\"]+\"?)");
 	private static final long sf_logEvery = 10000;
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -54,15 +46,23 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 	@Nonnull
 	@Override
 	public Stream<GenbankAnnotation> apply(@Nonnull String line) {
-		m_lineNumber.addAndGet(1);
-		if (line.isEmpty()) return Stream.empty();
-		if (line.startsWith(" ") || m_currentLine.isEmpty()) {
-			m_currentLine += line + "\n";
-			return Stream.empty();
-		} else {  // or ends with //
+		try {
+			m_lineNumber.addAndGet(1);
+			if (line.isEmpty()) return Stream.empty();
+			if (line.startsWith(" ") || m_currentLine.isEmpty()) {
+				m_currentLine += line + "\n";
+				return Stream.empty();
+			}  // or ends with //
 			GenbankAnnotation annotation = parse(m_currentLine);
 			m_currentLine = line + "\n";
 			return Stream.of(annotation);
+		} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+			throw new BadDataFormatException("Couldn't parse line #" + m_lineNumber, e);
+		} catch (RuntimeException e) {
+			// this is a little weird, but it's helpful
+			// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.
+			e.addSuppressed(new RuntimeException("Unexpectedly failed to parse line " + m_lineNumber));
+			throw e;
 		}
 	}
 
@@ -81,7 +81,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 				List<String> parts = e.splitAndTrim();
 				String[] dateChars = parts.get(5).split("-");
 				dateChars[1] = Character.toUpperCase(dateChars[1].charAt(0)) + dateChars[1].substring(1).toLowerCase();
-				LocalDate date = LocalDate.parse(Arrays.stream(dateChars).collect(Collectors.joining("-")), DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
+				LocalDate date = LocalDate.parse(String.join("-", dateChars), DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
 				return new LocusAnnotation(parts.get(0), parts.get(1), parts.get(3), parts.get(4), date);
 			} case "DEFINITION": {
 				return new DefinitionAnnotation(e.trim());
@@ -92,7 +92,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 				return new VersionAnnotation(parts.get(0), parts.get(1));
 			} case "KEYWORDS": {
 				List<String> parts = e.trim().equals(".") ? Collections.emptyList() : e.splitAndTrim();
-				return new KeywordsAnnotation(parts);
+				return new KeywordsAnnotation(ImmutableList.copyOf(parts));
 			} case "COMMENT": {
 				return new CommentAnnotation(e.trim());
 			} case "SOURCE": {
@@ -130,7 +130,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 		return new SourceAnnotation(
 				asMap.get("SOURCE").trim(),
 				organism,
-				lineage
+				ImmutableList.copyOf(lineage)
 		);
 	}
 
@@ -149,13 +149,11 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 
 	private FeaturesAnnotation parseFeatures(Entry e) {
 		List<Entry> entries = parseSubEntries(e, EntryType.FEATURE_LEVEL.indentation);
-		List<GenbankFeature> features = new ArrayList<>();
-		for (Entry e2 : entries) {
-			if (!e2.directive.equals("FEATURES")) {
-				features.add(parseFeature(e2));
-			}
-		}
-		return new FeaturesAnnotation(e.header, features);
+		List<GenbankFeature> features = entries.stream()
+				.filter(e2 -> !e2.directive.equals("FEATURES"))
+				.map(this::parseFeature)
+				.collect(Collectors.toList());
+		return new FeaturesAnnotation(e.header, ImmutableList.copyOf(features));
 	}
 
 	private GenbankFeature parseFeature(Entry e) {
@@ -166,13 +164,13 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 		for (String line : e.textAsTrimmedLines()) {
 			if (line.startsWith("/")) {
 				Matcher match = pattern.matcher(line);
-				match.matches();
+				assert match.matches();
 				properties.put(match.group(1), match.group(2));
 			} else {
 				extraLines.add(line);
 			}
 		}
-		return new GenbankFeature(kind, range, properties, extraLines);
+		return new GenbankFeature(kind, range, ImmutableMap.copyOf(properties), ImmutableList.copyOf(extraLines));
 	}
 
 	private LinkedHashMap<String, Entry> parseSubEntriesAsMap(Entry e, int directiveIndents) {
@@ -289,4 +287,11 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "GenbankParser{" +
+				"lineNumber=" + m_lineNumber.get() +
+				", currentLine='" + m_currentLine + '\'' +
+				'}';
+	}
 }

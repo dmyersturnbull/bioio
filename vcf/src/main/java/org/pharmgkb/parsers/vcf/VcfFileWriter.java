@@ -99,4 +99,11 @@ public class VcfFileWriter implements Closeable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "VcfFileWriter{" +
+				"writer=" + m_writer +
+				", flushEvery=" + m_flushEvery +
+				'}';
+	}
 }

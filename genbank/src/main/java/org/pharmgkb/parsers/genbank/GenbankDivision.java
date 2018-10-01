@@ -2,6 +2,9 @@ package org.pharmgkb.parsers.genbank;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
 public enum GenbankDivision {
 
 	PRI("primate sequences"),

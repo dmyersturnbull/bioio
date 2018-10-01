@@ -43,15 +43,15 @@ public class VcfValidator implements Consumer<VcfPosition> {
 		m_metadata.getSample().keySet().stream()
 				.filter(k -> m_metadata.getHeader().getSampleNames().contains(k))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.SAMPLE))
-				.forEach(m_action::accept);
+				.forEach(m_action);
 		m_metadata.getHeader().getSampleNames().stream()
 				.filter(k -> m_metadata.getSample().keySet().contains(k))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.SAMPLE))
-				.forEach(m_action::accept);
+				.forEach(m_action);
 		position.getFilters().stream()
 				.filter(s -> !m_metadata.getFilter().containsKey(s))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.FILTER))
-				.forEach(m_action::accept);
+				.forEach(m_action);
 		position.getFormat().stream()
 				.filter(s -> !m_metadata.getFormat().containsKey(s))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.FORMAT))
@@ -193,4 +193,11 @@ public class VcfValidator implements Consumer<VcfPosition> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "VcfValidator{" +
+				"action=" + m_action +
+				", metadata: " + m_metadata.getLines().size() + " lines" +
+				'}';
+	}
 }

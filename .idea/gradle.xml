@@ -4,8 +4,8 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/bed" />
-        <option name="gradleJvm" value="1.8" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/4.10.2/libexec" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -13,22 +13,14 @@
             <option value="$PROJECT_DIR$/chain" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/fasta" />
+            <option value="$PROJECT_DIR$/genbank" />
             <option value="$PROJECT_DIR$/gff" />
             <option value="$PROJECT_DIR$/pedigree" />
+            <option value="$PROJECT_DIR$/turtle" />
+            <option value="$PROJECT_DIR$/vcf" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/bed" />
-            <option value="$PROJECT_DIR$/chain" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/fasta" />
-            <option value="$PROJECT_DIR$/gff" />
-            <option value="$PROJECT_DIR$/pedigree" />
-          </set>
-        </option>
       </GradleProjectSettings>
     </option>
   </component>

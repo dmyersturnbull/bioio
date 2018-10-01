@@ -1,9 +1,6 @@
 package org.pharmgkb.parsers.genbank;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.Test;
-import org.pharmgkb.parsers.model.Locus;
-import org.pharmgkb.parsers.model.Strand;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -11,6 +8,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
 public class GenbankParserTest {
 
 	@Test

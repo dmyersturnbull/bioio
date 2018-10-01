@@ -1,17 +1,23 @@
 package org.pharmgkb.parsers.genbank;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class FeaturesAnnotation implements GenbankAnnotation {
 
 	private String m_header;
-	private List<GenbankFeature> m_features;
+	private ImmutableList<GenbankFeature> m_features;
 
-	public FeaturesAnnotation(String header, List<GenbankFeature> features) {
+	public FeaturesAnnotation(String header, ImmutableList<GenbankFeature> features) {
 		m_header = header;
 		m_features = features;
 	}
@@ -22,7 +28,7 @@ public class FeaturesAnnotation implements GenbankAnnotation {
 	}
 
 	@Nonnull
-	public List<GenbankFeature> getFeatures() {
+	public ImmutableList<GenbankFeature> getFeatures() {
 		return m_features;
 	}
 

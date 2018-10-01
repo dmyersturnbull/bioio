@@ -104,7 +104,8 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 
 			return seq;
 
-		} else if (!m_allowBlankLines || !line.isEmpty()) { // don't trim
+		}
+		if (!m_allowBlankLines || !line.isEmpty()) { // don't trim
 			if (!m_allowComments || !line.startsWith(";")) {
 				if (currentHeader == null) {
 					throw new BadDataFormatException("Read sequence line \"" + line + "\" without header");
@@ -173,4 +174,16 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "MultilineFastaSequenceParser{" +
+				"allowComments=" + m_allowComments +
+				", allowBlankLines=" + m_allowBlankLines +
+				", terminationString='" + m_terminationString + '\'' +
+				", currentHeader='" + currentHeader + '\'' +
+				", currentSequence='" + currentSequence + '\'' +
+				", hitTerm=" + m_hitTerm +
+				", hasTerm=" + m_hasTerm +
+				'}';
+	}
 }

@@ -34,10 +34,9 @@ import java.util.stream.Collectors;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class VcfPosition implements Serializable {
+public class VcfPosition {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-	private static final long serialVersionUID = 1427671128786397997L;
 
 	private final String m_chromosome;
 	private final long m_position;
@@ -178,15 +177,15 @@ public class VcfPosition implements Serializable {
 		return MoreObjects.toStringHelper(this)
 				.add("chromosome", m_chromosome)
 				.add("position", m_position)
-				.add("ids", m_ids.stream().collect(Collectors.joining(",")))
+				.add("ids", String.join(",", m_ids))
 				.add("ref", m_ref)
 				.add("alts", m_alts.stream().map(Object::toString).collect(Collectors.joining(",")))
 				.add("quality", m_quality)
-				.add("filters", m_filters.stream().collect(Collectors.joining(",")))
+				.add("filters", String.join(",", m_filters))
 				.add("info", m_info.asMap().entrySet().stream()
-            .map(e -> e.getKey() + "=" + e.getValue().stream().collect(Collectors.joining(",")))
+            .map(e -> e.getKey() + "=" + String.join(",", e.getValue()))
             .collect(Collectors.joining(";")))
-				.add("format", m_format.stream().collect(Collectors.joining(",")))
+				.add("format", String.join(",", m_format))
 				.add("samples", m_samples.stream()
             .map(Object::toString)
             .collect(Collectors.joining(",")))
@@ -216,30 +215,30 @@ public class VcfPosition implements Serializable {
 			Preconditions.checkNotNull(builder, "Builder cannot be null");
 			m_chromosome = builder.m_chromosome;
 			m_position = builder.m_position;
-			builder.m_ids.forEach(m_ids::add);
+			m_ids.addAll(builder.m_ids);
 			m_ref = builder.m_ref;
-			builder.m_alts.forEach(m_alts::add);
+			m_alts.addAll(builder.m_alts);
 			m_quality = builder.m_quality;
-			builder.m_filters.forEach(m_filters::add);
+			m_filters.addAll(builder.m_filters);
 			builder.m_info.entries().forEach(e -> m_info.put(e.getKey(), e.getValue()));
-			builder.m_format.forEach(m_format::add);
-			builder.m_format.forEach(m_format::add);
-			builder.m_samples.forEach(m_samples::add);
+			m_format.addAll(builder.m_format);
+			m_format.addAll(builder.m_format);
+			m_samples.addAll(builder.m_samples);
 		}
 
 		public Builder(@Nonnull VcfPosition position) {
 			Preconditions.checkNotNull(position, "VcfPosition cannot be null");
 			m_chromosome = position.m_chromosome;
 			m_position = position.m_position;
-			position.m_ids.forEach(m_ids::add);
+			m_ids.addAll(position.m_ids);
 			m_ref = position.m_ref;
-			position.m_alts.forEach(m_alts::add);
+			m_alts.addAll(position.m_alts);
 			m_quality = position.m_quality;
-			position.m_filters.forEach(m_filters::add);
+			m_filters.addAll(position.m_filters);
 			position.m_info.entries().forEach(e -> m_info.put(e.getKey(), e.getValue()));
-			position.m_format.forEach(m_format::add);
+			m_format.addAll(position.m_format);
 			m_format = ImmutableList.copyOf(position.m_format);
-			position.m_samples.forEach(m_samples::add);
+			m_samples.addAll(position.m_samples);
 		}
 
 		public Builder(@Nonnull String chromosome, long position, @Nonnull String ref) {
@@ -460,11 +459,11 @@ public class VcfPosition implements Serializable {
 		@Override
 		public VcfPosition build() {
 
-			Preconditions.checkState(m_alts.stream().collect(Collectors.toSet()).size() == m_alts.size(), "Position has a duplicate ALT");
+			Preconditions.checkState(new HashSet<>(m_alts).size() == m_alts.size(), "Position has a duplicate ALT");
 			Preconditions.checkState(m_filters.size() == 1 || !m_filters.contains("PASS"), "FILTER contains PASS and a failed filter");
-			Preconditions.checkState(m_filters.stream().collect(Collectors.toSet()).size() == m_filters.size(), "Position has a duplicate FILTER");
-			Preconditions.checkState(m_ids.stream().collect(Collectors.toSet()).size() == m_ids.size(), "Position has a duplicate ID");
-			Preconditions.checkState(m_info.keySet().stream().collect(Collectors.toSet()).size() == m_info.keySet().size(), "Position has a duplicate INFO key");
+			Preconditions.checkState(new HashSet<>(m_filters).size() == m_filters.size(), "Position has a duplicate FILTER");
+			Preconditions.checkState(new HashSet<>(m_ids).size() == m_ids.size(), "Position has a duplicate ID");
+			Preconditions.checkState(new HashSet<>(m_info.keySet()).size() == m_info.keySet().size(), "Position has a duplicate INFO key");
 
 			for (int i = 0; i < m_samples.size(); i++) {
 				if (!ImmutableList.copyOf(m_samples.get(i).keySet()).equals(m_format)) {

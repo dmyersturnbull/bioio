@@ -121,7 +121,7 @@ public class VcfGenotype {
 	public String toSimpleString() {
 		String delimiter = m_isPhased? "|" : "/";
 		return m_alleles.stream()
-				.map(o -> o.isPresent()? o.get().toVcfString() : ".")
+				.map(o -> o.map(VcfAllele::toVcfString).orElse("."))
 				.collect(Collectors.joining(delimiter));
 	}
 
@@ -208,7 +208,7 @@ public class VcfGenotype {
 		}
 
 		/**
-		 * @throws IndexOutOfBoundsException
+		 * @throws IndexOutOfBoundsException If an allele is not recognized
 		 */
 		@Nonnull
 		public Builder addAlleles(@Nonnull VcfAllele... alleles) {
@@ -223,7 +223,7 @@ public class VcfGenotype {
 		}
 
 		/**
-		 * @throws IndexOutOfBoundsException
+		 * @throws IndexOutOfBoundsException If an allele index is out of bounds
 		 */
 		@Nonnull
 		public Builder addAlleles(@Nonnull int... indices) {
@@ -238,7 +238,7 @@ public class VcfGenotype {
 		}
 
 		/**
-		 * @throws IndexOutOfBoundsException
+		 * @throws IndexOutOfBoundsException If an allele index is out of bounds
 		 */
 		@Nonnull
 		public Builder addAlleles(@Nonnull Collection<Integer> indices) {
@@ -261,7 +261,7 @@ public class VcfGenotype {
 		}
 
 		/**
-		 * @throws IndexOutOfBoundsException
+		 * @throws IndexOutOfBoundsException If an allele index is out of bounds
 		 */
 		@Nonnull
 		public Builder removeAlleles(@Nonnull Collection<Integer> indices) {

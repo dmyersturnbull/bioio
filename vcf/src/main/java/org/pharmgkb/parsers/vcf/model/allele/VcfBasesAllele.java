@@ -2,7 +2,6 @@ package org.pharmgkb.parsers.vcf.model.allele;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import org.pharmgkb.parsers.vcf.utils.VcfPatterns;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

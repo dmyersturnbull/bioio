@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class Rfc3986EscaperTest {
 
 	@Test
-	public void testEscape() throws Exception {
+	public void testEscape() {
 		Rfc3986Escaper escaper = new Rfc3986Escaper.Builder().addChars('%', ';', ':').build();
 		assertEquals("abc123%3b55", escaper.escape("abc123;55"));
 		assertEquals("abc123%3b%3b55", escaper.escape("abc123;;55"));
@@ -19,7 +19,7 @@ public class Rfc3986EscaperTest {
 	}
 
 	@Test
-	public void testEscapeInverse() throws Exception {
+	public void testEscapeInverse() {
 		Rfc3986Escaper escaper = new Rfc3986Escaper.Builder()
 				.inverseLegality()
 				.addChars('a', 'b', 'c')
@@ -29,7 +29,7 @@ public class Rfc3986EscaperTest {
 	}
 
 	@Test
-	public void testUnescape() throws Exception {
+	public void testUnescape() {
 		Rfc3986Escaper escaper = new Rfc3986Escaper.Builder().addChars('%', ';', ':').build();
 		assertEquals("abc123;55", escaper.unescape("abc123%3b55"));
 		assertEquals("abc123;;55", escaper.unescape("abc123%3b%3b55"));
@@ -37,7 +37,7 @@ public class Rfc3986EscaperTest {
 	}
 
 	@Test
-	public void testUnescapeInverse() throws Exception {
+	public void testUnescapeInverse() {
 		Rfc3986Escaper escaper = new Rfc3986Escaper.Builder()
 				.inverseLegality()
 				.addChars('a', 'b', 'c')

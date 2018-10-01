@@ -43,7 +43,7 @@ public class PedigreeBuilderTest {
 	 *                                             |
 	 * gen 5:                                   {A5_ua}
 	 */
-	private static Family buildFamily() throws Exception {
+	private static Family buildFamily() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fb", null, null, Sex.FEMALE, Collections.emptyList());
 		builder.add("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
@@ -156,7 +156,7 @@ public class PedigreeBuilderTest {
 	}
 
 	@Test
-	public void buildFamilyOutOfOrder() throws Exception {
+	public void buildFamilyOutOfOrder() {
 		PedigreeBuilder builder = new PedigreeBuilder(false);
 		builder.add("f1", "A3_fb", "A2_ma", "A0_fb", Sex.FEMALE, Collections.emptyList());
 		builder.add("f1", "A0_fc", null, null, Sex.FEMALE, Collections.emptyList());
@@ -198,7 +198,7 @@ public class PedigreeBuilderTest {
 	}
 
 	@Test
-	public void testTwoFamilies() throws Exception {
+	public void testTwoFamilies() {
 
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_ma", null, null, Sex.MALE, Collections.emptyList());
@@ -229,7 +229,7 @@ public class PedigreeBuilderTest {
 	}
 
 	@Test
-	public void testMissingFather() throws Exception {
+	public void testMissingFather() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", "asdf", null, Sex.FEMALE, Collections.emptyList()); // this is ok
 		assertThatThrownBy(builder::build)
@@ -239,7 +239,7 @@ public class PedigreeBuilderTest {
 	}
 
 	@Test
-	public void testMissingMother() throws Exception {
+	public void testMissingMother() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", null, "asdf", Sex.FEMALE, Collections.emptyList()); // this is ok
 		assertThatThrownBy(builder::build)
@@ -249,7 +249,7 @@ public class PedigreeBuilderTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testDifferentFamilies() throws Exception {
+	public void testDifferentFamilies() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
 		builder.add("f2", "B0_fa", null, "A0_fa", Sex.FEMALE, Collections.emptyList()); // this is ok

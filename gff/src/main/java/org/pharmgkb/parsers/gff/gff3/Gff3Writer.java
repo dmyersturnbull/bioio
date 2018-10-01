@@ -25,7 +25,7 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	@Nonnull
 	@Override
@@ -76,5 +76,12 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 	@Override
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
+	}
+
+	@Override
+	public String toString() {
+		return "Gff3Writer{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
 	}
 }

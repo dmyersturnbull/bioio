@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
+/**
+ * @author Douglas Myers-Turnbull
+ */
 @Immutable
 public class Prefix implements Serializable {
 

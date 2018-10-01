@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,25 +48,25 @@ public class BedParserTest {
 	}
 
 	@Test(expected = BadDataFormatException.class)
-	public void testJunkLine() throws Exception {
-		Collections.singletonList("asdf").stream().map(new BedParser()).count();
+	public void testJunkLine() {
+		Stream.of("asdf").map(new BedParser()).collect(Collectors.toList());
 	}
 
 	@Test(expected = BadDataFormatException.class)
-	public void testEmptyLine() throws Exception {
-		Collections.singletonList("").stream().map(new BedParser()).count();
+	public void testEmptyLine() {
+		Stream.of("").map(new BedParser()).collect(Collectors.toList());
 	}
 
 	@Test(expected = BadDataFormatException.class)
-	public void testNegativeStart() throws Exception {
-		String line = "chr2\t-1\t20";
-		Collections.singletonList(line).stream().map(new BedParser()).count();
+	public void testNegativeStart() {
+		String line = "chr2\t-2\t20";
+		Stream.of(line).map(new BedParser()).collect(Collectors.toList());
 	}
 
 	@Test(expected = BadDataFormatException.class)
-	public void testTransparentColor() throws Exception {
+	public void testTransparentColor() {
 		String line = "chr2\t10\t20\txxx\t0\t+\t12\t18\t0,0,0,2";
-		Collections.singletonList(line).stream().map(new BedParser()).count();
+		Stream.of(line).map(new BedParser()).collect(Collectors.toList());
 	}
 
 }

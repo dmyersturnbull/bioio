@@ -24,9 +24,7 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedFeature implements Serializable {
-
-	private static final long serialVersionUID = -8858823092862934231L;
+public class BedFeature {
 
 	private final String m_chromosome;
 
@@ -144,8 +142,7 @@ public class BedFeature implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(m_chromosome, m_start, m_end, m_name, m_score, m_strand, m_thickStart, m_thickEnd, m_color,
-		                    m_blocks);
+		return Objects.hash(m_chromosome, m_start, m_end, m_name, m_score, m_strand, m_thickStart, m_thickEnd, m_color, m_blocks);
 	}
 
 	@NotThreadSafe
@@ -315,10 +312,8 @@ public class BedFeature implements Serializable {
 		}
 		@Nonnull
 		public Builder setColor(@Nonnull Optional<Color> color) {
-			if (color.isPresent()) {
-				Preconditions.checkArgument(color.get().getAlpha() == 255, "Color has alpha " + color.get().getAlpha()
-						+ "; should be 255");
-			}
+			color.ifPresent(color1 -> Preconditions.checkArgument(color1.getAlpha() == 255, "Color has alpha " + color1.getAlpha()
+					+ "; should be 255"));
 			m_color = color;
 			return this;
 		}

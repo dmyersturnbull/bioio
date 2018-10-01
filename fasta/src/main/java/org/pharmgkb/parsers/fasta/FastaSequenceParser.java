@@ -36,9 +36,9 @@ import java.util.stream.Stream;
  * {@code .filter(s -> !s.startsWith(";") && !s.trim().isEmpty())}.
  *
  * Example usage:
- * <code>
- *     Stream&lt;FastaSequence&gt; stream = new FastaSequenceParser().parseAll(Files.lines(file));
- * </code>
+ * {@code
+ *     Stream<FastaSequence> stream = new FastaSequenceParser().parseAll(Files.lines(file));
+ * }
  *
  * @author Douglas Myers-Turnbull
  */
@@ -75,16 +75,15 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 			}
 			return Stream.empty();
 
-		} else {
-
-			final String header = m_currentHeader.getAndSet(null);
-			if (header == null) {
-				throw new BadDataFormatException("No header on line " + m_lineNumber);
-			}
-
-			return Stream.of(new FastaSequence(header, line));
-
 		}
+
+		final String header = m_currentHeader.getAndSet(null);
+		if (header == null) {
+			throw new BadDataFormatException("No header on line " + m_lineNumber);
+		}
+
+		return Stream.of(new FastaSequence(header, line));
+
 	}
 
 	/**
@@ -100,5 +99,13 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 	@Override
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
+	}
+
+	@Override
+	public String toString() {
+		return "FastaSequenceParser{" +
+				"m_lineNumber=" + m_lineNumber.get() +
+				", m_currentHeader=" + m_currentHeader.get() +
+				'}';
 	}
 }

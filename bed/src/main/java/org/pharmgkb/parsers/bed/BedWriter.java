@@ -94,4 +94,11 @@ public class BedWriter implements LineWriter<BedFeature> {
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
 	}
+
+	@Override
+	public String toString() {
+		return "BedWriter{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

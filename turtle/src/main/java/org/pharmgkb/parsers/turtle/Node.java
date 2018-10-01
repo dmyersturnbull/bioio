@@ -12,10 +12,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 
+/**
+ * A subject, predicate, or object in RDF.
+ * @author Douglas Myers-Turnbull
+ */
 @Immutable
-public class Node implements Serializable {
-
-	private static final long serialVersionUID = -7100391673710012465L;
+public class Node {
 
 	private String m_value;
 	private Optional<String> m_language;
@@ -55,11 +57,11 @@ public class Node implements Serializable {
 	public Optional<String> asLiteral() {
 		if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
 			return Optional.of(m_value.substring(1, m_value.length() - 1));
-		} else if (m_value.startsWith("<") && m_value.endsWith(">")) {
-			return Optional.empty();
-		} else {
-			throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 		}
+		if (m_value.startsWith("<") && m_value.endsWith(">")) {
+			return Optional.empty();
+		}
+		throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 	}
 
 	/**
@@ -75,11 +77,11 @@ public class Node implements Serializable {
 			} catch (URISyntaxException e) {
 				throw new BadDataFormatException("Failed to parse URI " + trimmed);
 			}
-		} else if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
-			return Optional.empty();
-		} else {
-			throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 		}
+		if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
+			return Optional.empty();
+		}
+		throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 	}
 
 	@Override

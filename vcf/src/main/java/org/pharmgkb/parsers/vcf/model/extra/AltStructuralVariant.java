@@ -21,13 +21,13 @@ import java.util.regex.Pattern;
  * {@link ReservedStructuralVariantCode} class. The first identifier (at level 0) is required to be reserved.
  * As explicitly stated in the spec, these codes are case-sensitive.
  * Example:
- * <code>
+ * {@code
  *   AltStructuralVariant alt = new AltStructuralVariant("INS:ME:LINE");
  *   alt.getReservedComponent(0); // ReservedStructuralVariantCode.Insertion
  *   alt.getReservedComponent(1); // ReservedStructuralVariantCode.MobileElement
  *   alt.getReservedComponent(2); // null, because it's not a reserved code
  *   alt.getComponent(); // "LINE"
- * </code>
+ * }
  * @author Douglas Myers-Turnbull
  */
 @Immutable
@@ -63,14 +63,13 @@ public class AltStructuralVariant implements Serializable {
 		for (; level < components.size(); level++) {
 			stringFromTop += components.get(level);
 			Optional<ReservedStructuralVariantCode> topLevel = ReservedStructuralVariantCode.fromId(stringFromTop);
-			if (topLevel.isPresent()) m_topLevel = topLevel.get();
+			topLevel.ifPresent(reservedStructuralVariantCode -> m_topLevel = reservedStructuralVariantCode);
 			comps.add(components.get(level));
 		}
 
 		// Make sure the top-level code exists
 		if (m_topLevel == null) {
-			throw new IllegalArgumentException("Top-level structural variant code was " + components.get(level)
-					+ " but must be a top-level reserved code (e.g. DEL or CNV)");
+			throw new IllegalArgumentException("Top-level structural variant code must be a top-level reserved code (e.g. DEL or CNV)");
 		}
 
 		m_components = ImmutableList.copyOf(comps);
@@ -91,7 +90,7 @@ public class AltStructuralVariant implements Serializable {
 
 	/**
 	 * @return The code at the specified level (e.g. CNV)
-	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws ArrayIndexOutOfBoundsException If fewer levels exist
 	 */
 	@Nonnull
 	public String getComponent(@Nonnegative int level) {

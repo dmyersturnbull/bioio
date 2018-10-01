@@ -72,12 +72,11 @@ public class Family implements Subtree<Individual>, Serializable {
 	@Override
 	public Iterator<Individual> breadthFirst() {
 		Set<Individual> visited = new LinkedHashSet<>();
-		Queue<Individual> queue = new ArrayDeque<>();
-		queue.addAll(m_roots);
+		Queue<Individual> queue = new ArrayDeque<>(m_roots);
 		while (!queue.isEmpty()) {
 			Individual current = queue.poll();
 			visited.add(current);
-			queue.addAll(current.getChildrenRaw().stream().collect(Collectors.toList()));
+			queue.addAll(new ArrayList<>(current.getChildrenRaw()));
 		}
 		return visited.iterator();
 	}
@@ -129,8 +128,7 @@ public class Family implements Subtree<Individual>, Serializable {
 		Set<Individual> fathersRemoved = new HashSet<>();
 		Set<Individual> mothersRemoved = new HashSet<>();
 		List<Individual> visited = new ArrayList<>();
-		Queue<Individual> queue = new ArrayDeque<>();
-		queue.addAll(m_roots);
+		Queue<Individual> queue = new ArrayDeque<>(m_roots);
 		for (Individual root : m_roots) {
 			PedigreeUtils.computeTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, root, m_id);
 		}

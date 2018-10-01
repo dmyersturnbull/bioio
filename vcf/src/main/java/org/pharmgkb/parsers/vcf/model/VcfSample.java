@@ -29,11 +29,10 @@ import java.util.stream.Collectors;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class VcfSample implements Serializable {
+public class VcfSample {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private static final long serialVersionUID = 1509176786136233619L;
 	private final ImmutableMap<String, String> m_properties;
 
 	public VcfSample(@Nonnull Builder builder) {
@@ -148,12 +147,12 @@ public class VcfSample implements Serializable {
 
 		public Builder(@Nonnull Builder builder) {
 			Preconditions.checkNotNull(builder, "Builder cannot be null");
-			builder.m_properties.entrySet().forEach(e -> m_properties.put(e.getKey(), e.getValue()));
+			builder.m_properties.forEach((key, value) -> m_properties.put(key, value));
 		}
 
 		public Builder(@Nonnull VcfSample sample) {
 			Preconditions.checkNotNull(sample, "VcfSample cannot be null");
-			sample.m_properties.entrySet().forEach(e -> m_properties.put(e.getKey(), e.getValue()));
+			sample.m_properties.forEach((key, value) -> m_properties.put(key, value));
 		}
 
 		@Nonnull
@@ -170,9 +169,7 @@ public class VcfSample implements Serializable {
 			if (key.equals(ReservedFormatProperty.Genotype.getId()) && !m_properties.isEmpty()) {
 				sf_logger.warn("VCF specification requires GT to be the first key in the FORMAT/SAMPLE fields if it is present");
 			}
-			if (value.isPresent()) {
-				m_properties.put(key, value.get());
-			}
+			value.ifPresent(s -> m_properties.put(key, s));
 			return this;
 		}
 

@@ -69,4 +69,10 @@ public class VcfMetadataParser implements LineStructureParser<VcfMetadataCollect
 		return m_lineNumber.get();
 	}
 
+	@Override
+	public String toString() {
+		return "VcfMetadataParser{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

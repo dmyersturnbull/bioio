@@ -1,0 +1,5 @@
+
+dependencies {
+	compile group: 'com.codepoetics', name: 'protonpack', version: '1.7'
+	compile project(':core')
+}

@@ -207,4 +207,16 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "PedigreeParser{" +
+				"noParentMarker='" + m_noParentMarker + '\'' +
+				", fieldSeparator=" + m_fieldSeparator +
+				", femaleCodes=" + m_femaleCodes +
+				", maleCodes=" + m_maleCodes +
+				", unknownCodes=" + m_unknownCodes +
+				", parentsAddedFirst=" + m_parentsAddedFirst +
+				", lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

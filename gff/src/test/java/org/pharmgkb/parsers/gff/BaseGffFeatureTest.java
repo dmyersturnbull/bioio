@@ -24,15 +24,6 @@ public class BaseGffFeatureTest {
 	}
 
 	@Test
-	public void testHard() throws Exception {
-		Feature feature = new Builder("chr1", "type", 0, 1).build();
-		assertEquals("chr1", feature.getCoordinateSystemName());
-		assertEquals("type", feature.getType());
-		assertEquals(0, feature.getStart());
-		assertEquals(1, feature.getEnd());
-	}
-
-	@Test
 	public void testEscapeCoordinateSystemId() throws Exception {
 		Feature feature = new Builder("this/needs/unescaping", "type", 0, 1).build();
 	}

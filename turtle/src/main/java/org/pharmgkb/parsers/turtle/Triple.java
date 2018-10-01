@@ -11,6 +11,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 
+/**
+ * @author Douglas Myers-Turnbull
+ */
 @Immutable
 public class Triple implements Serializable {
 

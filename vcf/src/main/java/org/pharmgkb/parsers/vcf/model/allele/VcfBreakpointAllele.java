@@ -4,14 +4,12 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.model.Locus;
 import org.pharmgkb.parsers.model.Strand;
-import org.pharmgkb.parsers.vcf.utils.VcfEscapers;
 import org.pharmgkb.parsers.vcf.utils.VcfPatterns;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * A VCF ALT or REF that follows the breakpoint specification (with {@code [} and {@code ]}).
@@ -67,7 +65,7 @@ public class VcfBreakpointAllele implements VcfAllele, Serializable {
 		Preconditions.checkArgument(VcfPatterns.ALT_BREAKPOINT_PATTERN.matcher(string).matches(), "Invalid VCF breakpoint " + string);
 
 		Orientation orientation = string.contains("[")? Orientation.Forward : Orientation.Reverse;
-		String[] parts = string.split("\\[\\]");
+		String[] parts = string.split("\\[]");
 		String replacementString;
 		Locus locus;
 		JoinSequencePlacement placement;

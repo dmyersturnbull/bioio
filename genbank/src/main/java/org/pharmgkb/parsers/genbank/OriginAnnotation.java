@@ -3,8 +3,13 @@ package org.pharmgkb.parsers.genbank;
 import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class OriginAnnotation implements GenbankAnnotation {
 
 	private String m_header;
@@ -15,10 +20,12 @@ public class OriginAnnotation implements GenbankAnnotation {
 		m_sequence = sequence;
 	}
 
+	@Nonnull
 	public String getHeader() {
 		return m_header;
 	}
 
+	@Nonnull
 	public String getSequence() {
 		return m_sequence;
 	}

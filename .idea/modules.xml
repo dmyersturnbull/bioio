@@ -2,13 +2,36 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bed/bed.iml" filepath="$PROJECT_DIR$/bed/bed.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chain/chain.iml" filepath="$PROJECT_DIR$/chain/chain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fasta/fasta.iml" filepath="$PROJECT_DIR$/fasta/fasta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bed/bed.iml" filepath="$PROJECT_DIR$/.idea/modules/bed/bed.iml" group="bed" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bed/bed_main.iml" filepath="$PROJECT_DIR$/.idea/modules/bed/bed_main.iml" group="bed" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bed/bed_test.iml" filepath="$PROJECT_DIR$/.idea/modules/bed/bed_test.iml" group="bed" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chain/chain.iml" filepath="$PROJECT_DIR$/.idea/modules/chain/chain.iml" group="chain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chain/chain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/chain/chain_main.iml" group="chain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chain/chain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/chain/chain_test.iml" group="chain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fasta/fasta.iml" filepath="$PROJECT_DIR$/.idea/modules/fasta/fasta.iml" group="fasta" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fasta/fasta_main.iml" filepath="$PROJECT_DIR$/.idea/modules/fasta/fasta_main.iml" group="fasta" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fasta/fasta_test.iml" filepath="$PROJECT_DIR$/.idea/modules/fasta/fasta_test.iml" group="fasta" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/genbank/genbank.iml" filepath="$PROJECT_DIR$/.idea/modules/genbank/genbank.iml" group="genbank" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/genbank/genbank_main.iml" filepath="$PROJECT_DIR$/.idea/modules/genbank/genbank_main.iml" group="genbank" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/genbank/genbank_test.iml" filepath="$PROJECT_DIR$/.idea/modules/genbank/genbank_test.iml" group="genbank" />
       <module fileurl="file://$PROJECT_DIR$/genome-sequence-io.iml" filepath="$PROJECT_DIR$/genome-sequence-io.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gff/gff.iml" filepath="$PROJECT_DIR$/gff/gff.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pedigree/pedigree.iml" filepath="$PROJECT_DIR$/pedigree/pedigree.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/genome-sequence-io_main.iml" filepath="$PROJECT_DIR$/.idea/modules/genome-sequence-io_main.iml" group="genome-sequence-io" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/genome-sequence-io_test.iml" filepath="$PROJECT_DIR$/.idea/modules/genome-sequence-io_test.iml" group="genome-sequence-io" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gff/gff.iml" filepath="$PROJECT_DIR$/.idea/modules/gff/gff.iml" group="gff" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gff/gff_main.iml" filepath="$PROJECT_DIR$/.idea/modules/gff/gff_main.iml" group="gff" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gff/gff_test.iml" filepath="$PROJECT_DIR$/.idea/modules/gff/gff_test.iml" group="gff" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pedigree/pedigree.iml" filepath="$PROJECT_DIR$/.idea/modules/pedigree/pedigree.iml" group="pedigree" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pedigree/pedigree_main.iml" filepath="$PROJECT_DIR$/.idea/modules/pedigree/pedigree_main.iml" group="pedigree" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pedigree/pedigree_test.iml" filepath="$PROJECT_DIR$/.idea/modules/pedigree/pedigree_test.iml" group="pedigree" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/turtle/turtle.iml" filepath="$PROJECT_DIR$/.idea/modules/turtle/turtle.iml" group="turtle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/turtle/turtle_main.iml" filepath="$PROJECT_DIR$/.idea/modules/turtle/turtle_main.iml" group="turtle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/turtle/turtle_test.iml" filepath="$PROJECT_DIR$/.idea/modules/turtle/turtle_test.iml" group="turtle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vcf/vcf.iml" filepath="$PROJECT_DIR$/.idea/modules/vcf/vcf.iml" group="vcf" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vcf/vcf_main.iml" filepath="$PROJECT_DIR$/.idea/modules/vcf/vcf_main.iml" group="vcf" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vcf/vcf_test.iml" filepath="$PROJECT_DIR$/.idea/modules/vcf/vcf_test.iml" group="vcf" />
     </modules>
   </component>
 </project>

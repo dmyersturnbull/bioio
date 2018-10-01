@@ -11,6 +11,9 @@ import java.nio.file.Path;
 
 import static org.junit.Assert.*;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
 public class TurtleParserTest {
 
 	@Test

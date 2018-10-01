@@ -206,9 +206,21 @@ public class Individual implements Subtree<Individual>, Comparable<Individual>, 
 		return m_id.hashCode();
 	}
 
+	public String toSimpleString() {
+		return "Individual{" + "m_id='" + m_id + '\'' + '}';
+	}
+
 	@Override
 	public String toString() {
-		return "Individual{" + "m_id='" + m_id + '\'' + '}';
+		return "Individual{" +
+				"id='" + m_id + '\'' +
+				", family=" + m_family +
+				", father=" + m_father +
+				", mother=" + m_mother +
+				", children=" + m_children +
+				", sex=" + m_sex +
+				", info=" + m_info +
+				'}';
 	}
 
 	@SuppressWarnings("SuspiciousGetterSetter")

@@ -164,4 +164,11 @@ public class VcfDataParser implements LineParser<VcfPosition> {
 	public long nLinesProcessed() {
 		return m_lineNumber.get();
 	}
+
+	@Override
+	public String toString() {
+		return "VcfDataParser{" +
+				"lineNumber=" + m_lineNumber.get() +
+				'}';
+	}
 }

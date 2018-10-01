@@ -1,18 +1,24 @@
 package org.pharmgkb.parsers.genbank;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class SourceAnnotation implements GenbankAnnotation {
 
 	private String m_name;
 	private String m_formalName;
-	private List<String> m_lineage;
+	private ImmutableList<String> m_lineage;
 
-	public SourceAnnotation(String name, String formalName, List<String> lineage) {
+	public SourceAnnotation(String name, String formalName, ImmutableList<String> lineage) {
 		this.m_name = name;
 		this.m_formalName = formalName;
 		this.m_lineage = lineage;
@@ -29,7 +35,7 @@ public class SourceAnnotation implements GenbankAnnotation {
 	}
 
 	@Nonnull
-	public List<String> getLineage() {
+	public ImmutableList<String> getLineage() {
 		return m_lineage;
 	}
 

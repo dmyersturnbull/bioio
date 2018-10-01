@@ -42,10 +42,10 @@ import java.util.Optional;
  * >gene_1
  * ATGC
  * </pre>
- * <code>
+ * {@code
  * RandomAccessFastaStream stream = new RandomAccessFastaStream.Builder(file).setnCharsInBuffer(1024).build();
  * stream.read("gene_1", 1); // returns 'T'
- * </code>
+ * }
  *
  * @author Douglas Myers-Turnbull
  */
@@ -219,5 +219,16 @@ public class RandomAccessFastaBaseReader implements Closeable {
 		public RandomAccessFastaBaseReader build() throws IOException {
 			return new RandomAccessFastaBaseReader(m_file, m_nCharsInBuffer, m_tempFile, m_keepTempFileOnExit);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "RandomAccessFastaBaseReader{" +
+				"originalFile=" + m_originalFile +
+				", tempFile=" + m_tempFile +
+				", headerToPosition=" + m_headerToPosition +
+				", stream=" + m_stream +
+				", currentHeader='" + m_currentHeader + '\'' +
+				'}';
 	}
 }

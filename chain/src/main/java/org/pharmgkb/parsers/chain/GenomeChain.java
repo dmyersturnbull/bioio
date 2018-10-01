@@ -15,12 +15,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -104,16 +99,14 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 
 		public Builder(@Nonnull Builder builder) {
 			builder.m_map.forEach((chr, map) -> {
-				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>();
-				newMap.putAll(map);
+				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>(map);
 				m_map.put(chr, newMap);
 			});
 		}
 
 		public Builder(@Nonnull GenomeChain chain) {
 			chain.m_map.forEach((chr, map) -> {
-				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>();
-				newMap.putAll(map);
+				NavigableMap<LocusRange, LocusRange> newMap = new TreeMap<>(map);
 				m_map.put(chr, newMap);
 			});
 		}
@@ -171,4 +164,23 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GenomeChain that = (GenomeChain) o;
+		return Objects.equals(m_map, that.m_map);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(m_map);
+	}
+
+	@Override
+	public String toString() {
+		return "GenomeChain{" +
+				"map=" + m_map +
+				'}';
+	}
 }

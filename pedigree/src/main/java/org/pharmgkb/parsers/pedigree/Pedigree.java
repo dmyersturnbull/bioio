@@ -60,4 +60,11 @@ public class Pedigree implements Iterable<Family>, Serializable {
 	NavigableMap<String, Family> getFamiliesRaw() {
 		return m_families;
 	}
+
+	@Override
+	public String toString() {
+		return "Pedigree{" +
+				"families=" + m_families +
+				'}';
+	}
 }

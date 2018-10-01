@@ -5,10 +5,15 @@ import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class LocusAnnotation implements GenbankAnnotation {
 
 	private String m_locusName;

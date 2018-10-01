@@ -37,7 +37,7 @@ import java.util.Optional;
  * >gene_2
  * GC
  * </pre>
- * <code>
+ * {@code
  *     FastaStream stream = new FastaStream(file);
  *     stream.currentHeader() // returns null
  *     stream.readNextBase(); // returns 'A'
@@ -48,7 +48,7 @@ import java.util.Optional;
  *     stream.currentHeader() // returns "gene_2"
  *     stream.readNextBase(); // returns 'C'
  *     stream.readNextBase(); // returns null
- * </code>
+ * }
  *
  * @author Douglas Myers-Turnbull
  */
@@ -77,7 +77,7 @@ public class SimpleFastaBaseReader implements Closeable {
 
 	/**
 	 * @return The next <em>base (nucleotide or amino acid)</em> in the stream
-	 * @throws IOException
+	 * @throws IOException For IO errors
 	 */
 	@Nonnull
 	public synchronized Optional<Character> readNextBase() throws IOException {
@@ -158,7 +158,8 @@ public class SimpleFastaBaseReader implements Closeable {
 			c = doRead();
 			if (c == null) {
 				throw new EOFException("Stream ended unexpectedly in header");
-			} else if (c != '\n' && c != '\r') {
+			}
+			if (c != '\n' && c != '\r') {
 				header.append(c);
 			}
 		} while (c != '\n' && c != '\r');
@@ -198,5 +199,18 @@ public class SimpleFastaBaseReader implements Closeable {
 		public SimpleFastaBaseReader build() throws IOException {
 			return new SimpleFastaBaseReader(m_reader, m_nCharsInBuffer);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleFastaBaseReader{" +
+				"reader=" + m_reader +
+				", buffer=" + m_buffer +
+				", header='" + m_header + '\'' +
+				", nBasesSinceHeader=" + m_nBasesSinceHeader +
+				", nBasesReadTotal=" + m_nBasesReadTotal +
+				", nHeadersRead=" + m_nHeadersRead +
+				", nBytesReadTotal=" + m_nBytesReadTotal +
+				'}';
 	}
 }

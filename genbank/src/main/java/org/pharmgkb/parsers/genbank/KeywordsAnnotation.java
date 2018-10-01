@@ -1,21 +1,27 @@
 package org.pharmgkb.parsers.genbank;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Author Douglas Myers-Turnbull
+ */
+@Immutable
 public class KeywordsAnnotation implements GenbankAnnotation {
 
-	private List<String> keywords;
+	private ImmutableList<String> keywords;
 
-	public KeywordsAnnotation(@Nonnull List<String> keywords) {
+	public KeywordsAnnotation(@Nonnull ImmutableList<String> keywords) {
 		this.keywords = keywords;
 	}
 
 	@Nonnull
-	public List<String> getKeywords() {
+	public ImmutableList<String> getKeywords() {
 		return keywords;
 	}
 
