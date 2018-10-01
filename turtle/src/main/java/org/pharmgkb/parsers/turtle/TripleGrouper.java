@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe
-public class TripleGrouper {
+public class TripleGrouper implements Function<Triple, Stream<TripleGroup>> {
 
 	private String m_previousSubject = null;
 	private String m_subject = null;
@@ -40,5 +41,10 @@ public class TripleGrouper {
 				", subject='" + m_subject + '\'' +
 				", list=" + m_list +
 				'}';
+	}
+
+	@Nonnull
+	public Stream<TripleGroup> convert(@Nonnull Stream<Triple> triples) {
+		return triples.flatMap(this);
 	}
 }
