@@ -107,36 +107,38 @@ public class TurtleParser implements MultilineParser<Triple> {
 	protected Prefix parsePrefix(String line) {
 		Matcher matcher = sf_prefixPattern.matcher(line);
 		if (!matcher.matches()) {
-			throw new BadDataFormatException("Prefix line '" + line + "' not understood");
+			throw new IllegalArgumentException("Prefix line '" + line + "' not understood");
 		}
-		return new Prefix(matcher.group(1), matcher.group(2));
+		return new Prefix(matcher.group(1).trim(), matcher.group(2).trim());
 	}
 
 	protected Triple parseTriple(String line) {
 		Matcher matcher = sf_triplePattern.matcher(line);
 		if (!matcher.matches()) {
-			throw new BadDataFormatException("Triple '" + line + "' not understood");
+			throw new IllegalArgumentException("Triple '" + line + "' not understood");
 		}
-		Node subject = parseNode(matcher.group(1));
-		Node predicate = parseNode(matcher.group(2));
-		Node object = parseNode(matcher.group(3));
+		Node subject = parseNode(matcher.group(1).trim(), "subject");
+		Node predicate = parseNode(matcher.group(2).trim(), "predicate");
+		Node object = parseNode(matcher.group(3).trim(), "object");
 		return new Triple(subject, predicate, object);
 	}
 
 	protected Triple parsePartTriple(String line, Node subject) {
 		Matcher matcher = sf_doublePattern.matcher(line);
 		if (!matcher.matches()) {
-			throw new BadDataFormatException("Triple (with preceding subject) '" + line + "' not understood");
+			throw new IllegalArgumentException("Triple (with preceding subject) '" + line + "' not understood");
 		}
-		Node predicate = parseNode(matcher.group(1));
-		Node object = parseNode(matcher.group(2));
+		Node predicate = parseNode(matcher.group(1).trim(), "predicate");
+		Node object = parseNode(matcher.group(2).trim(), "object");
 		return new Triple(subject, predicate, object);
 	}
 
-	protected Node parseNode(String string) {
+	protected Node parseNode(String string, String label) {
 		Matcher matcher = sf_nodePattern.matcher(string);
-		assert matcher.matches();
-		return new Node(matcher.group(1), Optional.ofNullable(matcher.group(2)),  Optional.ofNullable(matcher.group(3)));
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("Failed to parse " + label + " '" + string + "' with regex " + sf_nodePattern.pattern());
+		}
+		return new Node(matcher.group(1).trim(), Optional.ofNullable(matcher.group(2)).map(s->s.trim()), Optional.ofNullable(matcher.group(3)).map(s->s.trim()));
 	}
 
 	@Override

@@ -12,12 +12,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-/**
- * A subject, predicate, or object in RDF.
- * @author Douglas Myers-Turnbull
- */
 @Immutable
-public class Node {
+public class Node implements Serializable {
+
+	private static final long serialVersionUID = -7100391673710012465L;
 
 	private String m_value;
 	private Optional<String> m_language;
@@ -57,11 +55,11 @@ public class Node {
 	public Optional<String> asLiteral() {
 		if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
 			return Optional.of(m_value.substring(1, m_value.length() - 1));
-		}
-		if (m_value.startsWith("<") && m_value.endsWith(">")) {
+		} else if (m_value.startsWith("<") && m_value.endsWith(">")) {
 			return Optional.empty();
+		} else {
+			throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 		}
-		throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 	}
 
 	/**
@@ -77,11 +75,11 @@ public class Node {
 			} catch (URISyntaxException e) {
 				throw new BadDataFormatException("Failed to parse URI " + trimmed);
 			}
-		}
-		if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
+		} else if (m_value.startsWith("\"") && m_value.endsWith("\"")) {
 			return Optional.empty();
+		} else {
+			throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 		}
-		throw new BadDataFormatException("Neither a literal nor a URI: " + m_value);
 	}
 
 	@Override
@@ -101,10 +99,14 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("literal", m_value)
-				.add("language", m_language)
-				.add("dataType", m_dataType)
-				.toString();
+		MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this)
+				.add("", m_value);
+		if (m_language.isPresent()) {
+			s = s.add("language", m_language.get());
+		}
+		if (m_dataType.isPresent()) {
+			s.add("dataType", m_dataType.get());
+		}
+		return s.toString();
 	}
 }
