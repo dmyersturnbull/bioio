@@ -45,7 +45,7 @@ public class VcfValidator implements Consumer<VcfPosition> {
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.SAMPLE))
 				.forEach(m_action);
 		m_metadata.getHeader().getSampleNames().stream()
-				.filter(k -> m_metadata.getSample().keySet().contains(k))
+				.filter(k -> m_metadata.getSample().containsKey(k))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.SAMPLE))
 				.forEach(m_action);
 		position.getFilters().stream()
@@ -55,11 +55,11 @@ public class VcfValidator implements Consumer<VcfPosition> {
 		position.getFormat().stream()
 				.filter(s -> !m_metadata.getFormat().containsKey(s))
 				.map(s -> new InvalidProperty(position.getChromosome(), position.getPosition(), s, PropertyType.FORMAT))
-				.forEach(m_action::accept);
+				.forEach(m_action);
 		position.getInfo().entries().stream()
 				.filter(e -> !m_metadata.getFormat().containsKey(e.getKey()))
 				.map(e -> new InvalidProperty(position.getChromosome(), position.getPosition(), e.getKey(), PropertyType.INFO))
-				.forEach(m_action::accept);
+				.forEach(m_action);
 	}
 
 	@NotThreadSafe
@@ -115,7 +115,12 @@ public class VcfValidator implements Consumer<VcfPosition> {
 		private final String m_key;
 		private final PropertyType m_source;
 
-		public InvalidProperty(@Nonnull String chromosome, @Nonnegative long position, @Nonnull String key, @Nonnull PropertyType source) {
+		public InvalidProperty(
+				@Nonnull String chromosome,
+				@Nonnegative long position,
+				@Nonnull String key,
+				@Nonnull PropertyType source
+		) {
 			m_chromosome = chromosome;
 			m_position = position;
 			m_key = key;

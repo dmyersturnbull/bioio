@@ -26,13 +26,18 @@ import java.util.stream.Stream;
 public class TurtleParser implements MultilineParser<Triple> {
 
 	private static final long sf_logEvery = 10000;
-	private static final Pattern sf_prefixPattern = Pattern.compile("@prefix[ \t]+([A-Za-z0-9\\-_]+):[ \t]+<([^>]+)>[ \t]*\\.");
+	private static final Pattern sf_prefixPattern =
+			Pattern.compile("@prefix[ \t]+([A-Za-z0-9\\-_]+):[ \t]+<([^>]+)>[ \t]*\\.");
 	// TODO This does not handle escapes or > or " inside quotes
 	// TODO Also requires ^^ before @
-	private static final Pattern sf_nodePattern = Pattern.compile("[<\"]?([^<\"]+)[>\"]?(?:@([A-Za-z0-9\\-_:]+))?(?:\\^{2}([A-Za-z0-9\\-_:]+))?");
-	private static final Pattern sf_xPattern = Pattern.compile("([<\"]?(?:[^<\"]+)[>\"]?(?:@(?:[A-Za-z0-9\\-_:]+))?(?:\\^{2}(?:[A-Za-z0-9\\-_:]+))?)");
-	private static final Pattern sf_triplePattern = Pattern.compile("^[ ]*" + sf_xPattern.pattern() + "[ ]+" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
-	private static final Pattern sf_doublePattern = Pattern.compile("^[ ]*" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
+	private static final Pattern sf_nodePattern =
+			Pattern.compile("[<\"]?([^<\"]+)[>\"]?(?:@([A-Za-z0-9\\-_:]+))?(?:\\^{2}([A-Za-z0-9\\-_:]+))?");
+	private static final Pattern sf_xPattern =
+			Pattern.compile("([<\"]?(?:[^<\"]+)[>\"]?(?:@(?:[A-Za-z0-9\\-_:]+))?(?:\\^{2}(?:[A-Za-z0-9\\-_:]+))?)");
+	private static final Pattern sf_triplePattern =
+			Pattern.compile("^[ ]*" + sf_xPattern.pattern() + "[ ]+" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
+	private static final Pattern sf_doublePattern =
+			Pattern.compile("^[ ]*" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -54,7 +59,7 @@ public class TurtleParser implements MultilineParser<Triple> {
 	@Nonnull
 	@Override
 	public Stream<Triple> parseAll(@Nonnull Stream<String> stream) throws BadDataFormatException {
-		return stream.flatMap(this::apply);
+		return stream.flatMap(this);
 	}
 
 	@Nonnull
@@ -136,9 +141,15 @@ public class TurtleParser implements MultilineParser<Triple> {
 	protected Node parseNode(String string, String label) {
 		Matcher matcher = sf_nodePattern.matcher(string);
 		if (!matcher.matches()) {
-			throw new IllegalArgumentException("Failed to parse " + label + " '" + string + "' with regex " + sf_nodePattern.pattern());
+			throw new IllegalArgumentException(
+					"Failed to parse " + label + " '" + string + "' with regex " + sf_nodePattern.pattern()
+			);
 		}
-		return new Node(matcher.group(1).trim(), Optional.ofNullable(matcher.group(2)).map(s->s.trim()), Optional.ofNullable(matcher.group(3)).map(s->s.trim()));
+		return new Node(
+				matcher.group(1).trim(),
+				Optional.ofNullable(matcher.group(2)).map(String::trim),
+				Optional.ofNullable(matcher.group(3)).map(String::trim)
+		);
 	}
 
 	@Override

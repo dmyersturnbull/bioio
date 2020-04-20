@@ -31,8 +31,7 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 	private static final long serialVersionUID = -1764679353559518393L;
 
 	// only compares loci of the same chromosome and strand
-	private static Comparator<LocusRange> sf_comparator
-			= (o1, o2) -> ((Long) o1.getEnd().getPosition()).compareTo(o2.getEnd().getPosition());
+	private static Comparator<LocusRange> sf_comparator = Comparator.comparingLong(o -> o.getEnd().getPosition());
 
 	private final ImmutableMap<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> m_map;
 
@@ -129,9 +128,10 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 			final long sourceSize = source.length();
 			final long targetSize = target.length();
 
-			Preconditions.checkArgument(sourceSize == targetSize,
-			                            source + " has size " + sourceSize
-					                            + " but " + target + " has size " + targetSize);
+			Preconditions.checkArgument(
+					sourceSize == targetSize,
+					source + " has size " + sourceSize + " but " + target + " has size " + targetSize
+			);
 
 			final ChromosomeName sourceChr = source.getChromosome();
 			if (!m_map.containsKey(sourceChr)) {

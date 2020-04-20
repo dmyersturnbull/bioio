@@ -58,15 +58,9 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 							sb.append(!individual.getMother().isPresent() ? m_noParentMarker
 									          : individual.getMother().get().getId()).append(m_fieldSeparator);
 							switch (individual.getSex()) {
-								case MALE:
-									sb.append(m_maleCode);
-									break;
-								case FEMALE:
-									sb.append(m_femaleCode);
-									break;
-								case UNKNOWN:
-									sb.append(m_femaleCode);
-									break;
+								case MALE -> sb.append(m_maleCode);
+								case FEMALE -> sb.append(m_femaleCode);
+								case UNKNOWN -> sb.append(m_femaleCode);
 							}
 							for (String info : individual.getInfo()) {
 								sb.append(m_fieldSeparator).append(info);

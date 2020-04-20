@@ -54,27 +54,22 @@ public class BedWriterTest {
 
 
 	@Test
-	public void testWrite() throws Exception {
-
+	public void testWrite() {
     // convert to BedFeature to String
     List<String> lines = m_data.stream()
         .map(new BedWriter())
         .collect(Collectors.toList());
-
-    assertTrue(lines.equals(m_expectedLines));
+      assertEquals(lines, m_expectedLines);
 	}
 
 
   @Test
   public void testWriteToFile() throws Exception {
-
     // write to file
     Path tmpFile = Files.createTempFile(getClass().getSimpleName(), ".bed");
     BedWriter writer = new BedWriter();
     writer.writeToFile(m_data, tmpFile);
-    List<String> lines = Files.lines(tmpFile)
-        .collect(Collectors.toList());
-
-    assertTrue(lines.equals(m_expectedLines));
+    List<String> lines = Files.lines(tmpFile).collect(Collectors.toList());
+    assertEquals(lines, m_expectedLines);
   }
 }

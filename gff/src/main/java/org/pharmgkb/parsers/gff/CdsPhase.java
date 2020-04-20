@@ -18,16 +18,12 @@ public enum CdsPhase {
 	@Nonnull
 	public static CdsPhase fromOffset(@Nonnegative int offset) {
 		Preconditions.checkArgument(offset > -1, "Offset must be nonnegative but was " + offset);
-		switch (offset % 3) {
-			case 0:
-				return ZERO;
-			case 1:
-				return ONE;
-			case 2:
-				return TWO;
-			default:
-				throw new RuntimeException("Impossible offset of " + offset);
-		}
+		return switch (offset % 3) {
+			case 0 -> ZERO;
+			case 1 -> ONE;
+			case 2 -> TWO;
+			default -> throw new RuntimeException("Impossible offset of " + offset);
+		};
 	}
 
 	@Nonnull

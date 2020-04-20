@@ -23,7 +23,13 @@ public class LocusAnnotation implements GenbankAnnotation {
 	private LocalDate m_modificationDate;
 	private GenbankDivision m_standardDivision;
 
-	public LocusAnnotation(String locusName, String sequenceLength, String moleculeType, String division, LocalDate modificationDate) {
+	public LocusAnnotation(
+			String locusName,
+			String sequenceLength,
+			String moleculeType,
+			String division,
+			LocalDate modificationDate
+	) {
 		this.m_locusName = locusName;
 		this.m_sequenceLength = sequenceLength;
 		this.m_moleculeType = moleculeType;

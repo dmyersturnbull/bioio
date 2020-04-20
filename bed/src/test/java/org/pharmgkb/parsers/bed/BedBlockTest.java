@@ -2,8 +2,7 @@ package org.pharmgkb.parsers.bed;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Tests {@link BedBlock}.
@@ -12,7 +11,7 @@ import static org.junit.Assert.assertFalse;
 public class BedBlockTest {
 
 	@Test
-	public void test() throws Exception {
+	public void test() {
 		BedBlock block = new BedBlock(5, 9);
 		assertEquals(5, block.getStart());
 		assertEquals(9, block.getEnd());
@@ -21,11 +20,11 @@ public class BedBlockTest {
 	}
 
 	@Test
-	public void testEquals() throws Exception {
+	public void testEquals() {
 		BedBlock block1 = new BedBlock(5, 9);
 		BedBlock block2 = new BedBlock(5, 9);
 		BedBlock block3 = new BedBlock(18, 20);
 		assertEquals(block1, block2);
-		assertFalse(block1.equals(block3));
+		assertNotEquals(block1, block3);
 	}
 }

@@ -21,7 +21,7 @@ public class PropertyMapBuilder extends ImmutableMap.Builder<String, String> imp
 	public PropertyMapBuilder() {}
 
 	public PropertyMapBuilder(@Nonnull Map<String, String> map) {
-		map.entrySet().forEach(e -> put(e.getKey(), e.getValue()));
+		map.forEach((key, value) -> put(key, value));
 	}
 
 	@Nonnull

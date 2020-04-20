@@ -32,8 +32,10 @@ class PedigreeUtils {
 					// Because PedigreeBuilder only adds edges when it adds nodes, this is impossible
 					// Keep it here in case we add an alternate way to build pedigrees
 					if (queue.contains(child)) {
-						throw new IllegalStateException("Pedigree for " + id + " contains a cycle! See edge "
-								                                + current.getId() + " --> " + child.getId());
+						throw new IllegalStateException(
+								"Pedigree for " + id + " contains a cycle! See edge "
+								+ current.getId() + " --> " + child.getId()
+						);
 					}
 					queue.add(child);
 				}

@@ -64,13 +64,17 @@ public class RandomAccessFastaBaseReader implements Closeable {
 	private BufferedRandomAccessFile m_stream;
 	private String m_currentHeader;
 
-	private RandomAccessFastaBaseReader(@Nonnull File file, @Nonnegative int nBytesInBuffer, @Nonnull File tempFile,
-	                                    boolean keepTempFileOnExit) throws IOException, BadDataFormatException {
+	private RandomAccessFastaBaseReader(
+			@Nonnull File file, @Nonnegative int nBytesInBuffer, @Nonnull File tempFile,
+			boolean keepTempFileOnExit
+	) throws IOException, BadDataFormatException {
 		init(file, nBytesInBuffer, tempFile, keepTempFileOnExit);
 	}
 
-	private void init(@Nonnull File file, @Nonnegative int nBytesInBuffer, @Nonnull File temp,
-	                  boolean keepTempFileOnExit) throws IOException {
+	private void init(
+			@Nonnull File file, @Nonnegative int nBytesInBuffer, @Nonnull File temp,
+			boolean keepTempFileOnExit
+	) throws IOException {
 
 		m_originalFile = file;
 		if (temp.exists() && keepTempFileOnExit) { // for safety
@@ -142,7 +146,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 	 * @param header The exact FASTA header, without an initial &gt; sign
 	 * @param position The number of bases, starting at 0, from the first
 	 * @return The nucleotide or amino acid at that position
-	 * @throws IOException
+	 * @throws IOException IO errors
 	 * @throws java.lang.IllegalArgumentException If a header with that name is not in the FASTA file
 	 */
 	public synchronized char read(@Nonnull String header, @Nonnegative long position) throws IOException {

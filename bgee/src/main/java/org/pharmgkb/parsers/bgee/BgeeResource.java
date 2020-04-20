@@ -21,9 +21,8 @@ public class BgeeResource {
 
 	private final URL m_url;
 
-	public BgeeResource(URL url) {
+	public BgeeResource(@Nonnull URL url) {
 		this.m_url = url;
-		System.out.println(this.m_url);
 	}
 
 	@Nonnull
@@ -31,10 +30,10 @@ public class BgeeResource {
 		return new BufferedReader((new InputStreamReader(new GZIPInputStream(m_url.openStream()))));
 	}
 
-	public static BgeeResource ofSpecies(CommonSpecies species) {
+	public static BgeeResource ofSpecies(@Nonnull CommonSpecies species) {
 		return ofSpecies(species.getFormalName());
 	}
-	public static BgeeResource ofSpecies(String speciesFormalName) {
+	public static BgeeResource ofSpecies(@Nonnull String speciesFormalName) {
 		//String url = "ftp://ftp.bgee.org/current/download/calls/expr_calls/" + species.getFormalName().replace(" ", "_") + "_expr_simple_development.tsv.gz";
 		String url = "ftp://ftp.bgee.org/current/download/calls/expr_calls/Danio_rerio_expr_simple_development.tsv.gz";
 		try {

@@ -24,7 +24,7 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedFeature {
+public class BedFeature implements Serializable {
 
 	private final String m_chromosome;
 
@@ -32,17 +32,23 @@ public class BedFeature {
 
 	private final long m_end;
 
-	private final Optional<String> m_name;
+	@Nullable
+	private final String m_name;
 
-	private final Optional<Integer> m_score;
+	@Nullable
+	private final Integer m_score;
 
-	private final Optional<Strand> m_strand;
+	@Nullable
+	private final Strand m_strand;
 
-	private final Optional<Long> m_thickStart;
+	@Nullable
+	private final Long m_thickStart;
 
-	private final Optional<Long> m_thickEnd;
+	@Nullable
+	private final Long m_thickEnd;
 
-	private final Optional<Color> m_color;
+	@Nullable
+	private final Color m_color;
 
 	private final ImmutableList<BedBlock> m_blocks;
 
@@ -63,34 +69,34 @@ public class BedFeature {
 
 	@Nonnull
 	public Optional<String> getName() {
-		return m_name;
+		return Optional.ofNullable(m_name);
 	}
 
 	@Nonnull
 	public Optional<Integer> getScore() {
-		return m_score;
+		return Optional.ofNullable(m_score);
 	}
 
 	@Nonnull
 	public Optional<Strand> getStrand() {
-		return m_strand;
+		return Optional.ofNullable(m_strand);
 	}
 
 	@Nonnull
 	@Nonnegative
 	public Optional<Long> getThickStart() {
-		return m_thickStart;
+		return Optional.ofNullable(m_thickStart);
 	}
 
 	@Nonnull
 	@Nonnegative
 	public Optional<Long> getThickEnd() {
-		return m_thickEnd;
+		return Optional.ofNullable(m_thickEnd);
 	}
 
 	@Nonnull
 	public Optional<Color> getColor() {
-		return m_color;
+		return Optional.ofNullable(m_color);
 	}
 
 	@Nonnull
@@ -154,36 +160,44 @@ public class BedFeature {
 
 		private long m_end;
 
-		private Optional<String> m_name;
+		@Nullable
+		private String m_name;
 
-		private Optional<Integer> m_score;
+		@Nullable
+		private Integer m_score;
 
-		private Optional<Strand> m_strand;
+		@Nullable
+		private Strand m_strand;
 
-		private Optional<Long> m_thickStart;
+		@Nullable
+		private Long m_thickStart;
 
-		private Optional<Long> m_thickEnd;
+		@Nullable
+		private Long m_thickEnd;
 
-		private Optional<Color> m_color;
+		@Nullable
+		private Color m_color;
 
 		private final List<BedBlock> m_blocks;
 
 		public Builder(@Nonnull String chromosome, @Nonnegative long start, @Nonnegative long end) {
 			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains a tab");
-			Preconditions.checkArgument(!chromosome.contains("\n") && !chromosome.contains("\r"),  "Chromosome name " + chromosome
-					+ " contains a newline (LF or CR)");
+			Preconditions.checkArgument(
+					!chromosome.contains("\n") && !chromosome.contains("\r"),
+					"Chromosome name " + chromosome + " contains a newline (LF or CR)"
+			);
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
 			Preconditions.checkArgument(start <= end, "Start " + start + " comes before end " + end);
 			m_chromosome = chromosome;
 			m_start = start;
 			m_end = end;
-			m_name = Optional.empty();
-			m_score = Optional.empty();
-			m_strand = Optional.empty();
-			m_thickStart = Optional.empty();
-			m_thickEnd = Optional.empty();
-			m_color = Optional.empty();
+			m_name = null;
+			m_score = null;
+			m_strand = null;
+			m_thickStart = null;
+			m_thickEnd = null;
+			m_color = null;
 			m_blocks = new ArrayList<>();
 		}
 
@@ -202,10 +216,14 @@ public class BedFeature {
 
 		@Nonnull
 		public Builder setChromosome(@Nonnull String chromosome) {
-			Preconditions.checkArgument(!chromosome.contains("\t"),
-			                             "Chromosome name contains a tab");
-			Preconditions.checkArgument(!chromosome.contains("\n") && !chromosome.contains("\r"),
-			                            "Chromosome name contains a newline (LF or CR)");
+			Preconditions.checkArgument(
+					!chromosome.contains("\t"),
+					"Chromosome name contains a tab"
+			);
+			Preconditions.checkArgument(
+					!chromosome.contains("\n") && !chromosome.contains("\r"),
+					"Chromosome name contains a newline (LF or CR)"
+			);
 			m_chromosome = chromosome;
 			return this;
 		}
@@ -230,11 +248,15 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setName(@Nonnull Optional<String> name) {
-			Preconditions.checkArgument(!name.isPresent() || !name.get().contains("\t"),
-			                            "Feature name contains a tab");
-			Preconditions.checkArgument(!name.isPresent() || !name.get().contains(System.lineSeparator()),
-			                            "Feature name contains a newline");
-			m_name = name;
+			Preconditions.checkArgument(
+					!name.isPresent() || !name.get().contains("\t"),
+			         "Feature name contains a tab"
+			);
+			Preconditions.checkArgument(
+					!name.isPresent() || !name.get().contains(System.lineSeparator()),
+			         "Feature name contains a newline"
+			);
+			m_name = name.orElse(null);
 			return this;
 		}
 
@@ -248,7 +270,7 @@ public class BedFeature {
 				Preconditions.checkArgument(score.get() > -1, "Score " + score.get() + " < 0");
 				Preconditions.checkArgument(score.get() < 1001, "Score " + score.get() + " > 1000");
 			}
-			m_score = score;
+			m_score = score.orElse(null);
 			return this;
 		}
 
@@ -258,7 +280,7 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setStrand(@Nonnull Optional<Strand> strand) {
-			m_strand = strand;
+			m_strand = strand.orElse(null);
 			return this;
 		}
 
@@ -268,9 +290,11 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setThickStart(@Nonnull @Nonnegative Optional<Long> thickStart) {
-			Preconditions.checkArgument(!thickStart.isPresent() || thickStart.get() > -1, "Thick start " + thickStart
-					+ " < 0");
-			m_thickStart = thickStart;
+			Preconditions.checkArgument(
+					!thickStart.isPresent() || thickStart.get() > -1,
+					"Thick start " + thickStart + " < 0"
+			);
+			m_thickStart = thickStart.orElse(null);
 			return this;
 		}
 
@@ -281,7 +305,7 @@ public class BedFeature {
 		@Nonnull
 		public Builder setThickEnd(@Nonnull @Nonnegative Optional<Long> thickEnd) {
 			Preconditions.checkArgument(!thickEnd.isPresent() || thickEnd.get() > -1, "Thick end " + thickEnd + " < 0");
-			m_thickEnd = thickEnd;
+			m_thickEnd = thickEnd.orElse(null);
 			return this;
 		}
 
@@ -295,13 +319,16 @@ public class BedFeature {
 				String[] parts = color.get().split(",");
 				Preconditions.checkArgument(parts.length == 3, "Can't parse color " + color);
 				try {
-					m_color = Optional.of(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
-					                                Integer.parseInt(parts[2])));
+					m_color = new Color(
+							Integer.parseInt(parts[0]),
+							Integer.parseInt(parts[1]),
+					        Integer.parseInt(parts[2])
+					);
 				} catch (IllegalArgumentException e) { // includes NumberFormatException
 					throw new IllegalArgumentException("Can't parse color " + color, e);
 				}
 			} else {
-				m_color = Optional.empty();
+				m_color = null;
 			}
 			return this;
 		}
@@ -312,9 +339,13 @@ public class BedFeature {
 		}
 		@Nonnull
 		public Builder setColor(@Nonnull Optional<Color> color) {
-			color.ifPresent(color1 -> Preconditions.checkArgument(color1.getAlpha() == 255, "Color has alpha " + color1.getAlpha()
-					+ "; should be 255"));
-			m_color = color;
+			color.ifPresent(
+					color1 -> Preconditions.checkArgument(
+							color1.getAlpha() == 255,
+							"Color has alpha " + color1.getAlpha() + "; should be 255"
+					)
+			);
+			m_color = color.orElse(null);
 			return this;
 		}
 
@@ -326,11 +357,15 @@ public class BedFeature {
 
 		@Nonnull
 		public Builder addBlock(@Nonnull BedBlock block) {
-			Preconditions.checkArgument(!m_blocks.isEmpty() || block.getStart() == 0,
-			                            "The first block starts at " + block.getStart() + " != 0");
+			Preconditions.checkArgument(
+					!m_blocks.isEmpty() || block.getStart() == 0,
+			        "The first block starts at " + block.getStart() + " != 0"
+			);
 			for (BedBlock other : m_blocks) {
-				Preconditions.checkArgument(block.getStart() >= other.getEnd() || block.getEnd() <= other.getStart(),
-				                            "block " + other + " overlaps with block " + block);
+				Preconditions.checkArgument(
+						block.getStart() >= other.getEnd() || block.getEnd() <= other.getStart(),
+				         "block " + other + " overlaps with block " + block
+				);
 			}
 			m_blocks.add(block);
 			return this;
@@ -345,9 +380,10 @@ public class BedFeature {
 		public BedFeature build() {
 			if (!m_blocks.isEmpty()) {
 				long blockEnd = m_blocks.get(m_blocks.size() - 1).getEnd();
-				Preconditions.checkArgument(blockEnd == m_end - m_start,
-				                            "The end of the last block must be the end of the feature; is " + blockEnd
-						                            + " instead of " + (m_end - m_start));
+				Preconditions.checkArgument(
+						blockEnd == m_end - m_start,
+				        "Last block end " + blockEnd + " is not feature end " + (m_end - m_start)
+				);
 			}
 			return new BedFeature(this);
 		}

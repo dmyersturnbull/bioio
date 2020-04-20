@@ -19,7 +19,7 @@ public class TurtleParserTest {
 	@Test
 	public void apply() throws IOException {
 		Path input = new File("/home/dmyerstu/desktop/chembl-rdf/chembl-moa-short.ttl").toPath();
-		Path input = new File("/home/dmyerstu/desktop/chembl-rdf/chembl_24.1_activity.ttl").toPath();
+		Path input2 = new File("/home/dmyerstu/desktop/chembl-rdf/chembl_24.1_activity.ttl").toPath();
 		//
 		TurtleParser parser = new TurtleParser();
 		System.out.println(input);

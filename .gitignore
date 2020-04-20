@@ -9,6 +9,11 @@
 
 # Gradle files
 .gradle/
+gradle/
+gradlew
+gradlew.bat
+**/build/
+**/out/
 
 # Node files
 /node_modules/

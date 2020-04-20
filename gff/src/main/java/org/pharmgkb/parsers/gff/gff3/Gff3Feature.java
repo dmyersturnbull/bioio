@@ -42,7 +42,7 @@ public class Gff3Feature extends BaseGffFeature {
 	@Nonnull
 	public List<String> getAttributes(@Nonnull String key) {
 		List<String> found = m_attributes.get(key);
-		return found==null? Collections.<String>emptyList() : found;
+		return found==null? Collections.emptyList() : found;
 	}
 
 	@Nonnull

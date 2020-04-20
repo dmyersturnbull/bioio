@@ -40,7 +40,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 	@Nonnull
 	@Override
 	public Stream<GenbankAnnotation> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
-		return stream.flatMap(this::apply);
+		return stream.flatMap(this);
 	}
 
 	@Nonnull

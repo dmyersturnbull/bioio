@@ -24,7 +24,15 @@ public class ReferenceAnnotation implements GenbankAnnotation {
 	private Optional<Integer> m_pubmedId;
 	private Optional<String> m_remark;
 
-	public ReferenceAnnotation(String header, Optional<String> authors, Optional<String> consortium, Optional<String> title, Optional<String> journal, Optional<Integer> pubmedId, Optional<String> remark) {
+	public ReferenceAnnotation(
+			@Nonnull String header,
+			@Nonnull Optional<String> authors,
+			@Nonnull Optional<String> consortium,
+			@Nonnull Optional<String> title,
+			@Nonnull Optional<String> journal,
+			@Nonnull Optional<Integer> pubmedId,
+			@Nonnull Optional<String> remark
+	) {
 		this.m_header = header;
 		this.m_authors = authors;
 		this.m_consortium = consortium;

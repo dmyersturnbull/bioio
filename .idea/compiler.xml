@@ -1,27 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
-      <module name="bed_main" target="1.8" />
-      <module name="bed_test" target="1.8" />
-      <module name="chain_main" target="1.8" />
-      <module name="chain_test" target="1.8" />
-      <module name="core_main" target="1.8" />
-      <module name="core_test" target="1.8" />
-      <module name="fasta_main" target="1.8" />
-      <module name="fasta_test" target="1.8" />
-      <module name="genbank_main" target="1.8" />
-      <module name="genbank_test" target="1.8" />
-      <module name="genome-sequence-io_main" target="1.8" />
-      <module name="genome-sequence-io_test" target="1.8" />
-      <module name="gff_main" target="1.8" />
-      <module name="gff_test" target="1.8" />
-      <module name="pedigree_main" target="1.8" />
-      <module name="pedigree_test" target="1.8" />
-      <module name="turtle_main" target="1.8" />
-      <module name="turtle_test" target="1.8" />
-      <module name="vcf_main" target="1.8" />
-      <module name="vcf_test" target="1.8" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.12/48e4e5d60309ebd833bc528dcf77668eab3cd72c/lombok-1.18.12.jar" />
+        </processorPath>
+        <module name="genomics-io.pedigree.main" />
+        <module name="genomics-io.text.main" />
+        <module name="genomics-io.gff.main" />
+        <module name="genomics-io.chain.test" />
+        <module name="genomics-io.gff.test" />
+        <module name="genomics-io.vcf.test" />
+        <module name="genomics-io.turtle.main" />
+        <module name="genomics-io.chain.main" />
+        <module name="genomics-io.fasta.main" />
+        <module name="genomics-io.core.test" />
+        <module name="genomics-io.vcf.main" />
+        <module name="genomics-io.fasta.test" />
+        <module name="genomics-io.genbank.main" />
+        <module name="genomics-io.core.main" />
+        <module name="genomics-io.pedigree.test" />
+        <module name="genomics-io.turtle.test" />
+        <module name="genomics-io.bed.test" />
+        <module name="genomics-io.bgee.test" />
+        <module name="genomics-io.text.test" />
+        <module name="genomics-io.bed.main" />
+        <module name="genomics-io.genbank.test" />
+        <module name="genomics-io.bgee.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.9">
+      <module name="genomics-io" target="14" />
+      <module name="genomics-io.bed" target="14" />
+      <module name="genomics-io.bed.main" target="14" />
+      <module name="genomics-io.bed.test" target="14" />
+      <module name="genomics-io.bgee" target="14" />
+      <module name="genomics-io.bgee.main" target="14" />
+      <module name="genomics-io.bgee.test" target="14" />
+      <module name="genomics-io.chain" target="14" />
+      <module name="genomics-io.chain.main" target="14" />
+      <module name="genomics-io.chain.test" target="14" />
+      <module name="genomics-io.core" target="14" />
+      <module name="genomics-io.core.main" target="14" />
+      <module name="genomics-io.core.test" target="14" />
+      <module name="genomics-io.fasta" target="14" />
+      <module name="genomics-io.fasta.main" target="14" />
+      <module name="genomics-io.fasta.test" target="14" />
+      <module name="genomics-io.genbank" target="14" />
+      <module name="genomics-io.genbank.main" target="14" />
+      <module name="genomics-io.genbank.test" target="14" />
+      <module name="genomics-io.gff" target="14" />
+      <module name="genomics-io.gff.main" target="14" />
+      <module name="genomics-io.gff.test" target="14" />
+      <module name="genomics-io.main" target="14" />
+      <module name="genomics-io.pedigree" target="14" />
+      <module name="genomics-io.pedigree.main" target="14" />
+      <module name="genomics-io.pedigree.test" target="14" />
+      <module name="genomics-io.test" target="14" />
+      <module name="genomics-io.text" target="14" />
+      <module name="genomics-io.text.main" target="14" />
+      <module name="genomics-io.text.test" target="14" />
+      <module name="genomics-io.turtle" target="14" />
+      <module name="genomics-io.turtle.main" target="14" />
+      <module name="genomics-io.turtle.test" target="14" />
+      <module name="genomics-io.vcf" target="14" />
+      <module name="genomics-io.vcf.main" target="14" />
+      <module name="genomics-io.vcf.test" target="14" />
     </bytecodeTargetLevel>
   </component>
 </project>

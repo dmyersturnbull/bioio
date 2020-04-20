@@ -36,28 +36,21 @@ public enum GffStrand {
 	 * @return A Strand if this GffStrand is + or -, and empty otherwise
 	 */
 	public Optional<Strand> toGeneralStrand() {
-		switch(this) {
-			case PLUS:
-				return Optional.of(Strand.PLUS);
-			case MINUS:
-				return Optional.of(Strand.MINUS);
-			case UNSTRANDED:
-				return Optional.empty();
-			case UNKNOWN:
-				return Optional.empty();
-			default:
-				return Optional.empty();
-		}
+		return switch (this) {
+			case PLUS -> Optional.of(Strand.PLUS);
+			case MINUS -> Optional.of(Strand.MINUS);
+			default -> Optional.empty();
+		};
 	}
 
 	@Nonnull
 	public static Optional<GffStrand> lookupBySymbol(@Nonnull String symbol) {
-		switch (symbol) {
-			case "+": return Optional.of(PLUS);
-			case "-": return Optional.of(MINUS);
-			case ".": return Optional.of(UNSTRANDED);
-			case "?": return Optional.of(UNKNOWN);
-			default: return Optional.empty();
-		}
+		return switch (symbol) {
+			case "+" -> Optional.of(PLUS);
+			case "-" -> Optional.of(MINUS);
+			case "." -> Optional.of(UNSTRANDED);
+			case "?" -> Optional.of(UNKNOWN);
+			default -> Optional.empty();
+		};
 	}
 }

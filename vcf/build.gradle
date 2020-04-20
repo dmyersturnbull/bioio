@@ -1,5 +1,5 @@
 
 dependencies {
-	compile group: 'com.codepoetics', name: 'protonpack', version: '1.7'
+	implementation 'com.codepoetics:protonpack:1.16'
 	compile project(':core')
 }

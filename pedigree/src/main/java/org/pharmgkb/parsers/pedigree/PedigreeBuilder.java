@@ -81,9 +81,11 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 	 *         or the mother or father (if non-null) does not exist or has the wrong Sex
 	 */
 	@Nonnull
-	public PedigreeBuilder addIndividual(@Nonnull String familyId, @Nonnull String individualId,
-	                                     @Nonnull Optional<String> fatherId, @Nonnull Optional<String> motherId,
-	                                     @Nonnull Sex sex, @Nonnull List<String> info) {
+	public PedigreeBuilder addIndividual(
+			@Nonnull String familyId, @Nonnull String individualId,
+	        @Nonnull Optional<String> fatherId, @Nonnull Optional<String> motherId,
+			@Nonnull Sex sex, @Nonnull List<String> info
+	) {
 
 		// enforces immutability; see build()
 		if (m_pedigree == null) {
@@ -149,8 +151,9 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 			if (fatherId.equals(test.getId())) {
 				if (test.getSex() != Sex.MALE) {
-					throw new IllegalArgumentException("Individual " + individual.getId()
-							                                   + " must have a male father (Id: " + test.getId() + ")");
+					throw new IllegalArgumentException(
+							"Individual " + individual.getId() + " must have a male father (Id: " + test.getId() + ")"
+					);
 				}
 				test.getChildrenRaw().add(individual);
 				individual.setFather(test);
@@ -168,8 +171,8 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 			if (motherId.equals(test.getId())) {
 				if (test.getSex() != Sex.FEMALE) {
-					throw new IllegalArgumentException("Individual " +individual.getId()+ " must have a female"
-							                                   + " mother (Id: " + test.getId() + ")");
+					throw new IllegalArgumentException(
+							"Individual " +individual.getId()+ " must have a female mother (Id: " + test.getId() + ")");
 				}
 				test.getChildrenRaw().add(individual);
 				individual.setMother(test);
@@ -189,9 +192,11 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 			String fatherId = entry.getValue();
 			boolean attached = attachFather(individual, fatherId);
 			if (require && !attached) {
-				throw new IllegalArgumentException("Father of individual " + individual.getId() +
-						                                   " with father "+ fatherId + " does not exist in family "
-						                                   + individual.getFamily().getId());
+				throw new IllegalArgumentException(
+						"Father of individual " + individual.getId()
+						+ " with father "+ fatherId + " does not exist in family "
+						+ individual.getFamily().getId()
+				);
 			}
 		}
 
@@ -200,9 +205,11 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 			String motherId = entry.getValue();
 			boolean attached = attachMother(individual, motherId);
 			if (require && !attached) {
-				throw new IllegalArgumentException("Mother of individual " + individual.getId() + " with mother "
-						                                   + motherId + " does not exist in family "
-						                                   + individual.getFamily().getId());
+				throw new IllegalArgumentException(
+						"Mother of individual " + individual.getId() + " with mother "
+						+ motherId + " does not exist in family "
+						+ individual.getFamily().getId()
+				);
 			}
 		}
 	}

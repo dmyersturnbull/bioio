@@ -143,7 +143,6 @@ public class Individual implements Subtree<Individual>, Comparable<Individual>, 
 		return m_family;
 	}
 
-	@SuppressWarnings("NullableProblems")
 	@Override
 	public int compareTo(Individual other) {
 		return m_id.compareTo(other.getId());

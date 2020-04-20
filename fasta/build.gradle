@@ -5,6 +5,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'uk.ac.ebi.pride.tools', name: 'braf', version: '1.0.2'
+    implementation 'uk.ac.ebi.pride.tools:braf:1.2.2'
     compile project(':core')
 }

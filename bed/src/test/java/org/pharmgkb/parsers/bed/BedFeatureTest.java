@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class BedFeatureTest {
 
 	@Test
-	public void testColor() throws Exception {
+	public void testColor() {
 		Optional<Color> color = new BedFeature.Builder("chr1", 1, 2)
 				.setColorFromString("2,3,4").build().getColor();
 		assertTrue(color.isPresent());
@@ -30,21 +30,21 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testBadColor1() throws Exception {
+	public void testBadColor1() {
 		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5"))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("color");
 	}
 
 	@Test
-	public void testContainsTab() throws Exception {
+	public void testContainsTab() {
 		assertThatThrownBy(() -> new BedFeature.Builder("a\tb", 1, 2))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("tab");
 	}
 
 	@Test
-	public void testContainsNewline() throws Exception {
+	public void testContainsNewline() {
 		assertThatThrownBy(() -> new BedFeature.Builder("a\nb", 1, 2))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("newline");
@@ -54,14 +54,14 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testBadColor2() throws Exception {
+	public void testBadColor2() {
 		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5)))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("Color");
 	}
 
 	@Test
-	public void testNegativeScore() throws Exception {
+	public void testNegativeScore() {
 		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(-1))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("Score")
@@ -69,7 +69,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testLargeScore() throws Exception {
+	public void testLargeScore() {
 		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(1001))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("Score")
@@ -77,13 +77,13 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testNoBlocks() throws Exception {
+	public void testNoBlocks() {
 		assertTrue(new BedFeature.Builder("chr1", 0, 15).build()
 				           .getBlocks().isEmpty());
 	}
 
 	@Test
-	public void testBlocks() throws Exception {
+	public void testBlocks() {
 		BedBlock block1 = new BedBlock(0, 8);
 		BedBlock block2 = new BedBlock(8, 15);
 		assertEquals(Arrays.asList(block1, block2),
@@ -93,7 +93,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testOverlappingBlocks1() throws Exception {
+	public void testOverlappingBlocks1() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8);
 		assertThatThrownBy(() -> builder.addBlock(7, 15))
 				.isInstanceOf(IllegalArgumentException.class)
@@ -101,7 +101,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testOverlappingBlocks2() throws Exception {
+	public void testOverlappingBlocks2() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 5).addBlock(9, 12);
 		assertThatThrownBy(() -> builder.addBlock(8, 10))
 				.isInstanceOf(IllegalArgumentException.class)
@@ -109,7 +109,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testBadBlockStart() throws Exception {
+	public void testBadBlockStart() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15);
 		assertThatThrownBy(() -> builder.addBlock(1, 8))
 				.isInstanceOf(IllegalArgumentException.class)
@@ -118,7 +118,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testBadBlockEnd() throws Exception {
+	public void testBadBlockEnd() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(8, 14);
 		assertThatThrownBy(builder::build)
 				.isInstanceOf(IllegalArgumentException.class)
@@ -127,7 +127,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testRebuild() throws Exception {
+	public void testRebuild() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).setScore(200);
 		BedFeature one = builder.setScore(200).build();
 		assertTrue(one.getScore().isPresent());
@@ -138,7 +138,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testCopyConstructor() throws Exception {
+	public void testCopyConstructor() {
 		BedFeature one = new BedFeature.Builder("chr1", 0, 15)
 				.setStrand(Strand.PLUS)
 				.setScore(200)
@@ -150,7 +150,7 @@ public class BedFeatureTest {
 	}
 
 	@Test
-	public void testCopyConstructorAlterBlocks() throws Exception {
+	public void testCopyConstructorAlterBlocks() {
 		BedFeature one = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(8, 15).build();
 		// if the copy constructor doesn't copy the blocks, we'll get an exception for modifying an immutable collection
 		BedFeature two = new BedFeature.Builder(one).clearBlocks().addBlock(0, 8).addBlock(8, 15).build();

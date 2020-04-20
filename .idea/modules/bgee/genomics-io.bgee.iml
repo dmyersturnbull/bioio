@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":bgee" external.linked.project.path="$MODULE_DIR$/../../../bgee" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="org.pharmgkb.parsers" external.system.module.version="0.4" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../bgee">
+      <excludeFolder url="file://$MODULE_DIR$/../../../bgee/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bgee/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

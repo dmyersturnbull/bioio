@@ -1,17 +1,75 @@
-# genome-sequence-io
-Read and write from various bioinformatics sequence formats, currently VCF, BED, GFF3 (and GTF, and GVF), FASTA, UCSC chain (genome alignment), GenBank, Turtle (for RDF), and pre-MAKEPED (pedigree).
-This project has moderately high test coverage and is quite usable. The Genbank and Turtle parsers are currently experimental.
+# genomics-io
 
-This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that adds VCF, GenBank, and Turtle parsers in the same spirit as the others.
+![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
+![Active](https://img.shields.io/static/v1?label=development&message=active&color=green)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Latest release](https://img.shields.io/github/v/tag/dmyersturnbull/genome-sequence-io)
+![Test coverage](https://img.shields.io/codecov/c/github/dmyersturnbull/genome-sequence-io?token=thisisatoken)
+[![Travis build](https://travis-ci.org/dmyersturnbull/genome-sequence-io.svg?branch=master)](https://travis-ci.org/dmyersturnbull/genome-sequence-io)
 
-### Build instructions
 
-The project is not currently on Maven Central. To JAR all subprojects, run `gradle jarAll`.
+Efficient, high-quality streaming parsers and writers for 9 (soon 30) text-based formats used in bioinformatics.
+
+Currently undergoing partial redesign as more formats are added.
+Previous versions are stable, well-tested, and used in production.
+
+Currently supported formats:
+VCF, FASTA, GenBank, BED, GFF/GTV/GVF, UCSC chain,
+pre-MAKEPED, BGEE, Turtle/RDF
+
+
+Features & choices:
+- Reads and writes Java 8+ Streams, keeping only essential metadata in memory.
+- Parses every part of a format, leaving nothing as text unnecessarily.
+- Has consistent API. Coordinates are always 0-indexed and text is always escaped (according to specifications).
+- Immutable, thread-safe, null-pointer-safe (`Optional<>`), and uses only arbitrary-precision numbers.
+
+This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that adds VCF, GenBank, PDB, faidx, and Turtle parsers.
+
+
+#### What it looks like:
+This example reads, filters, and writes a VCF file.
+
+```java
+import org.pharmgkb.parsers.vcf;
+Stream<VcfPosition> goodMitochondrialCalls = new VcfDataParser().parseFile(path)
+	.filter(p -> p.chromosome.isMitochondial())
+	.filter(VcfFilters.qualityAtLeast(10)) // converts to BigDecimal
+new VcfDataWriter().writeToFile(goodMitochondrialCalls, filteredPath);
+```
+
+### Build/install
+
+The project is not currently on Maven Central but should be soon.
+Until then, you can download a [release](https://github.com/dmyersturnbull/genome-sequence-io/releases), which includes a JAR.
+
+Alternatively, you can use Gradle to build it.
+To JAR all subprojects, run `gradle jarAll`.
 To build a single subproject, run `gradle :xxx:jar`, where `xxx` is the name of the subproject (for example, `gradle :gff:jar`).
+You can also run tests with `gradle :xxx:test` and compile (without JARing) using `gradle :xxx:build`.
+Note that running `gradle :xxx:gff` will only run tests for `gff` and `core`.
 
-You can also run tests with `gradle :xxx:test` and compile (without JARing) using `gradle :xxx:build`. Note that running `gradle :xxx:gff` will only run tests for `gff`, `core`.
+
+### Planned formats
+
+- Variant calls: **VCF**
+- Gene features: **GenBank, BED, GFF3, GTF, GVF**
+- Sequences: **FASTA**, EMBL, FASTA alignment, FASTQ, Seq, faidx (FASTQ indices)
+- Expression: **BGEE**
+- Coordinate mapping: **UCSC chain**
+- Phylogenetics & pedigrees: **pre-MAKEPED**, LINKAGE, Nexus
+- High-level: Swiss-Prot
+- Raw reads: SAM
+- Protein structure: PDB (non-comprehensive)
+- RNA structure: Bpseq, Connect/CT, Vienna, Base-Paring, Dot-Bracket, Dot-Plot
+- Other: cytoband
+- Misc: Matrices, CSV/TSV, alignment, **Turtle (and RDF)**
+
 
 ### Examples
+
+This long list of examples showcases many of the parsers.
+For added flavor, they also use various methods for IO (`parseAll`, etc.) and various Java 8+ `Stream` functions (`parallel()`, `collect`, `flatMap`, etc.)
 
 ```java
 // Store GFF3 (or GVF, or GTF) features into a list
@@ -167,3 +225,8 @@ Map<String, Long> genotypeCounts = new VcfDataParser().parseAll(input)
   7. Parsing and writing is _moderately_ strict. Severe violations throw a `BadDataFormatException`, and milder violations are logged as warnings using SLF4J. Not every aspect of a specification is validated.
   8. For specification-mandated escape sequences, encoding and decoding is automatic.
   9. Coordinates are _always 0-based_, even for 1-based formats. This is to ensure consistency as well as arithmetic simplicity.
+
+![Java compatibility](https://img.shields.io/static/v1?label=Java&message=14%2b)
+![Maven Central](https://img.shields.io/maven-central/v/dmyersturnbull/genome-sequence-io)
+[![Documentation](https://readthedocs.org/projects/genome-sequence-io/badge/?version=latest&style=flat-square)](https://readthedocs.org/projects/genome-sequence-io)
+![GitHub last commit](https://img.shields.io/github/last-commit/dmyersturnbull/genome-sequence-io?color=green)

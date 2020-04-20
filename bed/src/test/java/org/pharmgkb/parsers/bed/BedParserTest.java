@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +24,7 @@ public class BedParserTest {
 	public void testParse() throws Exception {
 		Path file = Paths.get(getClass().getResource("bed1.bed").toURI());
 		List<BedFeature> features = Files.lines(file).map(new BedParser()).collect(Collectors.toList());
-					assertEquals(3, features.size());
+			assertEquals(3, features.size());
 			BedFeature first = new BedFeature.Builder("chr1", 0, 5).build();
 			BedFeature second = new BedFeature.Builder("chr2", 10, 20)
 					.setName("xxx")
