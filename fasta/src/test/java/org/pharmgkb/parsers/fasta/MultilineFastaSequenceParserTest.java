@@ -1,8 +1,8 @@
 package org.pharmgkb.parsers.fasta;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.fasta.model.FastaSequence;
 
-import java.io.StringReader;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

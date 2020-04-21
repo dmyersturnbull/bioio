@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.MultilineParser;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.pharmgkb.parsers.fasta.model.FastaSequence;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

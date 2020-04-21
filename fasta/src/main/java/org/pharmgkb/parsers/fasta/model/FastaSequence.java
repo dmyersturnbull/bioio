@@ -1,4 +1,4 @@
-package org.pharmgkb.parsers.fasta;
+package org.pharmgkb.parsers.fasta.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;

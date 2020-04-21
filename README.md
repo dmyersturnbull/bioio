@@ -12,10 +12,10 @@ Efficient, high-quality streaming parsers and writers for 9 (soon 30) text-based
 
 Currently undergoing partial redesign as more formats are added.
 Previous versions are stable, well-tested, and used in production.
-
 Currently supported formats:
 VCF, FASTA, GenBank, BED, GFF/GTV/GVF, UCSC chain,
-pre-MAKEPED, BGEE, Turtle/RDF
+pre-MAKEPED, BGEE, Turtle/RDF,
+matrices/tables/CSV/TSV
 
 
 Features & choices:
@@ -63,7 +63,7 @@ Note that running `gradle :xxx:gff` will only run tests for `gff` and `core`.
 - Protein structure: PDB (non-comprehensive)
 - RNA structure: Bpseq, Connect/CT, Vienna, Base-Paring, Dot-Bracket, Dot-Plot
 - Other: cytoband
-- Misc: Matrices, CSV/TSV, alignment, **Turtle (and RDF)**
+- Misc: Matrices/tables/CSV/TSV, alignment, **Turtle (and RDF)**
 
 
 ### Examples
@@ -213,6 +213,10 @@ Map<String, Long> genotypeCounts = new VcfDataParser().parseAll(input)
 	.filter(s -> s.containsKey(ReservedFormatProperty.Genotype))
 	.map(s -> s.get(ReservedFormatProperty.Genotype).get())
 	.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+```
+
+```java
+Stream<BigDecimal> MatrixParser.tabs().parseAll(file).map(BigDecimal::new);
 ```
 
 ### Guiding principles

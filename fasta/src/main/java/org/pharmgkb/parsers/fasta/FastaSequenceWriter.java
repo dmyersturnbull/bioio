@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.fasta;
 
 import org.pharmgkb.parsers.LineStructureWriter;
+import org.pharmgkb.parsers.fasta.model.FastaSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

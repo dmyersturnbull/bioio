@@ -3,6 +3,7 @@ package org.pharmgkb.parsers.fasta;
 import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.MultilineParser;
+import org.pharmgkb.parsers.fasta.model.FastaSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
  *
  * <strong>
  *     This parser requires FASTA sequences to be on a single line.
- *     See {@link FastaSequenceReader} if you need to process multi-line sequences.
+ *     See {@link MultilineFastaSequenceParser} if you need to process multi-line sequences.
  * </strong>
  *
  * The grammar is taken to be:
