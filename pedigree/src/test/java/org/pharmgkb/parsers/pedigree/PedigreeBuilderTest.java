@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.pedigree;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.pharmgkb.parsers.pedigree.model.*;
 
 import java.util.Collections;
 import java.util.Iterator;

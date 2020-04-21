@@ -3,8 +3,9 @@ package org.pharmgkb.parsers.bgee;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import org.pharmgkb.parsers.BadDataFormatException;
-import org.pharmgkb.parsers.LineParser;
 import org.pharmgkb.parsers.MultilineParser;
+import org.pharmgkb.parsers.bgee.model.BgeeExpression;
+import org.pharmgkb.parsers.bgee.model.Quality;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

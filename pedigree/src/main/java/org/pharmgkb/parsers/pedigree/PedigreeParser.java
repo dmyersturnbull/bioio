@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableSet;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineStructureParser;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.pharmgkb.parsers.pedigree.model.Pedigree;
+import org.pharmgkb.parsers.pedigree.model.PedigreeBuilder;
+import org.pharmgkb.parsers.pedigree.model.Sex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.MultilineParser;
+import org.pharmgkb.parsers.genbank.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

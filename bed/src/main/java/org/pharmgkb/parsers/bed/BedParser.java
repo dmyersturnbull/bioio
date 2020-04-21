@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.bed;
 
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineParser;
+import org.pharmgkb.parsers.bed.model.BedFeature;
 import org.pharmgkb.parsers.model.Strand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ import java.util.stream.Stream;
  * </code>
  *
  * @author Douglas Myers-Turnbull
- * @see org.pharmgkb.parsers.bed.BedFeature
+ * @see BedFeature
  * @see org.pharmgkb.parsers.bed.BedWriter
  */
 @ThreadSafe

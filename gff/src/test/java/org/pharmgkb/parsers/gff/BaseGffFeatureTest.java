@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.gff;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.gff.model.BaseGffFeature;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;

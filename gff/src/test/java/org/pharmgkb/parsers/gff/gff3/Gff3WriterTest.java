@@ -1,8 +1,10 @@
 package org.pharmgkb.parsers.gff.gff3;
 
 import org.junit.Test;
-import org.pharmgkb.parsers.gff.CdsPhase;
-import org.pharmgkb.parsers.gff.GffStrand;
+import org.pharmgkb.parsers.gff.Gff3Writer;
+import org.pharmgkb.parsers.gff.model.CdsPhase;
+import org.pharmgkb.parsers.gff.model.Gff3Feature;
+import org.pharmgkb.parsers.gff.model.GffStrand;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

@@ -2,6 +2,9 @@ package org.pharmgkb.parsers.turtle;
 
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.MultilineParser;
+import org.pharmgkb.parsers.turtle.model.Node;
+import org.pharmgkb.parsers.turtle.model.Prefix;
+import org.pharmgkb.parsers.turtle.model.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.pedigree;
 
 import org.pharmgkb.parsers.LineStructureWriter;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.pharmgkb.parsers.pedigree.model.Pedigree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 /**
- * Writes a {@link org.pharmgkb.parsers.pedigree.Pedigree} as a .ped file.
+ * Writes a {@link Pedigree} as a .ped file.
  * @author Douglas Myers-Turnbull
  */
 public class PedigreeWriter implements LineStructureWriter<Pedigree> {

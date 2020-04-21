@@ -1,6 +1,9 @@
 package org.pharmgkb.parsers.pedigree;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.pedigree.model.Pedigree;
+import org.pharmgkb.parsers.pedigree.model.PedigreeBuilder;
+import org.pharmgkb.parsers.pedigree.model.Sex;
 
 import java.util.Arrays;
 import java.util.Collections;

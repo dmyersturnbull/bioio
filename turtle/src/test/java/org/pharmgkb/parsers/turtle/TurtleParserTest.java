@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.turtle;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.turtle.model.Triple;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,8 +9,6 @@ import java.util.stream.Stream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-
-import static org.junit.Assert.*;
 
 /**
  * Author Douglas Myers-Turnbull

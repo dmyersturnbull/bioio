@@ -1,6 +1,9 @@
 package org.pharmgkb.parsers.pedigree;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.pedigree.model.Family;
+import org.pharmgkb.parsers.pedigree.model.Individual;
+import org.pharmgkb.parsers.pedigree.model.Pedigree;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

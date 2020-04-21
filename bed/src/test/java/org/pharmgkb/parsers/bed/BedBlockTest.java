@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.bed;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.bed.model.BedBlock;
 
 import static org.junit.Assert.*;
 

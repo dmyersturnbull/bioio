@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
+import org.pharmgkb.parsers.bed.model.BedFeature;
 import org.pharmgkb.parsers.model.Strand;
 
 import static org.junit.Assert.assertEquals;

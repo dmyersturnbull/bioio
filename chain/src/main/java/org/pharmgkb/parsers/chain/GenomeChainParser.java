@@ -3,6 +3,7 @@ package org.pharmgkb.parsers.chain;
 import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineStructureParser;
+import org.pharmgkb.parsers.chain.model.GenomeChain;
 import org.pharmgkb.parsers.model.ChromosomeName;
 import org.pharmgkb.parsers.model.Locus;
 import org.pharmgkb.parsers.model.LocusRange;

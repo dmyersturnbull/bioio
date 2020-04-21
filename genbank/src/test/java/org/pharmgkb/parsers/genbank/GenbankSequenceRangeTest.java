@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.genbank;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.genbank.model.GenbankSequenceRange;
 
 import static org.junit.Assert.*;
 

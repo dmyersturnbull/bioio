@@ -1,7 +1,7 @@
 /**
  * Represents a pedigree as a directed acyclic graph.
  *
- * Use {@link org.pharmgkb.parsers.pedigree.PedigreeBuilder} to build a {@link org.pharmgkb.parsers.pedigree.Pedigree}.
+ * Use {@link org.pharmgkb.parsers.pedigree.model.PedigreeBuilder} to build a {@link org.pharmgkb.parsers.pedigree.model.Pedigree}.
  *
  * Use {@link org.pharmgkb.parsers.pedigree.PedigreeParser} and {@link org.pharmgkb.parsers.pedigree.PedigreeWriter} to
  * read and write from pre-MAKEPED format. For example, see these:

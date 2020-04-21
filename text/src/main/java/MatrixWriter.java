@@ -3,7 +3,6 @@ import com.google.common.base.MoreObjects;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineWriter;
 import org.pharmgkb.parsers.ObjectBuilder;
-import org.pharmgkb.parsers.ReflectingConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.invoke.MethodHandles;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;

@@ -1,6 +1,9 @@
 package org.pharmgkb.parsers.turtle;
 
 import com.google.common.collect.ImmutableMap;
+import org.pharmgkb.parsers.turtle.model.Node;
+import org.pharmgkb.parsers.turtle.model.Triple;
+import org.pharmgkb.parsers.turtle.model.TripleGroup;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;

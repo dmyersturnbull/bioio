@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.gff.gff3;
 
 import org.junit.Test;
+import org.pharmgkb.parsers.gff.model.Gff3Feature;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

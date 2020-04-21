@@ -1,6 +1,7 @@
 package org.pharmgkb.parsers.bed;
 
 import org.pharmgkb.parsers.LineWriter;
+import org.pharmgkb.parsers.bed.model.BedFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * </code>
  *
  * @author Douglas Myers-Turnbull
- * @see org.pharmgkb.parsers.bed.BedFeature
+ * @see BedFeature
  */
 @ThreadSafe
 public class BedWriter implements LineWriter<BedFeature> {

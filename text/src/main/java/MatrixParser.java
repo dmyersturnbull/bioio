@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.pharmgkb.parsers.ReflectingConstructor;
+import org.pharmgkb.parsers.utils.ReflectingConstructor;
 
 /**
  * Parses a matrix or table from text.

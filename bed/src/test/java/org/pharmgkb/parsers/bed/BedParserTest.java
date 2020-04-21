@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.bed;
 
 import org.junit.Test;
 import org.pharmgkb.parsers.BadDataFormatException;
+import org.pharmgkb.parsers.bed.model.BedFeature;
 import org.pharmgkb.parsers.model.Strand;
 
 import java.awt.Color;
