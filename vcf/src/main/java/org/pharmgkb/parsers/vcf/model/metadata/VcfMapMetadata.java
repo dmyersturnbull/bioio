@@ -47,7 +47,7 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 	@Nonnull
 	public Optional<String> getPropertyUnquoted(@Nonnull String key) {
 		Optional<String> opt = Optional.ofNullable(m_properties.get(key));
-		Preconditions.checkArgument(!opt.isPresent() || opt.get().startsWith("\"") && opt.get().endsWith("\""), "String " + key + " is not quoted");
+		Preconditions.checkArgument(opt.isEmpty() || opt.get().startsWith("\"") && opt.get().endsWith("\""), "String " + key + " is not quoted");
 		return opt.map(s -> s.substring(1, s.length() - 1));
 	}
 

@@ -128,23 +128,30 @@ public abstract class BaseGffFeature {
 		return Objects.hash(m_coordinateSystemId, m_type, m_start, m_end, m_source, m_strand, m_phase, m_score);
 	}
 
+	// TODO how can this implement implements ObjectBuilder<T> ?
 	@NotThreadSafe
-	protected abstract static class Builder<T, B extends Builder<?, ?>> implements ObjectBuilder<T> {
+	public abstract static class Builder<T, B extends Builder<?, ?>>  {
 
+		@Nonnull
 		protected String m_coordinateSystemId;
 
+		@Nonnull
 		protected String m_type;
 
 		protected long m_start;
 
 		protected long m_end;
 
+		@Nonnull
 		protected Optional<String> m_source;
 
+		@Nonnull
 		protected Optional<BigDecimal> m_score;
 
+		@Nonnull
 		protected GffStrand m_strand;
 
+		@Nonnull
 		protected Optional<CdsPhase> m_phase;
 
 		/**

@@ -10,11 +10,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -23,7 +19,9 @@ import java.util.Optional;
 /**
  * A buffered arbitrary-position interface to read FASTA bases.
  *
- * Reads the file once to 1) write a file containing no within-sequence line breaks and 2) map the position (in bytes) of each header in the new file.
+ * Reads the file once to
+ * 1) write a file containing no within-sequence line breaks, and
+ * 2) map the position (in bytes) of each header in the new file.
  *
  *
  * The FASTA grammar is taken to be:
@@ -98,6 +96,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 
 				while (((c = simple.readNextBase()).isPresent())) {
 
+					//noinspection OptionalGetWithoutIsPresent
 					final String headerRead = simple.currentHeader().get(); // not null because we read a base
 
 					// only write the header if we just read it
@@ -112,8 +111,10 @@ public class RandomAccessFastaBaseReader implements Closeable {
 							pw.println();
 						}
 
+						//noinspection OptionalGetWithoutIsPresent
 						m_headerToPosition.put(simple.currentHeader().get(), nBytesInNewFile);
 						sf_logger.debug("{} -----> {} in {}", simple.currentHeader(), nBytesInNewFile, m_tempFile);
+						//noinspection OptionalGetWithoutIsPresent
 						currentHeader = simple.currentHeader().get();
 						pw.println('>' + currentHeader);
 
@@ -149,7 +150,25 @@ public class RandomAccessFastaBaseReader implements Closeable {
 	 * @throws IOException IO errors
 	 * @throws java.lang.IllegalArgumentException If a header with that name is not in the FASTA file
 	 */
-	public synchronized char read(@Nonnull String header, @Nonnegative long position) throws IOException {
+	public synchronized char read(
+			@Nonnull String header,
+			@Nonnegative long position
+	) throws IOException {
+		return read(header, position, 1).charAt(0);
+	}
+	/**
+	 *
+	 * @param header The exact FASTA header, without an initial &gt; sign
+	 * @param position The number of bases, starting at 0, from the first
+	 * @return The nucleotide or amino acid at that position
+	 * @throws IOException IO errors
+	 * @throws java.lang.IllegalArgumentException If a header with that name is not in the FASTA file
+	 */
+	public synchronized String read(
+			@Nonnull String header,
+			@Nonnegative long position,
+			@Nonnegative long length
+	) throws IOException {
 		if (!m_headerToPosition.containsKey(header)) {
 			throw new IllegalArgumentException("Header " + header + " not found in FASTA file " + m_originalFile);
 		}
@@ -159,7 +178,11 @@ public class RandomAccessFastaBaseReader implements Closeable {
 			throw new IOException("Negative seek offset of " + (start + position) + " reading FASTA file " + m_tempFile);
 		}
 		m_stream.seek(start + position);
-		return (char)m_stream.read();
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < length; i++) {
+			builder.append((char)m_stream.read());
+		}
+		return builder.toString();
 	}
 
 	/**
@@ -191,11 +214,11 @@ public class RandomAccessFastaBaseReader implements Closeable {
 		private int m_nCharsInBuffer;
 		private boolean m_keepTempFileOnExit;
 
-		public Builder(@Nonnull Path file) throws FileNotFoundException {
+		public Builder(@Nonnull Path file) {
 			this(file.toFile());
 		}
 
-		public Builder(@Nonnull File file) throws FileNotFoundException {
+		public Builder(@Nonnull File file) {
 			m_file = file;
 			m_nCharsInBuffer = 2048;
 			m_tempFile = new File(file.getPath() + sf_tempExtension);

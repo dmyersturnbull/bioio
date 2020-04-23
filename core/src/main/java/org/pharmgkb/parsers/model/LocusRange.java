@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 public class LocusRange implements Comparable<LocusRange>, Serializable {
 
     private static final long serialVersionUID = -1452867522785239185L;
-    private static Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([\\+-])\\):(\\d+)-(\\d+)$");
+    private static Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([+-])\\):(\\d+)-(\\d+)$");
 
     private final Locus m_start;
     private final Locus m_end;

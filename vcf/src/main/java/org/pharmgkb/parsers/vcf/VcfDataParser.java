@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,7 +42,7 @@ public class VcfDataParser implements LineParser<VcfPosition> {
 
 	@Nonnull
 	@Override
-	public Stream<VcfPosition> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<VcfPosition> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.filter(s -> !s.startsWith("#")).map(this);
 	}
 
@@ -149,8 +149,11 @@ public class VcfDataParser implements LineParser<VcfPosition> {
 			return builder.build();
 
 		} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
-			throw new BadDataFormatException("Bad data format on line #" + m_lineNumber.get()
-					+ "; line is [[[" + line + "]]]", e);
+			throw new BadDataFormatException(
+					"Bad data format on line #" + m_lineNumber.get()
+					+ "; line is [[[" + line + "]]]",
+					e
+			);
 		} catch (RuntimeException e) {
 			// this is a little weird, but it's helpful
 			// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.

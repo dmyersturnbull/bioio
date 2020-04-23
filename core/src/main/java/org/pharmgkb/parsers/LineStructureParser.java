@@ -1,10 +1,11 @@
 package org.pharmgkb.parsers;
 
+import org.pharmgkb.parsers.utils.IoUtils;
+
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -16,13 +17,13 @@ import java.util.stream.Stream;
 public interface LineStructureParser<S> extends Function<Stream<String>, S> {
 
 	@Nonnull
-	default S parse(@Nonnull File file) throws IOException, BadDataFormatException {
+	default S parse(@Nonnull File file) throws UncheckedIOException, BadDataFormatException {
 		return parse(file.toPath());
 	}
 
 	@Nonnull
-	default S parse(@Nonnull Path file) throws IOException, BadDataFormatException {
-		return apply(Files.lines(file));
+	default S parse(@Nonnull Path file) throws UncheckedIOException, BadDataFormatException {
+		return apply(IoUtils.readUtf8Lines(file));
 	}
 
 	@Nonnull

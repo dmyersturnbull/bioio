@@ -29,6 +29,7 @@ public abstract class VcfIdDescriptionMetadata extends VcfIdMetadata {
 
 	@Nonnull
 	public String getDescription() {
+		//noinspection OptionalGetWithoutIsPresent
 		return getPropertyRaw(DESCRIPTION).get();
 	}
 

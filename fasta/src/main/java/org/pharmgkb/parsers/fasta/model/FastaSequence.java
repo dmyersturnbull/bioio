@@ -14,9 +14,9 @@ import java.io.Serializable;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class FastaSequence implements Comparable<FastaSequence>, Serializable {
+public class FastaSequence implements Comparable<FastaSequence>, HasSequence, Serializable {
 
-	private static final long serialVersionUID = -9016565377345851470L;
+	private static final long serialVersionUID = -9016565111345851470L;
 
 	private final String m_header;
 
@@ -39,14 +39,12 @@ public class FastaSequence implements Comparable<FastaSequence>, Serializable {
 	}
 
 	@Nonnull
-	public String getHeader() {
-		return m_header;
-	}
+	@Override
+	public String getHeader() { return m_header; }
 
 	@Nonnull
-	public String getSequence() {
-		return m_sequence;
-	}
+	@Override
+	public String getSequence() { return m_sequence; }
 
 	@Nonnull
 	@Override

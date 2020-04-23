@@ -25,6 +25,7 @@ public class Pedigree implements Iterable<Family>, Serializable {
 		m_families = new TreeMap<>();
 	}
 
+	@Nonnull
 	public NavigableMap<String, Family> getFamilies() {
 		return new TreeMap<>(m_families);
 	}
@@ -52,11 +53,12 @@ public class Pedigree implements Iterable<Family>, Serializable {
 	}
 
 	@Override
+	@Nonnull
 	public Iterator<Family> iterator() {
 		return m_families.values().iterator();
 	}
 
-	@SuppressWarnings("SuspiciousGetterSetter")
+	@Nonnull
 	NavigableMap<String, Family> getFamiliesRaw() {
 		return m_families;
 	}

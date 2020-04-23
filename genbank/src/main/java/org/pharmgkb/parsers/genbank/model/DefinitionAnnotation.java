@@ -14,7 +14,7 @@ public class DefinitionAnnotation implements GenbankAnnotation {
 
 	private String m_definition;
 
-	public DefinitionAnnotation(String m_definition) {
+	public DefinitionAnnotation(@Nonnull String m_definition) {
 		this.m_definition = m_definition;
 	}
 

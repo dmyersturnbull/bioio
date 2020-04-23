@@ -14,7 +14,7 @@ public class AccessionAnnotation implements GenbankAnnotation {
 
 	private String m_accession;
 
-	public AccessionAnnotation(String accession) {
+	public AccessionAnnotation(@Nonnull String accession) {
 		m_accession = accession;
 	}
 

@@ -16,7 +16,7 @@ public class TripleGroup {
 	private final String m_subject;
 	private final ImmutableMap<String, Node> m_triples;
 
-	public TripleGroup(String subject, ImmutableMap<String, Node> triples) {
+	public TripleGroup(@Nonnull String subject, @Nonnull ImmutableMap<String, Node> triples) {
 		this.m_subject = subject;
 		this.m_triples = triples;
 	}

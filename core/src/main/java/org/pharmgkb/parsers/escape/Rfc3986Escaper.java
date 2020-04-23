@@ -39,7 +39,7 @@ public class Rfc3986Escaper extends IllegalCharacterEscaper {
 		return c -> {
 			String encoded = String.format("%04x", (int) c);
 			Preconditions.checkArgument(encoded.length() == 4);
-			Preconditions.checkArgument(encoded.substring(0, 2).equals("00"));
+			Preconditions.checkArgument(encoded.startsWith("00"));
 			return "%" + encoded.substring(2);
 		};
 	}

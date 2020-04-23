@@ -54,14 +54,14 @@ public class RandomAccessFastaBaseReaderTest {
 	public void testRead() throws Exception {
 		File file = Paths.get(RandomAccessFastaBaseReaderTest.class.getResource("test1.fasta").toURI()).toFile();
 		RandomAccessFastaBaseReader stream = new RandomAccessFastaBaseReader.Builder(file).setnCharsInBuffer(5).build();
-		assertEquals(new Character('a'), (Character)stream.read("1", 0));
-		assertEquals(new Character('t'), (Character)stream.read("1", 1));
-		assertEquals(new Character('c'), (Character)stream.read("1", 3));
+		assertEquals(Character.valueOf('a'), (Character)stream.read("1", 0));
+		assertEquals(Character.valueOf('t'), (Character)stream.read("1", 1));
+		assertEquals(Character.valueOf('c'), (Character)stream.read("1", 3));
 
-		assertEquals(new Character('a'), (Character)stream.read("2", 0));
-		assertEquals(new Character('t'), (Character)stream.read("2", 1));
-		assertEquals(new Character('t'), (Character)stream.read("2", 5));
-		assertEquals(new Character('t'), (Character)stream.read("1", 1));
-		assertEquals(new Character('c'), (Character)stream.read("3", 16));
+		assertEquals(Character.valueOf('a'), (Character)stream.read("2", 0));
+		assertEquals(Character.valueOf('t'), (Character)stream.read("2", 1));
+		assertEquals(Character.valueOf('t'), (Character)stream.read("2", 5));
+		assertEquals(Character.valueOf('t'), (Character)stream.read("1", 1));
+		assertEquals(Character.valueOf('c'), (Character)stream.read("3", 16));
 	}
 }

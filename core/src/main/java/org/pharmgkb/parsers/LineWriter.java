@@ -1,12 +1,9 @@
 package org.pharmgkb.parsers;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import org.pharmgkb.parsers.utils.IoUtils;
+
+import java.io.*;
 import java.util.stream.StreamSupport;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Function;
@@ -21,41 +18,33 @@ import javax.annotation.Nonnull;
  */
 public interface LineWriter<T> extends Function<T, String> {
 
-	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws IOException {
+	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws UncheckedIOException {
 		appendToFile(stream, file.toFile());
 	}
-	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull Path file) throws IOException {
+	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull Path file) throws UncheckedIOException {
 		appendToFile(lines, file.toFile());
 	}
-	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull File file) throws IOException {
+	default void appendToFile(@Nonnull Iterable<T> lines, @Nonnull File file) throws UncheckedIOException {
 		appendToFile(StreamSupport.stream(lines.spliterator(), false), file);
 	}
-	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull File file) throws IOException {
-		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file, true)), true)) {
-			stream.forEach(pw::println);
-		}
+	default void appendToFile(@Nonnull Stream<T> stream, @Nonnull File file) throws UncheckedIOException {
+		IoUtils.appendUtf8Lines(file.toPath(), stream.map(Object::toString));
 	}
-	default void writeToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws IOException {
+	default void writeToFile(@Nonnull Stream<T> stream, @Nonnull Path file) throws UncheckedIOException {
 		writeToFile(stream, file.toFile());
 	}
-	default void writeToFile(@Nonnull Iterable<T> lines, @Nonnull Path file) throws IOException {
+	default void writeToFile(@Nonnull Iterable<T> lines, @Nonnull Path file) throws UncheckedIOException {
 		writeToFile(lines, file.toFile());
 	}
-	default void writeToFile(@Nonnull Iterable<T> lines, @Nonnull File file) throws IOException {
+	default void writeToFile(@Nonnull Iterable<T> lines, @Nonnull File file) throws UncheckedIOException {
 		writeToFile(StreamSupport.stream(lines.spliterator(), false), file);
 	}
-	default void writeToFile(@Nonnull Stream<T> stream, @Nonnull File file) throws IOException {
-		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)), true)) {
-			stream.forEach(pw::println);
-		}
+	default void writeToFile(@Nonnull Stream<T> stream, @Nonnull File file) throws UncheckedIOException {
+		IoUtils.writeUtf8Lines(file.toPath(), stream.map(Object::toString));
 	}
-	default void writeToFile(@Nonnull Collection<T> lines, @Nonnull Path file) throws IOException {
-		try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(file))) {
-			writeAll(lines.stream())
-					.forEach(pw::println);
-		}
+	default void writeToFile(@Nonnull Collection<T> lines, @Nonnull Path file) throws UncheckedIOException {
+		IoUtils.writeUtf8Lines(file, lines.stream().map(Object::toString));
 	}
-
 
 	/**
 	 * Override this to add post- or pre- validation or processing.

@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class MultilineFastaSequenceParserTest {
 
 	@Test
-	public void testApply1() throws Exception {
+	public void testApply1() {
 		MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().setTermination((char)0x01).build();
 		List<FastaSequence> seqs = parser.collectAll(Stream.of(">header1", "ns1p1", "ns1p2", ">header2", "ns2p1").onClose(parser.getCloseHandler()));
 		assertEquals(2, seqs.size());
@@ -27,7 +27,7 @@ public class MultilineFastaSequenceParserTest {
 	}
 
 	@Test
-	public void testApply2() throws Exception {
+	public void testApply2() {
 		MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().setTermination((char)0x01).build();
 		Stream<String> lines = Stream.of(">header1", "ns1p1", "ns1p2", ">header2", "ns2p1");
 		List<FastaSequence> seqs = parser.parseAll(lines).collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class MultilineFastaSequenceParserTest {
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void testApply3() throws Exception {
+	public void testApply3() {
 		MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().setTermination((char)0x01).build();
 		Stream.of(">header1", "ns1p1", "ns1p2", ">header2", "ns2p1").flatMap(parser).collect(Collectors.toList());
 	}

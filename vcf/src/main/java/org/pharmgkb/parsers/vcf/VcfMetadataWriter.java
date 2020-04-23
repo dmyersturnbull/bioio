@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import org.pharmgkb.parsers.LineWriter;
 import org.pharmgkb.parsers.vcf.model.VcfMetadataCollection;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfMetadata;
-import org.pharmgkb.parsers.vcf.utils.VcfEscapers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

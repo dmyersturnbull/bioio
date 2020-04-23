@@ -17,7 +17,7 @@ public class GenbankSequenceRange {
 
 	private String m_text;
 
-	public GenbankSequenceRange(String text) {
+	public GenbankSequenceRange(@Nonnull String text) {
 		m_text = text;
 	}
 

@@ -23,11 +23,11 @@ public class LocusAnnotation implements GenbankAnnotation {
 	private GenbankDivision m_standardDivision;
 
 	public LocusAnnotation(
-			String locusName,
-			String sequenceLength,
-			String moleculeType,
-			String division,
-			LocalDate modificationDate
+			@Nonnull String locusName,
+			@Nonnull String sequenceLength,
+			@Nonnull String moleculeType,
+			@Nonnull String division,
+			@Nonnull LocalDate modificationDate
 	) {
 		this.m_locusName = locusName;
 		this.m_sequenceLength = sequenceLength;

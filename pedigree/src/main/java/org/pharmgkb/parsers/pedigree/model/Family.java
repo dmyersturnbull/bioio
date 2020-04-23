@@ -30,7 +30,7 @@ public class Family implements Subtree<Individual>, Serializable {
 
 	private NavigableSet<Individual> m_roots;
 
-	Family(String id) {
+	Family(@Nonnull String id) {
 		m_id = id;
 		m_roots = new TreeSet<>();
 	}
@@ -156,11 +156,11 @@ public class Family implements Subtree<Individual>, Serializable {
 		return "Family{" + "m_id='" + m_id + '\'' + '}';
 	}
 
-	void setId(String id) {
+	void setId(@Nonnull String id) {
 		m_id = id;
 	}
 
-	@SuppressWarnings("SuspiciousGetterSetter")
+	@Nonnull
 	NavigableSet<Individual> getRootsRaw() {
 		return m_roots;
 	}

@@ -92,8 +92,8 @@ public class VcfGenotype {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				.add("alleles", String.join(",", m_alleles.stream().map(Object::toString).collect(Collectors.toList())))
-				.add("indices", String.join(",", m_indices.stream().map(Object::toString).collect(Collectors.toList())))
+				.add("alleles", m_alleles.stream().map(Object::toString).collect(Collectors.joining(",")))
+				.add("indices", m_indices.stream().map(Object::toString).collect(Collectors.joining(",")))
 				.add("isPhased", m_isPhased)
 				.toString();
 	}
@@ -139,7 +139,7 @@ public class VcfGenotype {
 	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<VcfGenotype> {
 
-		private static final Splitter sf_slashOrBar = Splitter.on(Pattern.compile("[\\|/]"));
+		private static final Splitter sf_slashOrBar = Splitter.on(Pattern.compile("[|/]"));
 
 		private final List<VcfAllele> m_knownAlleles;
 		private final Locus m_locus;
@@ -277,8 +277,10 @@ public class VcfGenotype {
 		@Nonnull
 		@Override
 		public VcfGenotype build() {
-			Preconditions.checkState(!m_ploidy.isPresent() || m_alleles.size() != m_ploidy.get(),
-					"Required ploidy " + m_ploidy + " but got " + m_alleles.size());
+			Preconditions.checkState(
+					m_ploidy.isEmpty() || m_alleles.size() != m_ploidy.get(),
+					"Required ploidy " + m_ploidy + " but got " + m_alleles.size()
+			);
 			return new VcfGenotype(this);
 		}
 
@@ -289,8 +291,12 @@ public class VcfGenotype {
 
 			boolean hasBar = gtString.contains("|");
 			boolean hasSlash = gtString.contains("/");
-			Preconditions.checkArgument((hasBar ^ hasSlash) && (m_isPhased && hasBar || !m_isPhased && hasSlash),
-					"Genotype VCF string " + gtString + " must be either fully phased (|) or fully unphased (/); expected " + (m_isPhased? "phased" : "unphased"));
+			Preconditions.checkArgument(
+					(hasBar ^ hasSlash) && (m_isPhased && hasBar || !m_isPhased && hasSlash),
+					"Genotype VCF string " + gtString
+							+ " must be either fully phased (|) or fully unphased (/); expected "
+							+ (m_isPhased? "phased" : "unphased")
+			);
 
 			for (String s : sf_slashOrBar.splitToList(gtString)) {
 				if (s.equals(".")) {

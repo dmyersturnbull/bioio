@@ -12,7 +12,7 @@ public enum Gff3Attribute {
 
 	private final String m_id;
 
-	Gff3Attribute(String id) {
+	Gff3Attribute(@Nonnull String id) {
 		m_id = id;
 	}
 

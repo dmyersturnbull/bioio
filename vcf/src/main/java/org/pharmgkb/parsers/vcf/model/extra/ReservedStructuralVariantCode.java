@@ -25,17 +25,17 @@ public enum ReservedStructuralVariantCode {
 
 	@Nonnull
 	public static Optional<ReservedStructuralVariantCode> fromId(@Nonnull String id) {
-		switch(id) {
-			case "DEL": return Optional.of(Deletion);
-			case "INS": return Optional.of(Insertion);
-			case "DUP": return Optional.of(Duplication);
-			case "INV": return Optional.of(Inversion);
-			case "CNV": return Optional.of(Cnv);
-			case "DUP:TANDEM": return Optional.of(Tandem);
-			case "DEL:ME": return Optional.of(MobileElementDeletion);
-			case "DEL:INS": return Optional.of(MobileElementInsertion);
-			default: return Optional.empty();
-		}
+		return switch (id) {
+			case "DEL" -> Optional.of(Deletion);
+			case "INS" -> Optional.of(Insertion);
+			case "DUP" -> Optional.of(Duplication);
+			case "INV" -> Optional.of(Inversion);
+			case "CNV" -> Optional.of(Cnv);
+			case "DUP:TANDEM" -> Optional.of(Tandem);
+			case "DEL:ME" -> Optional.of(MobileElementDeletion);
+			case "DEL:INS" -> Optional.of(MobileElementInsertion);
+			default -> Optional.empty();
+		};
 	}
 
   ReservedStructuralVariantCode(@Nonnull String... codes) {

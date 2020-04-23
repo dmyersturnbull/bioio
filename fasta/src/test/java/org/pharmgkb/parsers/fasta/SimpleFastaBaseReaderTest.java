@@ -42,7 +42,7 @@ public class SimpleFastaBaseReaderTest {
 	@Test
 	public void testReadNextWithBlankLine() throws Exception {
 		File file = Paths.get(SimpleFastaBaseReaderTest.class.getResource("test1.fasta").toURI()).toFile();
-		String string = Files.toString(file, Charset.defaultCharset()) + "\n";
+		String string = Files.asCharSource(file, Charset.defaultCharset()).read() + "\n";
 		try (SimpleFastaBaseReader stream = new SimpleFastaBaseReader.Builder(new StringReader(string))
 				.setnCharsInBuffer(3)
 				.build()) {
@@ -95,10 +95,6 @@ public class SimpleFastaBaseReaderTest {
 	}
 
 	private String repeat(String string, int n) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < n; i++) {
-			sb.append(string);
-		}
-		return sb.toString();
+		return String.valueOf(string).repeat(Math.max(0, n));
 	}
 }

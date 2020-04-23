@@ -22,7 +22,7 @@ public class ReflectingConstructor<C> {
 	private Class<?>[] m_signature;
 	private Constructor<C> m_constructor;
 
-	public ReflectingConstructor(@Nonnull Class<C> clazz, Class<?>... signature) {
+	public ReflectingConstructor(@Nonnull Class<C> clazz, @Nonnull Class<?>... signature) {
 		this.m_clazz = clazz;
 		this.m_signature = signature;
 		try {
@@ -33,7 +33,7 @@ public class ReflectingConstructor<C> {
 	}
 
 	@Nonnull
-	public C instance(Object... args) {
+	public C instance(@Nonnull Object... args) {
 		try {
 			return this.m_constructor.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | SecurityException e) {

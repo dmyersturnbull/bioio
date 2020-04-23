@@ -25,7 +25,7 @@ public class TripleGrouper implements Function<Triple, Stream<TripleGroup>> {
 	private Map<String, Node> m_list = new HashMap<>();
 
 	@Nonnull
-	public Stream<TripleGroup> apply(Triple triple) {
+	public Stream<TripleGroup> apply(@Nonnull Triple triple) {
 			if (!triple.getSubject().getValue().equals(m_subject)) {
 				m_subject = triple.getSubject().getValue();
 					if (!m_list.isEmpty()) {

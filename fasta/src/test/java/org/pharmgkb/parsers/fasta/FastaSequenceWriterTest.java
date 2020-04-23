@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class FastaSequenceWriterTest {
 
 	@Test
-	public void testApply() throws Exception {
+	public void testApply() {
 
 		List<FastaSequence> seqs = Arrays.asList(
 				new FastaSequence("header1", "sequence1"),

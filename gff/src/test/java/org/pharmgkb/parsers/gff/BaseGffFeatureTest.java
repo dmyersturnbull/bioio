@@ -70,7 +70,6 @@ public class BaseGffFeatureTest {
 		}
 
 		@Nonnull
-		@Override
 		public Feature build() {
 			return new Feature(this);
 		}

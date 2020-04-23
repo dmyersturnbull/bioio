@@ -12,14 +12,24 @@ public enum ReservedInfoProperty implements ReservedProperty {
 	// standard
 
 	AncestralAllele("AA", "Ancestral allele", String.class, false, "1"),
-	AlleleCount("AC", "Allele count in genotypes, for each Alt allele, in the same order as listed",
-			Long.class, true, "A"),
-	AlleleFrequency("AF", "Allele frequency for each Alt allele in the same order as listed: use this when estimated" +
-			"from primary data, not called genotypes", BigDecimal.class, true, "A"),
+	AlleleCount(
+			"AC",
+			"Allele count in genotypes, for each Alt allele, in the same order as listed",
+			Long.class, true, "A"
+	),
+	AlleleFrequency(
+			"AF",
+			"Allele frequency for each Alt allele in the same order as listed: use this when estimated" +
+			"from primary data, not called genotypes",
+			BigDecimal.class, true, "A"
+	),
 	AlleleNumber("AN", "Total number of alleles in called genotypes", Long.class, false, "1"),
 	BaseQuality("BQ", "RMS base quality at this position", BigDecimal.class, false, "1"),
-	Cigar("CIGAR", "Cigar string describing how to align an alternate allele to the reference allele", String.class,
-			false, "1"),
+	Cigar(
+			"CIGAR",
+			"Cigar string describing how to align an alternate allele to the reference allele",
+			String.class, false, "1"
+	),
 	Dbsnp("DB", "dbSNP membership", Boolean.class, false, "0"),
 	Depth("DP", "Combined depth across samples", BigDecimal.class, false, "1"),
 	Hapmap2("H2", "Membership in HapMap2", Boolean.class, false, "0"),

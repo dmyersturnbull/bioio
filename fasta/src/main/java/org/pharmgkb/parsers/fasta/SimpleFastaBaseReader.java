@@ -39,7 +39,7 @@ import java.util.Optional;
  * </pre>
  * {@code
  *     FastaStream stream = new FastaStream(file);
- *     stream.currentHeader() // returns null
+ *     stream.currentHeader() // returns Optional.empty()
  *     stream.readNextBase(); // returns 'A'
  *     stream.currentHeader() // returns "gene_1"
  *     stream.readNextBase(); // returns 'T'
@@ -47,7 +47,7 @@ import java.util.Optional;
  *     stream.readNextBase(); // returns 'G'
  *     stream.currentHeader() // returns "gene_2"
  *     stream.readNextBase(); // returns 'C'
- *     stream.readNextBase(); // returns null
+ *     stream.readNextBase(); // returns Optional.empty()
  * }
  *
  * @author Douglas Myers-Turnbull
@@ -98,8 +98,11 @@ public class SimpleFastaBaseReader implements Closeable {
 			m_nBasesReadTotal++;
 			return Optional.ofNullable(base);
 		} catch (RuntimeException e) { // record more info
-			throw new IOException("Error reading; " + m_nBytesReadTotal + " bytes read; on header " + m_header
-					            + "; buffer has " + m_buffer.remaining() + " remaining", e);
+			throw new IOException(
+					"Error reading; " + m_nBytesReadTotal + " bytes read; on header " + m_header
+								+ "; buffer has " + m_buffer.remaining() + " remaining",
+					e
+			);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.pharmgkb.parsers.pedigree.model;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -13,9 +14,11 @@ class PedigreeUtils {
 	/**
 	 * Add the roots first!
 	 */
-	static void computeTopologicalOrdering(List<Individual> visited, Queue<Individual> queue,
-	                                       Set<Individual> fathersRemoved, Set<Individual> mothersRemoved,
-	                                       Individual root, String id) {
+	static void computeTopologicalOrdering(
+			@Nonnull List<Individual> visited, @Nonnull Queue<Individual> queue,
+			@Nonnull Set<Individual> fathersRemoved, @Nonnull Set<Individual> mothersRemoved,
+			@Nonnull Individual root, @Nonnull String id
+	) {
 		while (!queue.isEmpty()) {
 			Individual current = queue.poll();
 			visited.add(current);
@@ -27,8 +30,10 @@ class PedigreeUtils {
 				} else {
 					mothersRemoved.add(child);
 				}
-				if ((!child.getFather().isPresent()|| fathersRemoved.contains(child))
-						&& (!child.getMother().isPresent() || mothersRemoved.contains(child))) {
+				if (
+						(child.getFather().isEmpty() || fathersRemoved.contains(child))
+						&& (child.getMother().isEmpty() || mothersRemoved.contains(child))
+				) {
 					// Because PedigreeBuilder only adds edges when it adds nodes, this is impossible
 					// Keep it here in case we add an alternate way to build pedigrees
 					if (queue.contains(child)) {

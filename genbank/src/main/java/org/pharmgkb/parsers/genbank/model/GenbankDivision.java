@@ -28,7 +28,7 @@ public enum GenbankDivision {
 
 	private String m_description;
 
-	GenbankDivision(String description) {
+	GenbankDivision(@Nonnull String description) {
 		this.m_description = description;
 	}
 

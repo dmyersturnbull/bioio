@@ -86,7 +86,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 					Preconditions.checkArgument(sf_hexDigit.matcher(String.valueOf(c)).matches(), "Bad escaped string " + string);
 					onDigit.add(c);
 					if (onDigit.size() > 1) {
-						String unescapedHex = "%" + String.valueOf(onDigit.get(0)) + String.valueOf(onDigit.get(1));
+						String unescapedHex = "%" + onDigit.get(0) + onDigit.get(1);
 						sb.append(unencoder().apply(unescapedHex));
 						onDigit = null;
 					}

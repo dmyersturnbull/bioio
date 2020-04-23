@@ -63,48 +63,24 @@ public class VcfConversionUtils {
 
 	@Nonnull
 	public static <T> Optional<T> convertProperty(@Nonnull VcfFormatType type, @Nonnull Optional<String> value) {
-		Class<?> clas;
-		switch (type) {
-			case Integer:
-				clas = Long.class;
-				break;
-			case Float:
-				clas = GeneralizedBigDecimal.class;
-				break;
-			case Character:
-				clas = Character.class;
-				break;
-			case String:
-				clas = String.class;
-				break;
-			default:
-				throw new RuntimeException(VcfFormatType.class.getSimpleName() + " " + type + " isn't covered?!");
-		}
+		Class<?> clas = switch (type) {
+			case Integer -> Long.class;
+			case Float -> GeneralizedBigDecimal.class;
+			case Character -> Character.class;
+			case String -> String.class;
+		};
 		return convertProperty(clas, value, false);
 	}
 
 	@Nonnull
 	public static <T> Optional<T> convertProperty(@Nonnull VcfInfoType type, @Nonnull Optional<String> value) {
-		Class<?> clas;
-		switch (type) {
-			case Integer:
-				clas = Long.class;
-				break;
-			case Float:
-				clas = GeneralizedBigDecimal.class;
-				break;
-			case Character:
-				clas = Character.class;
-				break;
-			case String:
-				clas = String.class;
-				break;
-			case Flag:
-				clas = Boolean.class;
-				break;
-			default:
-				throw new RuntimeException(VcfInfoType.class.getSimpleName() + " " + type + " isn't covered?!");
-		}
+		Class<?> clas = switch (type) {
+			case Integer -> Long.class;
+			case Float -> GeneralizedBigDecimal.class;
+			case Character -> Character.class;
+			case String -> String.class;
+			case Flag -> Boolean.class;
+		};
 		return convertProperty(clas, value, false);
 	}
 

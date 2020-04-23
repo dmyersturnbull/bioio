@@ -25,6 +25,6 @@ public class TurtleParserTest {
 		Stream<Triple> parse = parser.parseAll(input);
 		List<Triple> triples = parse.collect(Collectors.toList());
 		//assertEquals(15, triples.size());
-		triples.stream().forEach(System.out::println);
+		triples.forEach(System.out::println);
 	}
 }

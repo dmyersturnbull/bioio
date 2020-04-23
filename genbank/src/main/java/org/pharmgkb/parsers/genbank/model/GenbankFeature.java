@@ -19,7 +19,12 @@ public class GenbankFeature {
 	private ImmutableMap<String, String> m_properties;
 	private ImmutableList<String> m_extraLines;
 
-	public GenbankFeature(String kind, GenbankSequenceRange range, ImmutableMap<String, String> properties, ImmutableList<String> extraLines) {
+	public GenbankFeature(
+			@Nonnull String kind,
+			@Nonnull GenbankSequenceRange range,
+			@Nonnull ImmutableMap<String, String> properties,
+			@Nonnull ImmutableList<String> extraLines
+	) {
 		m_kind = kind;
 		m_range = range;
 		m_properties = properties;

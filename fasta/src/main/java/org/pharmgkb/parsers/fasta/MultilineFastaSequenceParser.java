@@ -52,7 +52,7 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 
 	@Nonnull
 	@Override
-	public Stream<FastaSequence> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<FastaSequence> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return appendTermination(stream).flatMap(this);
 	}
 
@@ -62,13 +62,10 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 	@Nonnull
 	@Override
 	public Stream<FastaSequence> apply(@Nonnull String line) {
-
 		if (!m_hasTerm) {
 			throw new IllegalStateException("Must call with parseAll or collectAll rather than apply");
 		}
-
 		m_nLines++;
-
 		if (line.equals(m_terminationString)) {
 			m_hitTerm = true;
 			if (currentHeader == null) { // happens if we read an empty source
@@ -76,7 +73,6 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 			}
 			return Stream.of(new FastaSequence(currentHeader, currentSequence));
 		}
-
 		FastaSequence seq = readNext(line);
 		return Stream.ofNullable(seq);
 	}
@@ -162,8 +158,10 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 		 */
 		@Nonnull
 		public Builder setTermination(@Nonnull String terminationString) {
-			Preconditions.checkArgument(!terminationString.contains("\n") && !terminationString.contains("\r"),
-					"Termination symbol cannot contain \\n or \\r");
+			Preconditions.checkArgument(
+					!terminationString.contains("\n") && !terminationString.contains("\r"),
+					"Termination symbol cannot contain \\n or \\r"
+			);
 			m_terminationString = terminationString;
 			return this;
 		}

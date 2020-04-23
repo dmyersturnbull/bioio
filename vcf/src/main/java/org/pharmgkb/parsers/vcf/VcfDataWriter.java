@@ -70,14 +70,11 @@ public class VcfDataWriter implements LineWriter<VcfPosition> {
 				.append(
 						position.getInfo().asMap().entrySet().stream()
 								.map(e -> e.getKey() + (
-										Collections.singletonList("").containsAll(
-												e.getValue())?
+										Collections.singletonList("").containsAll(e.getValue())?
 												""
-												: "=" + String.join(",",
-												e.getValue().stream()
+												: "=" + e.getValue().stream()
 														.map(VcfEscapers.INFO_VALUE::escape)
-														.collect(Collectors.toList())
-										)
+														.collect(Collectors.joining(","))
 								))
 								.collect(Collectors.joining(";"))
 				);

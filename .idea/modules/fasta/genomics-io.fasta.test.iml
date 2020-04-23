@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id=":fasta:test" external.linked.project.path="$MODULE_DIR$/../../../fasta" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="org.pharmgkb.parsers" external.system.module.type="sourceSet" external.system.module.version="0.4" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14">
-    <output-test url="file://$MODULE_DIR$/../../../fasta/build/classes/java/test" />
+  <component name="NewModuleRootManager">
+    <output-test url="file://$MODULE_DIR$/../../../fasta/out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../fasta/build/generated/sources/annotationProcessor/java/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../../fasta/build/generated/sources/annotationProcessor/java/test" isTestSource="true" generated="true" />
-    </content>
     <content url="file://$MODULE_DIR$/../../../fasta/src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../../fasta/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../fasta/src/test/resources" type="java-test-resource" />

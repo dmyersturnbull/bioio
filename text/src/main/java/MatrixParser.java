@@ -11,7 +11,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -59,7 +59,7 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 
 	@Nonnull
 	@Override
-	public Stream<List<T>> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<List<T>> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.map(this);
 	}
 
@@ -129,32 +129,35 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 		private Pattern m_valueExtractor;
 		private boolean m_jaggedDimensions;
 
+		@Nonnull
 		public static Builder<BigDecimal> decimals() {
 			return new Builder<>(BigDecimal::new);
 		}
 
+		@Nonnull
 		public static Builder<BigInteger> integers() {
 			return new Builder<>(BigInteger::new);
 		}
 
+		@Nonnull
 		public static <A> Builder<A> reflecting(Class<A> clazz) {
-			return new Builder<>(s -> new ReflectingConstructor<A>(clazz, String.class).instance(s));
+			return new Builder<>(s -> new ReflectingConstructor<>(clazz, String.class).instance(s));
 		}
 
-		public Builder(Function<String, T> converter) {
+		public Builder(@Nonnull Function<String, T> converter) {
 			this.m_converter = converter;
 			this.m_lineExtractor = sf_bracketed;
 			this.m_valueExtractor = sf_quoted;
 		}
 
 		@Nonnull
-		public Builder<T> setDelimiter(String delimiter) {
+		public Builder<T> setDelimiter(@Nonnull String delimiter) {
 			m_delimiter = delimiter;
 			return this;
 		}
 
 		@Nonnull
-		public Builder<T> setLineExtractor(Pattern regexWithGroup1) {
+		public Builder<T> setLineExtractor(@Nonnull Pattern regexWithGroup1) {
 			if (regexWithGroup1.matcher("").groupCount() != 1) {
 				throw new IllegalArgumentException("Line extractor " + regexWithGroup1 + " should have exactly 1 capture group");
 			}
@@ -163,7 +166,7 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 		}
 
 		@Nonnull
-		public Builder<T> setValueExtractor(Pattern regexWithGroup1) {
+		public Builder<T> setValueExtractor(@Nonnull Pattern regexWithGroup1) {
 			if (regexWithGroup1.matcher("").groupCount() != 1) {
 				throw new IllegalArgumentException("Value extractor " + regexWithGroup1 + " should have exactly 1 capture group");
 			}
@@ -172,7 +175,7 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 		}
 
 		@Nonnull
-		public Builder<T> allowJagged(Pattern regexWithGroup1) {
+		public Builder<T> allowJagged(@Nonnull Pattern regexWithGroup1) {
 			m_jaggedDimensions = true;
 			return this;
 		}
@@ -180,7 +183,7 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 		@Nonnull
 		@Override
 		public MatrixParser<T> build() {
-			return new MatrixParser<T>(this);
+			return new MatrixParser<>(this);
 		}
 
 	}

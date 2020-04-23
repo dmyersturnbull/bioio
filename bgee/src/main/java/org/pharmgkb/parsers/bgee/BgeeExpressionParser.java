@@ -9,8 +9,8 @@ import org.pharmgkb.parsers.bgee.model.Quality;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
-import java.io.IOException;
+import javax.annotation.concurrent.ThreadSafe;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 /**
  * @author Douglas Myers-Turnbull
  */
-@NotThreadSafe
+@ThreadSafe
 public class BgeeExpressionParser implements MultilineParser<BgeeExpression> {
 
 	private static final Splitter sf_tab = Splitter.on("\t");
@@ -32,10 +32,9 @@ public class BgeeExpressionParser implements MultilineParser<BgeeExpression> {
 
 	@Nonnull
 	@Override
-	public Stream<BgeeExpression> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<BgeeExpression> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.flatMap(this);
 	}
-
 
 	@Nonnull
 	@Override

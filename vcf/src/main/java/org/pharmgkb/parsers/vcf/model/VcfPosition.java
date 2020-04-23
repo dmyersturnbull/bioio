@@ -21,7 +21,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
 import java.util.Optional;

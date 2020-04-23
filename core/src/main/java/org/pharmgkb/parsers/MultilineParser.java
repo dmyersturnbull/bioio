@@ -1,10 +1,11 @@
 package org.pharmgkb.parsers;
 
+import org.pharmgkb.parsers.utils.IoUtils;
+
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Function;
@@ -19,28 +20,28 @@ import java.util.stream.Stream;
 public interface MultilineParser<R> extends Function<String, Stream<R>> {
 
 	@Nonnull
-	default List<R> collectAll(@Nonnull File file) throws IOException, BadDataFormatException {
+	default List<R> collectAll(@Nonnull File file) throws UncheckedIOException, BadDataFormatException {
 		return collectAll(file.toPath());
 	}
 
 	@Nonnull
-	default List<R> collectAll(@Nonnull Path file) throws IOException, BadDataFormatException {
-		return collectAll(Files.lines(file));
+	default List<R> collectAll(@Nonnull Path file) throws UncheckedIOException, BadDataFormatException {
+		return collectAll(IoUtils.readUtf8Lines(file));
 	}
 
 	@Nonnull
-	default List<R> collectAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	default List<R> collectAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return parseAll(stream).collect(Collectors.toList());
 	}
 
 	@Nonnull
-	default Stream<R> parseAll(@Nonnull File file) throws IOException, BadDataFormatException {
+	default Stream<R> parseAll(@Nonnull File file) throws UncheckedIOException, BadDataFormatException {
 		return parseAll(file.toPath());
 	}
 
 	@Nonnull
-	default Stream<R> parseAll(@Nonnull Path file) throws IOException, BadDataFormatException {
-		return parseAll(Files.lines(file));
+	default Stream<R> parseAll(@Nonnull Path file) throws UncheckedIOException, BadDataFormatException {
+		return parseAll(IoUtils.readUtf8Lines(file));
 	}
 
 	/**
@@ -48,11 +49,11 @@ public interface MultilineParser<R> extends Function<String, Stream<R>> {
 	 * {@code
 	 *     return stream.filter(s -> s.isEmpty() || s.startsWith("#")).map(this);
 	 * }
-	 * @throws IOException For IO errors
+	 * @throws UncheckedIOException For IO errors
 	 * @throws BadDataFormatException For most formatting errors
 	 */
 	@Nonnull
-	Stream<R> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException;
+	Stream<R> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException;
 
 	@Nonnull
 	@Override

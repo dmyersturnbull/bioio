@@ -14,7 +14,7 @@ public class CommentAnnotation implements GenbankAnnotation {
 
 	private String m_text;
 
-	public CommentAnnotation(String text) {
+	public CommentAnnotation(@Nonnull String text) {
 		m_text = text;
 	}
 

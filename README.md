@@ -21,8 +21,8 @@ matrices/tables/CSV/TSV
 Features & choices:
 - Reads and writes Java 8+ Streams, keeping only essential metadata in memory.
 - Parses every part of a format, leaving nothing as text unnecessarily.
-- Has consistent API. Coordinates are always 0-indexed and text is always escaped (according to specifications).
-- Immutable, thread-safe, null-pointer-safe (`Optional<>`), and uses only arbitrary-precision numbers.
+- Has a consistent API. Coordinates are always 0-indexed and text is always escaped (according to specifications).
+- Immutable, thread-safe, null-pointer-safe (`Optional<>`), and arbitrary-precision.
 
 This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that adds VCF, GenBank, PDB, faidx, and Turtle parsers.
 
@@ -229,6 +229,13 @@ Stream<BigDecimal> MatrixParser.tabs().parseAll(file).map(BigDecimal::new);
   7. Parsing and writing is _moderately_ strict. Severe violations throw a `BadDataFormatException`, and milder violations are logged as warnings using SLF4J. Not every aspect of a specification is validated.
   8. For specification-mandated escape sequences, encoding and decoding is automatic.
   9. Coordinates are _always 0-based_, even for 1-based formats. This is to ensure consistency as well as arithmetic simplicity.
+
+### pitfalls
+
+1. Never reuse a parser for a new stream.
+   Some parsers need to track some metadata on the stream.
+   For example, the multiline FASTQ parser needs to know the length of the last sequence.
+   (Otherwise, it's impossible to know where a score ends and a new header begins!)
 
 ![Java compatibility](https://img.shields.io/static/v1?label=Java&message=14%2b)
 ![Maven Central](https://img.shields.io/maven-central/v/dmyersturnbull/genome-sequence-io)

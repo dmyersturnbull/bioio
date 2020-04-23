@@ -15,7 +15,7 @@ public class OriginAnnotation implements GenbankAnnotation {
 	private String m_header;
 	private String m_sequence;
 
-	public OriginAnnotation(String data, String sequence) {
+	public OriginAnnotation(@Nonnull String data, @Nonnull String sequence) {
 		m_header = data;
 		m_sequence = sequence;
 	}

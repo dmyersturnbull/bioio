@@ -2,7 +2,6 @@ package org.pharmgkb.parsers.vcf.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfAltMetadata;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfFormatMetadata;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfInfoMetadata;

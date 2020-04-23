@@ -13,8 +13,7 @@ public class VcfDeletedAllele implements VcfAllele, Serializable {
 
 	public static final VcfDeletedAllele DELETED = new VcfDeletedAllele();
 
-	private VcfDeletedAllele() {
-	}
+	private VcfDeletedAllele() { }
 
 	@Nonnull
 	@Override

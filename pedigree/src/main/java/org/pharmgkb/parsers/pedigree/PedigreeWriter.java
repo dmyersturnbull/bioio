@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
@@ -41,7 +42,7 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 
 	@Override
 	@Nonnull
-	public Stream<String> apply(@Nonnull Pedigree pedigree) {
+	public Stream<String> apply(@Nonnull Pedigree pedigree) throws UncheckedIOException {
 
 		return pedigree.getFamilies().values().parallelStream()
 				.flatMap(family -> family.topologicalOrderStream()
@@ -54,14 +55,19 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 							StringBuilder sb = new StringBuilder();
 							sb.append(family.getId()).append(m_fieldSeparator);
 							sb.append(individual.getId()).append(m_fieldSeparator);
-							sb.append(!individual.getFather().isPresent() ? m_noParentMarker
-									          : individual.getFather().get().getId()).append(m_fieldSeparator);
-							sb.append(!individual.getMother().isPresent() ? m_noParentMarker
-									          : individual.getMother().get().getId()).append(m_fieldSeparator);
+							sb.append(
+									individual.getFather().isEmpty() ?
+									m_noParentMarker
+									: individual.getFather().get().getId()
+							).append(m_fieldSeparator);
+							sb.append(
+									individual.getMother().isEmpty() ?
+									m_noParentMarker
+									: individual.getMother().get().getId()
+							).append(m_fieldSeparator);
 							switch (individual.getSex()) {
 								case MALE -> sb.append(m_maleCode);
-								case FEMALE -> sb.append(m_femaleCode);
-								case UNKNOWN -> sb.append(m_femaleCode);
+								case FEMALE, UNKNOWN -> sb.append(m_femaleCode);
 							}
 							for (String info : individual.getInfo()) {
 								sb.append(m_fieldSeparator).append(info);

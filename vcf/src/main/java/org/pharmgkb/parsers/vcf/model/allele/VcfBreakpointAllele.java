@@ -49,13 +49,10 @@ public class VcfBreakpointAllele implements VcfAllele, Serializable {
 	public String toVcfString() {
 		String locusString = handleSymbolicChromsomeName(m_locus) + ":" + (m_locus.getPosition() + 1);
 		char bracket = m_orientation == Orientation.Forward? '[' : ']';
-		switch (m_placement) {
-			case Prefix:
-				return bracket + locusString + bracket + m_replacementString;
-			case Suffix:
-				return m_replacementString + bracket + locusString + bracket;
-			default: throw new UnsupportedOperationException("Unknown placement type " + m_placement);
-		}
+		return switch (m_placement) {
+			case Prefix -> bracket + locusString + bracket + m_replacementString;
+			case Suffix -> m_replacementString + bracket + locusString + bracket;
+		};
 	}
 
 	@Nonnull

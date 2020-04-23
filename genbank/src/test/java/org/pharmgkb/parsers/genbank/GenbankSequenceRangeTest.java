@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class GenbankSequenceRangeTest {
 
 	@Test
-	public void testSimple() throws Exception {
+	public void testSimple() {
 		String text = "-10..50";
 		GenbankSequenceRange range = new GenbankSequenceRange(text);
 		assertFalse(range.isComplement());
@@ -23,7 +23,7 @@ public class GenbankSequenceRangeTest {
 	}
 
 	@Test
-	public void testPartial() throws Exception {
+	public void testPartial(){
 		String text = "<-10..50>";
 		GenbankSequenceRange range = new GenbankSequenceRange(text);
 		assertFalse(range.isComplement());
@@ -35,7 +35,7 @@ public class GenbankSequenceRangeTest {
 	}
 
 	@Test
-	public void testComplement() throws Exception {
+	public void testComplement() {
 		String text = "complement(<-10..50>)";
 		GenbankSequenceRange range = new GenbankSequenceRange(text);
 		assertTrue(range.isComplement());

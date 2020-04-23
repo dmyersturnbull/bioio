@@ -17,7 +17,7 @@ public class SourceAnnotation implements GenbankAnnotation {
 	private String m_formalName;
 	private ImmutableList<String> m_lineage;
 
-	public SourceAnnotation(String name, String formalName, ImmutableList<String> lineage) {
+	public SourceAnnotation(@Nonnull String name, @Nonnull String formalName, @Nonnull ImmutableList<String> lineage) {
 		this.m_name = name;
 		this.m_formalName = formalName;
 		this.m_lineage = lineage;

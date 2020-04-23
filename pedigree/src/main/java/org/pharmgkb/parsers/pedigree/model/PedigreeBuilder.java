@@ -61,11 +61,16 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 	 *         or the mother or father (if non-null) does not exist or has the wrong Sex
 	 */
 	@Nonnull
-	public PedigreeBuilder add(@Nonnull String familyId, @Nonnull String individualId,
-	                                     @Nullable String fatherId, @Nullable String motherId,
-	                                     @Nonnull Sex sex, @Nonnull List<String> info) {
-		return addIndividual(familyId, individualId, Optional.ofNullable(fatherId), Optional.ofNullable(motherId),
-		                     sex, info);
+	public PedigreeBuilder add(
+			@Nonnull String familyId, @Nonnull String individualId,
+	        @Nullable String fatherId, @Nullable String motherId,
+	        @Nonnull Sex sex, @Nonnull List<String> info
+	) {
+		return addIndividual(
+				familyId, individualId,
+				Optional.ofNullable(fatherId), Optional.ofNullable(motherId),
+		        sex, info
+		);
 	}
 
 

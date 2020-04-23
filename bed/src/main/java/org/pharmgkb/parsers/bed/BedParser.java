@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
@@ -57,7 +57,7 @@ public class BedParser implements LineParser<BedFeature> {
 
 	@Nonnull
 	@Override
-	public Stream<BedFeature> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<BedFeature> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.map(this);
 	}
 

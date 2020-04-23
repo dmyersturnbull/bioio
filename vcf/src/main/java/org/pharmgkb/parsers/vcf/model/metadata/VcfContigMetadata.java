@@ -1,7 +1,6 @@
 package org.pharmgkb.parsers.vcf.model.metadata;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import org.pharmgkb.parsers.ObjectBuilder;
 import org.pharmgkb.parsers.vcf.model.extra.ReservedStructuralVariantCode;
@@ -13,7 +12,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,7 +33,7 @@ public class VcfContigMetadata extends VcfIdMetadata {
 
 	private static ImmutableSet<String> m_forbiddenIds;
 	static {
-		ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<String>();
+		ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<>();
 		for (ReservedStructuralVariantCode code : ReservedStructuralVariantCode.values()) {
 			builder.add(code.name());
 		}
@@ -48,10 +46,14 @@ public class VcfContigMetadata extends VcfIdMetadata {
 		super(VcfMetadataType.Contig, props);
 		super.require(ID, LENGTH);
 		super.ensureNoExtras(ID, LENGTH, ASSEMBLY, MD5, SPECIES, TAXONOMY, URL);
-		Preconditions.checkArgument(VcfPatterns.CONTIG_ID_PATTERN.matcher(getId()).matches(),
-				"CONTIG ID must match " + VcfPatterns.CONTIG_ID_PATTERN.pattern());
-		Preconditions.checkArgument(!m_forbiddenIds.contains(getId()),
-				"CONTIG ID cannot be a reserved structural variant code");
+		Preconditions.checkArgument(
+				VcfPatterns.CONTIG_ID_PATTERN.matcher(getId()).matches(),
+				"CONTIG ID must match " + VcfPatterns.CONTIG_ID_PATTERN.pattern()
+		);
+		Preconditions.checkArgument(
+				!m_forbiddenIds.contains(getId()),
+				"CONTIG ID cannot be a reserved structural variant code"
+		);
 		m_length = Long.parseLong(props.get(LENGTH));
 	}
 

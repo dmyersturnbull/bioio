@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -55,7 +56,7 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 
 	@Nonnull
 	@Override
-	public Stream<FastaSequence> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<FastaSequence> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		Preconditions.checkArgument(!stream.isParallel(), "Cannot read FASTA from a parallel stream");
 		return stream.flatMap(this);
 	}
@@ -63,28 +64,21 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 	@Nonnull
 	@Override
 	public Stream<FastaSequence> apply(@Nonnull String line) {
-
 		if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
 			sf_logger.debug("Reading line #{}", m_lineNumber);
 		}
-
 		if (line.startsWith(">")) {
-
 			final String header = m_currentHeader.getAndSet(line.substring(1));
 			if (header != null) {
 				throw new BadDataFormatException("No sequence for header " + header + " on line " + m_lineNumber);
 			}
 			return Stream.empty();
-
 		}
-
 		final String header = m_currentHeader.getAndSet(null);
 		if (header == null) {
 			throw new BadDataFormatException("No header on line " + m_lineNumber);
 		}
-
 		return Stream.of(new FastaSequence(header, line));
-
 	}
 
 	/**
@@ -105,8 +99,8 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 	@Override
 	public String toString() {
 		return "FastaSequenceParser{" +
-				"m_lineNumber=" + m_lineNumber.get() +
-				", m_currentHeader=" + m_currentHeader.get() +
+				"lineNumber=" + m_lineNumber.get() +
+				", currentHeader=" + m_currentHeader.get() +
 				'}';
 	}
 }

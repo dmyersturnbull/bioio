@@ -33,6 +33,7 @@ public interface Subtree<T> extends Iterable<T> {
 	Iterator<T> topologicalOrder();
 
 	@Override
+	@Nonnull
 	default Iterator<T> iterator() {
 		return inOrder();
 	}

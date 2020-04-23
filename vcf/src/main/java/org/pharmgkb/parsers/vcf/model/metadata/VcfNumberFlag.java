@@ -16,13 +16,13 @@ public enum VcfNumberFlag {
 
 	@Nonnull
 	public static Optional<VcfNumberFlag> fromId(@Nonnull String id) {
-		switch(id) {
-			case "A": return Optional.of(ONE_PER_ALT);
-			case "R": return Optional.of(ONE_PER_ALT_OR_REF);
-			case "G": return Optional.of(ONE_PER_GENOTYPE);
-			case ".": return Optional.of(UNKNOWN_OR_UNBOUNDED);
-		}
-		return Optional.empty();
+		return switch (id) {
+			case "A" -> Optional.of(ONE_PER_ALT);
+			case "R" -> Optional.of(ONE_PER_ALT_OR_REF);
+			case "G" -> Optional.of(ONE_PER_GENOTYPE);
+			case "." -> Optional.of(UNKNOWN_OR_UNBOUNDED);
+			default -> Optional.empty();
+		};
 	}
 
 	private final String m_id;

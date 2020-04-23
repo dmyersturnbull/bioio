@@ -1,12 +1,10 @@
 package org.pharmgkb.parsers;
 
+import org.pharmgkb.parsers.utils.IoUtils;
+
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -17,13 +15,11 @@ import java.util.stream.Stream;
  */
 public interface LineStructureWriter<S> extends Function<S, Stream<String>> {
 
-	default void writeToFile(@Nonnull S structure, @Nonnull Path file) throws IOException {
+	default void writeToFile(@Nonnull S structure, @Nonnull Path file) throws UncheckedIOException {
 		writeToFile(structure, file.toFile());
 	}
-	default void writeToFile(@Nonnull S structure, @Nonnull File file) throws IOException {
-		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)), true)) {
-			apply(structure).forEach(pw::println);
-		}
+	default void writeToFile(@Nonnull S structure, @Nonnull File file) throws UncheckedIOException {
+		IoUtils.writeUtf8Lines(file, apply(structure));
 	}
 
 	/**

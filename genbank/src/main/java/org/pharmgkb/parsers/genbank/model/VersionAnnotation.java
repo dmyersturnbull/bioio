@@ -15,9 +15,9 @@ public class VersionAnnotation implements GenbankAnnotation {
 	private String m_accession;
 	private String m_versionNumber;
 
-	public VersionAnnotation(String m_accession, String m_versionNumber) {
-		this.m_accession = m_accession;
-		this.m_versionNumber = m_versionNumber;
+	public VersionAnnotation(@Nonnull String accession, @Nonnull String versionNumber) {
+		this.m_accession = accession;
+		this.m_versionNumber = versionNumber;
 	}
 
 	@Nonnull

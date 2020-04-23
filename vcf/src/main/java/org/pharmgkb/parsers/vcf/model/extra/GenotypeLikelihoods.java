@@ -35,7 +35,8 @@ public class GenotypeLikelihoods {
 		int ploidy = genotype==null? 2 : genotype.ploidy(); // VCF spec says assume diploid
 		boolean isPhased = genotype != null && genotype.isPhased();
 
-		List<GeneralizedBigDecimal> likelihoods = (List<GeneralizedBigDecimal>) m_position.getSamples()
+		List<GeneralizedBigDecimal> likelihoods =
+				(List<GeneralizedBigDecimal>) m_position.getSamples()
 				.get(index)
 				.getConverted(ReservedFormatProperty.GenotypeLikelihoods)
 				.orElse(null);

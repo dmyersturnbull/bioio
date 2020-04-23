@@ -51,14 +51,10 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 	@Nonnull
 	@Override
 	public GenomeChain apply(@Nonnull Stream<String> stream) {
-
 		Preconditions.checkArgument(!stream.isParallel(), "Stream for genome chain cannot be parallel");
-
 		GenomeChain.Builder chain = new GenomeChain.Builder();
-
 		stream.filter(line -> !line.trim().isEmpty() && !line.startsWith("#"))
 				.forEach(new LineConsumer(chain));
-
 		return chain.build();
 	}
 
@@ -100,8 +96,11 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 					targetEnd = Long.parseLong(parts[11]);
 					sourceStrand = Strand.lookupBySymbol(parts[4]);
 					targetStrand = Strand.lookupBySymbol(parts[9]);
-					sf_logger.trace("\nCHAIN: " + new Locus(sourceChr, sourcePosition, sourceStrand.get())
-							      + "    ---->    " + new Locus(targetChr, targetPosition, targetStrand.get()));
+					//noinspection OptionalGetWithoutIsPresent
+					sf_logger.trace(
+							"\nCHAIN: " + new Locus(sourceChr, sourcePosition, sourceStrand.get())
+							+ "    ---->    " + new Locus(targetChr, targetPosition, targetStrand.get())
+					);
 					sf_logger.trace("------------------------------------------------");
 
 				} else {
@@ -113,10 +112,12 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 						targetGap = Integer.parseInt(parts[2]);
 					}
 
+					//noinspection OptionalGetWithoutIsPresent
 					LocusRange source = new LocusRange(
 							new Locus(sourceChr, sourcePosition, sourceStrand.get()),
 							new Locus(sourceChr, sourcePosition + diagonal, sourceStrand.get())
 					);
+					//noinspection OptionalGetWithoutIsPresent
 					LocusRange target = new LocusRange(
 							new Locus(targetChr, targetPosition, targetStrand.get()),
 							new Locus(targetChr, targetPosition + diagonal, targetStrand.get())
@@ -129,12 +130,16 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 
 					if (parts.length == 1) {
 						if (sourcePosition != sourceEnd) {
-							throw new BadDataFormatException("Should end block at position " + sourceEnd + ","
-									+ " but ended at position " + sourcePosition + ", at line #" + m_lineNumber);
+							throw new BadDataFormatException(
+									"Should end block at position " + sourceEnd + ","
+									+ " but ended at position " + sourcePosition + ", at line #" + m_lineNumber
+							);
 						}
 						if (targetPosition != targetEnd) {
-							throw new BadDataFormatException("Should end block at position " + targetEnd + ","
-									+ " but ended at position " + targetPosition + ", at line #" + m_lineNumber);
+							throw new BadDataFormatException(
+									"Should end block at position " + targetEnd + ","
+									+ " but ended at position " + targetPosition + ", at line #" + m_lineNumber
+							);
 						}
 					}
 

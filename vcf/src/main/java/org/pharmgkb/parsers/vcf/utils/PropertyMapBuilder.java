@@ -21,16 +21,14 @@ public class PropertyMapBuilder extends ImmutableMap.Builder<String, String> imp
 	public PropertyMapBuilder() {}
 
 	public PropertyMapBuilder(@Nonnull Map<String, String> map) {
-		map.forEach((key, value) -> put(key, value));
+		map.forEach(this::put);
 	}
 
 	@Nonnull
 	public PropertyMapBuilder put(@Nonnull String key, @Nonnull Optional<String> value) {
 		Preconditions.checkNotNull(key, "Key cannot be null");
 		Preconditions.checkNotNull(value, "Value cannot be null");
-		if (value.isPresent()) {
-			super.put(key, value.get());
-		}
+		value.ifPresent(s -> super.put(key, s));
 		return this;
 	}
 

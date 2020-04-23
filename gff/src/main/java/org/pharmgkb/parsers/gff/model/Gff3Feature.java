@@ -96,7 +96,7 @@ public class Gff3Feature extends BaseGffFeature {
 
 		@Nonnull
 		public Gff3Feature build() {
-			if ("CDS".equalsIgnoreCase(m_type) && !m_phase.isPresent()) {
+			if ("CDS".equalsIgnoreCase(m_type) && m_phase.isEmpty()) {
 				sf_logger.warn("The feature starting at {} and ending at {} is of type CDS but no phase is given", m_start, m_end);
 			}
 			return new Gff3Feature(this);

@@ -10,7 +10,7 @@ public class VcfPatterns {
 
 	private VcfPatterns() {}
 
-	public static final Pattern FILE_FORMAT_PATTERN = Pattern.compile("VCFv[\\d\\.]+");
+	public static final Pattern FILE_FORMAT_PATTERN = Pattern.compile("VCFv[\\d.]+");
 
 	public static final Pattern BASES_ALT_PATTERN = Pattern.compile("(?:[AaCcGgTtNn]+)");
 
@@ -36,8 +36,8 @@ public class VcfPatterns {
 				"\\.?"                                                      + // optional opening dot
 				"(?:"                                                       + // start breakpoint types
 					"(?:" + sf_simpleAltPattern + "?\\[" + sf_number + "\\[)"  + // breakpoint type 1: t[p[
-					"|(?:" + sf_simpleAltPattern + "?\\]" + sf_number + "\\])" + // breakpoint type 2: t]p]
-					"|(?:\\]" + sf_number + "\\]" + sf_simpleAltPattern + "?)" + // breakpoint type 3: ]p]t
+					"|(?:" + sf_simpleAltPattern + "?]" + sf_number + "])" + // breakpoint type 2: t]p]
+					"|(?:]" + sf_number + "]" + sf_simpleAltPattern + "?)" + // breakpoint type 3: ]p]t
 					"|(?:\\[" + sf_number + "\\[" + sf_simpleAltPattern + "?)" + // breakpoint type 4: [p[t
 				")"                                                         + // end breakpoint types
 				"\\.?"                                                      + // optional closing dot

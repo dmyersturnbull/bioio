@@ -13,7 +13,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.File;
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -79,7 +79,7 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 
 	@Nonnull
 	@Override
-	public Stream<Gff3Feature> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<Gff3Feature> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.filter(s -> !s.startsWith("#")).map(this);
 	}
 
@@ -108,28 +108,18 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 					Optional.empty()
 					: Optional.of(new BigDecimal(parts[5]));
 
-			if (!GffStrand.lookupBySymbol(parts[6]).isPresent()) {
+			if (GffStrand.lookupBySymbol(parts[6]).isEmpty()) {
 				throw new IllegalArgumentException("Strand " + parts[6] + " is unrecognized");
 			}
 			final GffStrand strand = GffStrand.lookupBySymbol(parts[6]).get();
 
-			final Optional<CdsPhase> phase;
-			switch (parts[7]) {
-				case ".":
-					phase = Optional.empty();
-					break;
-				case "0":
-					phase = Optional.of(CdsPhase.ZERO);
-					break;
-				case "1":
-					phase = Optional.of(CdsPhase.ONE);
-					break;
-				case "2":
-					phase = Optional.of(CdsPhase.TWO);
-					break;
-				default:
-					throw new IllegalArgumentException("Phase " + parts[7] + " is unrecognized");
-			}
+			final Optional<CdsPhase> phase = switch (parts[7]) {
+				case "." -> Optional.empty();
+				case "0" -> Optional.of(CdsPhase.ZERO);
+				case "1" -> Optional.of(CdsPhase.ONE);
+				case "2" -> Optional.of(CdsPhase.TWO);
+				default -> throw new IllegalArgumentException("Phase " + parts[7] + " is unrecognized");
+			};
 
 			Map<String, List<String>> attributes = stringToMap(parts[8]);
 
@@ -148,8 +138,11 @@ public class Gff3Parser implements LineParser<Gff3Feature> {
 			return builder.build();
 
 		} catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
-			throw new BadDataFormatException("Bad data format on line #" + m_lineNumber.get()
-					                                 + "; line is [[[" + line + "]]]", e);
+			throw new BadDataFormatException(
+					"Bad data format on line #" + m_lineNumber.get()
+					+ "; line is [[[" + line + "]]]",
+					e
+			);
 		} catch (RuntimeException e) {
 			// this is a little weird, but it's helpful
 			// not that we're not throwing a BadDataFormatException because we don't expect AIOOB, e.g.

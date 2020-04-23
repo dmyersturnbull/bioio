@@ -117,7 +117,7 @@ public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>,
 	 * @throws UnsupportedOperationException If this or {@code o} is {@code NaN}
 	 */
 	public boolean lessThan(@Nonnull String o) {
-		return compareTo(new GeneralizedBigDecimal(o)) == -1;
+		return compareTo(new GeneralizedBigDecimal(o)) < 0;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>,
 	 * @throws UnsupportedOperationException If this or {@code o} is {@code NaN}
 	 */
 	public boolean greaterThan(@Nonnull String o) {
-		return compareTo(new GeneralizedBigDecimal(o)) == 1;
+		return compareTo(new GeneralizedBigDecimal(o)) > 0;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>,
 	 * @throws UnsupportedOperationException If this or {@code o} is {@code NaN}
 	 */
 	public boolean lessThan(@Nonnull GeneralizedBigDecimal o) {
-		return compareTo(o) == -1;
+		return compareTo(o) < 0;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>,
 	 * @throws UnsupportedOperationException If this or {@code o} is {@code NaN}
 	 */
 	public boolean greaterThan(@Nonnull GeneralizedBigDecimal o) {
-		return compareTo(o) == 1;
+		return compareTo(o) > 0;
 	}
 
 	/**

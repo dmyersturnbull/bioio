@@ -14,24 +14,48 @@ public enum ReservedFormatProperty implements ReservedProperty {
 	Genotype("GT", "Genotype, encoded as allele values separated by either / or |.", String.class, false, "1"),
 	Depth("DP", "Read depth at this position for this sample.", Long.class, false, "1"),
 	Filter("FT", "Sample genotype filter indicating if this genotype was called.", String.class, false),
-	GenotypeLikelihoods("GL", "Genotype likelihoods comprised of comma separated floating point log10-scaled likelihoods"
+	GenotypeLikelihoods(
+			"GL", "Genotype likelihoods comprised of comma separated floating point log10-scaled likelihoods"
 			+ " for all possible genotypes given the set of alleles defined in the REF and Alt fields.",
-			BigDecimal.class, true, "G"),
-	GenotypeLikelihoodsOfHeterogenousPloidy("GLE",
+			BigDecimal.class, true, "G"
+	),
+	GenotypeLikelihoodsOfHeterogenousPloidy(
+			"GLE",
 			"genotype likelihoods of heterogeneous ploidy, used in presence of uncertain copy number.",
-			String.class, true),
-	PhredScaledGenotypeLikelihoods("PL", "the phred-scaled genotype likelihoods rounded to the closest integer" +
-			"(and otherwise defined precisely as the GL field)", Long.class, true, "G"),
-	GenotypePosteriorProbabilitiesPhredScaled("GP", "The phred-scaled genotype posterior probabilities (and otherwise defined " +
-			"precisely as the GL field); intended to store imputed genotype probabilities", BigDecimal.class, true, "G"),
-	GenotypeQualityConditional("GQ", "conditional genotype quality, encoded as a phred quality" +
-			"−10log10p(genotype call is wrong, conditioned on the site’s being variant)", Long.class, false, "1"),
+			String.class, true
+	),
+	PhredScaledGenotypeLikelihoods(
+			"PL",
+			"the phred-scaled genotype likelihoods rounded to the closest integer" +
+			"(and otherwise defined precisely as the GL field)",
+			Long.class, true, "G"
+	),
+	GenotypePosteriorProbabilitiesPhredScaled(
+			"GP",
+			"The phred-scaled genotype posterior probabilities (and otherwise defined " +
+			"precisely as the GL field); intended to store imputed genotype probabilities",
+			BigDecimal.class, true, "G"
+	),
+	GenotypeQualityConditional(
+			"GQ",
+			"conditional genotype quality, encoded as a phred quality" +
+			"−10log10p(genotype call is wrong, conditioned on the site’s being variant)",
+			Long.class, false, "1"
+	),
 	HaplotypeQualities("HQ", "Haplotype qualities, two comma separated phred qualities", Long.class, true),
 	PhaseSet("PS", "Phase set; see specification.", Long.class, false),
-	PhasingQuality("PQ", "Phasing quality, the phred-scaled probability that alleles are ordered incorrectly in a " +
-			"heterozygote (against all other members in the phase set).", Long.class, false),
-	ExpectedAlleleCounts("EC", "List of expected alternate allele counts for each alternate allele in the same order " +
-			"as listed in the Alt field (typically used in association analyses)", Long.class, true),
+	PhasingQuality(
+			"PQ",
+			"Phasing quality, the phred-scaled probability that alleles are ordered incorrectly in a " +
+			"heterozygote (against all other members in the phase set).",
+			Long.class, false
+	),
+	ExpectedAlleleCounts(
+			"EC",
+			"List of expected alternate allele counts for each alternate allele in the same order " +
+			"as listed in the Alt field (typically used in association analyses)",
+			Long.class, true
+	),
 	MappingQuality("MQ", "RMS mapping quality, similar to the version in the Info field.", Long.class, true),
 
 	// structural variants

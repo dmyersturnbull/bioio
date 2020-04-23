@@ -16,7 +16,7 @@ public class FeaturesAnnotation implements GenbankAnnotation {
 	private String m_header;
 	private ImmutableList<GenbankFeature> m_features;
 
-	public FeaturesAnnotation(String header, ImmutableList<GenbankFeature> features) {
+	public FeaturesAnnotation(@Nonnull String header, @Nonnull ImmutableList<GenbankFeature> features) {
 		m_header = header;
 		m_features = features;
 	}

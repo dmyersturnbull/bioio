@@ -28,10 +28,10 @@ public enum Strand {
 
 	@Nonnull
 	public static Optional<Strand> lookupBySymbol(@Nonnull String symbol) {
-		switch (symbol) {
-			case "+": return Optional.of(PLUS);
-			case "-": return Optional.of(MINUS);
-			default: return Optional.empty();
-		}
+		return switch (symbol) {
+			case "+" -> Optional.of(PLUS);
+			case "-" -> Optional.of(MINUS);
+			default -> Optional.empty();
+		};
 	}
 }

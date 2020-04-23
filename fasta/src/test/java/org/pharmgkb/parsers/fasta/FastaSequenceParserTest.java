@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class FastaSequenceParserTest {
 
 	@Test
-	public void testApply() throws Exception {
+	public void testApply() {
 		Stream<String> lines = Stream.of(
 				">header1",
 				"sequence1",

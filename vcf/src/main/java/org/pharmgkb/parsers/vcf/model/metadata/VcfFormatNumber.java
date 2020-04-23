@@ -2,7 +2,6 @@ package org.pharmgkb.parsers.vcf.model.metadata;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -43,11 +42,8 @@ public class VcfFormatNumber {
 	@Nonnull
 	@Override
 	public String toString() {
-		if (m_flag.isPresent()) {
-			return m_flag.get().getId();
-		} else {
-			return String.valueOf(m_number.get());
-		}
+		//noinspection OptionalGetWithoutIsPresent
+		return m_flag.map(VcfNumberFlag::getId).orElseGet(() -> String.valueOf(m_number.get()));
 	}
 
 }

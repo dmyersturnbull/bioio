@@ -36,13 +36,13 @@ public class VcfFileWriter implements Closeable {
 		m_flushEvery = builder.m_flushEvery;
 	}
 
-	public void write(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<VcfPosition> positions) throws IOException {
+	public void write(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<VcfPosition> positions) {
 		Preconditions.checkNotNull(positions, "Positions cannot be null");
 		Preconditions.checkNotNull(metadata, "Metadata cannot be null");
 		write(metadata.getLines().stream(), positions);
 	}
 
-	public void write(@Nonnull Stream<VcfMetadata> metadata, @Nonnull Stream<VcfPosition> positions) throws IOException {
+	public void write(@Nonnull Stream<VcfMetadata> metadata, @Nonnull Stream<VcfPosition> positions) {
 		Preconditions.checkNotNull(metadata, "Metadata cannot be null");
 		Preconditions.checkNotNull(positions, "Positions cannot be null");
 		metadata.map(new VcfMetadataWriter())
@@ -58,7 +58,7 @@ public class VcfFileWriter implements Closeable {
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		m_writer.close();
 	}
 

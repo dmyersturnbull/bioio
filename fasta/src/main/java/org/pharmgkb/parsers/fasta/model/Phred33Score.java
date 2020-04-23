@@ -36,7 +36,7 @@ public class Phred33Score implements Comparable<Phred33Score> {
 
     @Nonnegative
     public BigDecimal toLog10SangerProbability() {
-        return new BigDecimal(getValue()).subtract(new BigDecimal(10));
+        return new BigDecimal(getValue()).scaleByPowerOfTen(-1).negate();
     }
 
     @Override

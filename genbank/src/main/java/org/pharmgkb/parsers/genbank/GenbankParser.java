@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +40,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 
 	@Nonnull
 	@Override
-	public Stream<GenbankAnnotation> parseAll(@Nonnull Stream<String> stream) throws IOException, BadDataFormatException {
+	public Stream<GenbankAnnotation> parseAll(@Nonnull Stream<String> stream) throws UncheckedIOException, BadDataFormatException {
 		return stream.flatMap(this);
 	}
 
@@ -78,35 +78,34 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 	private GenbankAnnotation parse(String line) {
 		Entry e = Entry.extract(line);
 		switch (e.directive) {
-			case "LOCUS": {
+			case "LOCUS" -> {
 				List<String> parts = e.splitAndTrim();
 				String[] dateChars = parts.get(5).split("-");
 				dateChars[1] = Character.toUpperCase(dateChars[1].charAt(0)) + dateChars[1].substring(1).toLowerCase();
 				LocalDate date = LocalDate.parse(String.join("-", dateChars), DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
 				return new LocusAnnotation(parts.get(0), parts.get(1), parts.get(3), parts.get(4), date);
-			} case "DEFINITION": {
+			} case "DEFINITION" -> {
 				return new DefinitionAnnotation(e.trim());
-			} case "ACCESSION": {
+			} case "ACCESSION" -> {
 				return new AccessionAnnotation(e.trim());
-			} case "VERSION": {
+			} case "VERSION" -> {
 				List<String> parts = e.splitAndTrim();
 				return new VersionAnnotation(parts.get(0), parts.get(1));
-			} case "KEYWORDS": {
+			} case "KEYWORDS" -> {
 				List<String> parts = e.trim().equals(".") ? Collections.emptyList() : e.splitAndTrim();
 				return new KeywordsAnnotation(ImmutableList.copyOf(parts));
-			} case "COMMENT": {
+			} case "COMMENT" -> {
 				return new CommentAnnotation(e.trim());
-			} case "SOURCE": {
+			} case "SOURCE" -> {
 				return parseSource(e);
-			} case "REFERENCE": {
+			} case "REFERENCE" -> {
 				return parseReference(e);
-			} case "FEATURES": {
+			} case "FEATURES" -> {
 				return parseFeatures(e);
-			} case "ORIGIN": {
+			} case "ORIGIN" -> {
 				return parseOrigin(e);
-			} default: {
-				throw new IllegalArgumentException("Invalid directive " + e.directive);
 			}
+			default -> throw new IllegalArgumentException("Invalid directive " + e.directive);
 		}
 	}
 
@@ -165,7 +164,7 @@ public class GenbankParser implements MultilineParser<GenbankAnnotation> {
 		for (String line : e.textAsTrimmedLines()) {
 			if (line.startsWith("/")) {
 				Matcher match = pattern.matcher(line);
-				assert match.matches();
+				if (!match.matches()) throw new AssertionError("No match for " + line);
 				properties.put(match.group(1), match.group(2));
 			} else {
 				extraLines.add(line);

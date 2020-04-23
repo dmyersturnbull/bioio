@@ -38,9 +38,9 @@ public class TurtleParser implements MultilineParser<Triple> {
 	private static final Pattern sf_xPattern =
 			Pattern.compile("([<\"]?(?:[^<\"]+)[>\"]?(?:@(?:[A-Za-z0-9\\-_:]+))?(?:\\^{2}(?:[A-Za-z0-9\\-_:]+))?)");
 	private static final Pattern sf_triplePattern =
-			Pattern.compile("^[ ]*" + sf_xPattern.pattern() + "[ ]+" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
+			Pattern.compile("^[ ]*" + sf_xPattern.pattern() + "[ ]+" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;.]$");
 	private static final Pattern sf_doublePattern =
-			Pattern.compile("^[ ]*" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;\\.]$");
+			Pattern.compile("^[ ]*" + sf_xPattern + "[ ]+" + sf_xPattern + "[ ]*[;.]$");
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
