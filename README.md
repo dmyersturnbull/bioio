@@ -17,7 +17,6 @@ VCF, FASTA, GenBank, BED, GFF/GTV/GVF, UCSC chain,
 pre-MAKEPED, BGEE, Turtle/RDF,
 matrices/tables/CSV/TSV
 
-
 Features & choices:
 - Reads and writes Java 8+ Streams, keeping only essential metadata in memory.
 - Parses every part of a format, leaving nothing as text unnecessarily.
@@ -39,6 +38,8 @@ new VcfDataWriter().writeToFile(goodMitochondrialCalls, filteredPath);
 ```
 
 ### Build/install
+
+Requires Java 14+.
 
 The project is not currently on Maven Central but should be soon.
 Until then, you can download a [release](https://github.com/dmyersturnbull/genome-sequence-io/releases), which includes a JAR.
@@ -65,6 +66,16 @@ Note that running `gradle :xxx:gff` will only run tests for `gff` and `core`.
 - Other: cytoband
 - Misc: Matrices/tables/CSV/TSV, alignment, **Turtle (and RDF)**
 
+### Extra things
+
+By accident, a few pieces of code may be generally useful:
+- `org.pharmgkb.core.WebResource` (downloadable caching resource)
+- `org.pharmgkb.core.utils.Try` (monadic attempt/recovery/mapping)
+- `org.pharmgkb.core.utils.IoUtils` (text streams, gzip, and URLs)
+- `org.pharmgkb.core.utils.HttpHeadResponse` (superior wrapper around incoming HTTP headers)
+- `org.pharmgkb.core.utils.ReflectingConstructor` (quiet reflection to deal with type erasure)
+- `org.pharmgkb.core.escape.*` (model for escaping and unescaping)
+- `org.pharmgkb.core.model.GeneralizedBigDecimal` (BigDecimal that accepts NaN, Inf, and -Inf)
 
 ### Examples
 

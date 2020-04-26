@@ -82,8 +82,10 @@ public class LocusRange implements Comparable<LocusRange>, Serializable {
      * @throws IllegalArgumentException If {@code locusRange} belongs to a different strand
 	 */
     public long calcOverlappingDensity(@Nonnull LocusRange locusRange) {
-        Preconditions.checkArgument(locusRange.getStrand() == getStrand(),
-                                    "Cannot compare loci " + "belonging to different strands");
+        Preconditions.checkArgument(
+                locusRange.getStrand() == getStrand(),
+                "Cannot compare loci belonging to different strands"
+        );
         if (!locusRange.getChromosome().equals(getChromosome())) return 0;
         return Math.min(m_end.getPosition(), locusRange.getEnd().getPosition())
                 - Math.max(m_start.getPosition(), locusRange.getStart().getPosition()

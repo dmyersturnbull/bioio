@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Optional;
  * A {@link BigDecimal} that can be infinite or NaN.
  * @author Douglas Myers-Turnbull
  */
+@Immutable
 public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>, Serializable {
 
 	public static final GeneralizedBigDecimal NAN = new GeneralizedBigDecimal("NaN");

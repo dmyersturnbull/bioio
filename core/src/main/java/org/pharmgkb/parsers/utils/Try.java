@@ -147,6 +147,18 @@ public class Try<T, E extends Throwable> {
 	}
 
 	/**
+	 * You should mostly prefer calling {@code compose} instead.
+	 * Composes this Try with a condition that must pass.
+	 * If the condition fails, calls {@code this.clazz(String)}.
+	 * @param condition A required condition
+	 * @return A new Try
+	 */
+	public Try<T,E> require(@Nonnull Function<T, Boolean> condition) throws UnsupportedOperationException, RuntimeReflectionException {
+		if (value == null || condition.apply(value)) return this;
+		return new Try<>(null, new ReflectingConstructor<>(clazz).instance("Failed requirement " + condition), clazz);
+	}
+
+	/**
 	 * Compose this Try with a function.
 	 * If {@code this} Try is a success, tries to map its result to {@code fn(this.value)}.
 	 * If {@code this} Try is a failure, returns a copy of it (with type &lt;Z&gt;).

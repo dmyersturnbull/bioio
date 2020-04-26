@@ -15,6 +15,25 @@ class RuntimeReflectionException extends RuntimeException {
 	}
 }
 
+/**
+ * Helper to deal with type erasure problems.
+ * A contrived example:
+ * {@code
+ * class FruitPicker<T extends Fruit> {
+ *     private T myFruit;
+ *     private ReflectingConstructor<T> reflector;
+ *     public FruitPicker(T t, Class<T> clazz) {
+ *         this.myFruit = fruit;
+ *         this.reflector = new ReflectingConstructor(clazz, String.class);
+ *     }
+ *     public T propagate(String color) {
+ *         if (color != myFruit.color) print("A new color of fruit!");
+ *         return reflector.instance(color);
+ *     }
+ * }
+ * }
+ * @param <C> The type of the class
+ */
 @Immutable
 public class ReflectingConstructor<C> {
 
