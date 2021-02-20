@@ -1,20 +1,12 @@
 package org.pharmgkb.parsers.pedigree;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.pedigree.model.*;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link PedigreeBuilder}.
@@ -24,7 +16,7 @@ public class PedigreeBuilderTest {
 
 	private static Family m_family;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		m_family = buildFamily();
 	}
@@ -233,27 +225,25 @@ public class PedigreeBuilderTest {
 	public void testMissingFather() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", "asdf", null, Sex.FEMALE, Collections.emptyList()); // this is ok
-		assertThatThrownBy(builder::build)
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Father")
-				.hasMessageContaining("does not exist");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, builder::build);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("father"));
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("does not exist"));
 	}
 
 	@Test
 	public void testMissingMother() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", null, "asdf", Sex.FEMALE, Collections.emptyList()); // this is ok
-		assertThatThrownBy(builder::build)
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Mother")
-				.hasMessageContaining("does not exist");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, builder::build);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("mother"));
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("does not exist"));
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testDifferentFamilies() {
 		PedigreeBuilder builder = new PedigreeBuilder(true);
 		builder.add("f1", "A0_fa", null, null, Sex.FEMALE, Collections.emptyList());
 		builder.add("f2", "B0_fa", null, "A0_fa", Sex.FEMALE, Collections.emptyList()); // this is ok
-		builder.build(); // this should break
+		assertThrows(IllegalArgumentException.class, builder::build);
 	}
 }

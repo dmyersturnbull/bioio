@@ -37,15 +37,15 @@ class RuntimeReflectionException extends RuntimeException {
 @Immutable
 public class ReflectingConstructor<C> {
 
-	private Class<C> m_clazz;
-	private Class<?>[] m_signature;
-	private Constructor<C> m_constructor;
+	private final Class<C> m_clazz;
+	private final Class<?>[] m_signature;
+	private final Constructor<C> m_constructor;
 
 	public ReflectingConstructor(@Nonnull Class<C> clazz, @Nonnull Class<?>... signature) {
-		this.m_clazz = clazz;
-		this.m_signature = signature;
+		m_clazz = clazz;
+		m_signature = signature;
 		try {
-			this.m_constructor = clazz.getConstructor(String.class);
+			m_constructor = clazz.getConstructor(String.class);
 		} catch (NoSuchMethodException e) {
 			throw new UnsupportedOperationException(e);
 		}
@@ -54,7 +54,7 @@ public class ReflectingConstructor<C> {
 	@Nonnull
 	public C instance(@Nonnull Object... args) {
 		try {
-			return this.m_constructor.newInstance(args);
+			return m_constructor.newInstance(args);
 		} catch (InstantiationException | IllegalAccessException | SecurityException e) {
 			throw new UnsupportedOperationException("Failed to find constructor with signature (String)", e);
 		} catch (InvocationTargetException e) {

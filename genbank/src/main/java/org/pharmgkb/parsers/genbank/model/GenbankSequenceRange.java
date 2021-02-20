@@ -13,9 +13,11 @@ import java.util.regex.Pattern;
 @Immutable
 public class GenbankSequenceRange {
 
-	private static Pattern pattern = Pattern.compile("(complement\\()?(<)?(-?\\d+)\\.{2}(-?\\d+)(>)?\\)?");
+	private static final Pattern pattern = Pattern.compile("(complement\\()?(<)?(-?\\d+)\\.{2}(-?\\d+)(>)?\\)?");
+	private static final Pattern startPattern = Pattern.compile("\\.{2}");
+	private static final Pattern endPattern = Pattern.compile("\\.{2}");
 
-	private String m_text;
+	private final String m_text;
 
 	public GenbankSequenceRange(@Nonnull String text) {
 		m_text = text;
@@ -28,12 +30,12 @@ public class GenbankSequenceRange {
 
 	public long start() {
 		String x = m_text.replace("complement(", "").replace("<", "");
-		return Long.parseLong(x.split("\\.{2}")[0]);
+		return Long.parseLong(startPattern.split(x)[0]);
 	}
 
 	public long end() {
 		String x = m_text.replace(")", "").replace(">", "");
-		return Long.parseLong(x.split("\\.{2}")[1]);
+		return Long.parseLong(endPattern.split(x)[1]);
 	}
 
 	public boolean isComplement() {
@@ -53,7 +55,7 @@ public class GenbankSequenceRange {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				.add("m_text", m_text)
+				.add("text", m_text)
 				.toString();
 	}
 

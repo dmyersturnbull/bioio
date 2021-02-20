@@ -1,6 +1,6 @@
 repositories {
     maven {
-        url 'http://www.ebi.ac.uk/~maven/m2repo/'
+        url 'https://www.ebi.ac.uk/~maven/m2repo/'
     }
 }
 

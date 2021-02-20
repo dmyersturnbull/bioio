@@ -15,12 +15,13 @@ import java.util.Objects;
 @Immutable
 public class LocusAnnotation implements GenbankAnnotation {
 
-	private String m_locusName;
-	private String m_sequenceLength;
-	private String m_moleculeType;
-	private String m_division;
-	private LocalDate m_modificationDate;
-	private GenbankDivision m_standardDivision;
+	private final String m_locusName;
+	private final String m_sequenceLength;
+	private final String m_moleculeType;
+	private final String m_division;
+	private final LocalDate m_modificationDate;
+	@SuppressWarnings("FieldNotUsedInToString")
+	private final GenbankDivision m_standardDivision;
 
 	public LocusAnnotation(
 			@Nonnull String locusName,
@@ -29,12 +30,12 @@ public class LocusAnnotation implements GenbankAnnotation {
 			@Nonnull String division,
 			@Nonnull LocalDate modificationDate
 	) {
-		this.m_locusName = locusName;
-		this.m_sequenceLength = sequenceLength;
-		this.m_moleculeType = moleculeType;
-		this.m_division = division;
-		this.m_modificationDate = modificationDate;
-		this.m_standardDivision = Enums.getIfPresent(GenbankDivision.class, division).or(GenbankDivision.NONSTANDARD);
+		m_locusName = locusName;
+		m_sequenceLength = sequenceLength;
+		m_moleculeType = moleculeType;
+		m_division = division;
+		m_modificationDate = modificationDate;
+		m_standardDivision = Enums.getIfPresent(GenbankDivision.class, division).or(GenbankDivision.NONSTANDARD);
 	}
 
 	@Nonnull

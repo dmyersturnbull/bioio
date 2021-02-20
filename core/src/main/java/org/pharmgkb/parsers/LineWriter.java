@@ -2,14 +2,15 @@ package org.pharmgkb.parsers;
 
 import org.pharmgkb.parsers.utils.IoUtils;
 
-import java.io.*;
-import java.util.stream.StreamSupport;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
+import java.util.stream.StreamSupport;
 
 /**
  * Counterpart to {@link LineParser}.

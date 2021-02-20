@@ -30,12 +30,12 @@ public class VcfDataWriter implements LineWriter<VcfPosition> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	@Nonnull
 	@Override
 	public String apply(@Nonnull VcfPosition position) {
-		StringBuilder sb = new StringBuilder()
+		StringBuilder sb = new StringBuilder(128)
 				.append(position.getChromosome())
 				.append("\t")
 				.append(position.getPosition() + 1) // VCF is 1-based

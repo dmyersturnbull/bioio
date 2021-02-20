@@ -1,12 +1,8 @@
 package org.pharmgkb.parsers.bgee;
 
-import org.junit.Test;
-import org.pharmgkb.parsers.model.CommonSpecies;
+import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class BgeeResourceTest {
 

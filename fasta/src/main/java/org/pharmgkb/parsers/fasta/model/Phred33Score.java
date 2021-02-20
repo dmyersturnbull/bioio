@@ -5,6 +5,7 @@ import javax.annotation.concurrent.Immutable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@SuppressWarnings("CharacterComparison")
 @Immutable
 public class Phred33Score implements Comparable<Phred33Score> {
 
@@ -22,7 +23,7 @@ public class Phred33Score implements Comparable<Phred33Score> {
         if (character < (char)33 || character > (char)126) {
             throw new IllegalArgumentException("Value " + character + " is out of range for Phred33");
         }
-        this.m_character = character;
+        m_character = character;
     }
 
     public char getCharacter() {
@@ -31,7 +32,7 @@ public class Phred33Score implements Comparable<Phred33Score> {
 
     @Nonnegative
     public int getValue() {
-        return (int)this.m_character + 33;
+        return (int)m_character + 33;
     }
 
     @Nonnegative
@@ -41,7 +42,7 @@ public class Phred33Score implements Comparable<Phred33Score> {
 
     @Override
     public String toString() {
-        return String.valueOf(this.m_character);
+        return String.valueOf(m_character);
     }
 
     @Override
@@ -59,6 +60,6 @@ public class Phred33Score implements Comparable<Phred33Score> {
 
     @Override
     public int compareTo(Phred33Score o) {
-        return Integer.compare(this.getValue(), o.getValue());
+        return Integer.compare(getValue(), o.getValue());
     }
 }

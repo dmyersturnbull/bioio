@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
+import java.io.Serial;
 import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -28,11 +29,11 @@ public class VcfValidator implements Consumer<VcfPosition> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private final Consumer<InvalidProperty> m_action;
+	private final Consumer<? super InvalidProperty> m_action;
 
 	private final VcfMetadataCollection m_metadata;
 
-	private VcfValidator(@Nonnull Consumer<InvalidProperty> action, @Nonnull VcfMetadataCollection metadata) {
+	private VcfValidator(@Nonnull Consumer<? super InvalidProperty> action, @Nonnull VcfMetadataCollection metadata) {
 		m_action = action;
 		m_metadata = metadata;
 	}
@@ -195,6 +196,16 @@ public class VcfValidator implements Consumer<VcfPosition> {
 		public ValidationException(InvalidProperty error) {
 			super("Bad " + error.getSource() + ": \"" + error.getKey() + "\" for position " + error.getChromosome() + ":" + error.getPosition());
 			m_invalid = error;
+		}
+
+		@Serial
+		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+			throw new java.io.NotSerializableException("org.pharmgkb.parsers.vcf.VcfValidator.ValidationException");
+		}
+
+		@Serial
+		private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+			throw new java.io.NotSerializableException("org.pharmgkb.parsers.vcf.VcfValidator.ValidationException");
 		}
 	}
 

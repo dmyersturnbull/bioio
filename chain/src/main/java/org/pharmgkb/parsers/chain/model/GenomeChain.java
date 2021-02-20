@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
 import java.util.function.Function;
@@ -25,13 +24,12 @@ import java.util.function.Function;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializable {
+public class GenomeChain implements Function<Locus, Optional<Locus>> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-	private static final long serialVersionUID = -1764679353559518393L;
 
 	// only compares loci of the same chromosome and strand
-	private static Comparator<LocusRange> sf_comparator = Comparator.comparingLong(o -> o.getEnd().getPosition());
+	private static final Comparator<LocusRange> sf_comparator = Comparator.comparingLong(o -> o.getEnd().getPosition());
 
 	private final ImmutableMap<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> m_map;
 
@@ -39,8 +37,8 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 		this(builder.m_map);
 	}
 
-	private GenomeChain(@Nonnull Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> mutableMap) {
-		Map<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> map = new HashMap<>();
+	private GenomeChain(@Nonnull Map<? extends ChromosomeName, ? extends NavigableMap<LocusRange, LocusRange>> mutableMap) {
+		Map<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> map = new HashMap<>(2048);
 		mutableMap.forEach((name, values) -> map.put(name, ImmutableSortedMap.copyOfSorted(values)));
 		m_map = ImmutableMap.copyOf(map);
 	}
@@ -50,10 +48,11 @@ public class GenomeChain implements Function<Locus, Optional<Locus>>, Serializab
 	 */
 	@Nonnull
 	public GenomeChain invert() {
-		Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> map = new HashMap<>();
-		for (ChromosomeName chr: m_map.keySet()) {
+		Map<ChromosomeName, NavigableMap<LocusRange, LocusRange>> map = new HashMap<>(m_map.size());
+		for (Map.Entry<ChromosomeName, ImmutableSortedMap<LocusRange, LocusRange>> e : m_map.entrySet()) {
+			ChromosomeName chr = e.getKey();
 			map.put(chr, new TreeMap<>());
-			for (Map.Entry<LocusRange, LocusRange> entry : m_map.get(chr).entrySet()) {
+			for (Map.Entry<LocusRange, LocusRange> entry : e.getValue().entrySet()) {
 				map.get(chr).put(entry.getValue(), entry.getKey());
 			}
 		}

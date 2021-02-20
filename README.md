@@ -3,14 +3,16 @@
 ![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
 ![Active](https://img.shields.io/static/v1?label=development&message=active&color=green)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Latest release](https://img.shields.io/github/v/tag/dmyersturnbull/genome-sequence-io)
-![Test coverage](https://img.shields.io/codecov/c/github/dmyersturnbull/genome-sequence-io?token=thisisatoken)
-[![Travis build](https://travis-ci.org/dmyersturnbull/genome-sequence-io.svg?branch=master)](https://travis-ci.org/dmyersturnbull/genome-sequence-io)
+![Latest release](https://img.shields.io/github/v/tag/dmyersturnbull/genomics-io)
+[![Travis build](https://travis-ci.com/dmyersturnbull/genomics-io.svg?branch=master)](https://travis-ci.org/dmyersturnbull/genomics-io)  
+![Java compatibility](https://img.shields.io/static/v1?label=Java&message=14%2b)
+![Maven Central](https://img.shields.io/maven-central/v/dmyersturnbull/genomics-io)
+![GitHub last commit](https://img.shields.io/github/last-commit/dmyersturnbull/genomics-io?color=green)
 
 
 Efficient, high-quality streaming parsers and writers for 9 (soon 30) text-based formats used in bioinformatics.
 
-Currently undergoing partial redesign as more formats are added.
+**Currently undergoing partial redesign as more formats are added.**
 Previous versions are stable, well-tested, and used in production.
 Currently supported formats:
 VCF, FASTA, GenBank, BED, GFF/GTV/GVF, UCSC chain,
@@ -23,7 +25,7 @@ Features & choices:
 - Has a consistent API. Coordinates are always 0-indexed and text is always escaped (according to specifications).
 - Immutable, thread-safe, null-pointer-safe (`Optional<>`), and arbitrary-precision.
 
-This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genome-sequence-io) that adds VCF, GenBank, PDB, faidx, and Turtle parsers.
+This repository is a fork of [PharmGKB/genome-sequence-io](https://github.com/PharmGKB/genomics-io) that adds VCF, GenBank, PDB, faidx, and Turtle parsers.
 
 
 #### What it looks like:
@@ -42,7 +44,7 @@ new VcfDataWriter().writeToFile(goodMitochondrialCalls, filteredPath);
 Requires Java 14+.
 
 The project is not currently on Maven Central but should be soon.
-Until then, you can download a [release](https://github.com/dmyersturnbull/genome-sequence-io/releases), which includes a JAR.
+Until then, you can download a [release](https://github.com/dmyersturnbull/genomics-io/releases), which includes a JAR.
 
 Alternatively, you can use Gradle to build it.
 To JAR all subprojects, run `gradle jarAll`.
@@ -53,9 +55,11 @@ Note that running `gradle :xxx:gff` will only run tests for `gff` and `core`.
 
 ### Planned formats
 
+Bold are highlighted.
+
 - Variant calls: **VCF**
 - Gene features: **GenBank, BED, GFF3, GTF, GVF**
-- Sequences: **FASTA**, EMBL, FASTA alignment, FASTQ, Seq, faidx (FASTQ indices)
+- Sequences: **FASTA**, EMBL, FASTA alignment, **FASTQ**, Seq, faidx (FASTQ indices)
 - Expression: **BGEE**
 - Coordinate mapping: **UCSC chain**
 - Phylogenetics & pedigrees: **pre-MAKEPED**, LINKAGE, Nexus
@@ -247,8 +251,3 @@ Stream<BigDecimal> MatrixParser.tabs().parseAll(file).map(BigDecimal::new);
    Some parsers need to track some metadata on the stream.
    For example, the multiline FASTQ parser needs to know the length of the last sequence.
    (Otherwise, it's impossible to know where a score ends and a new header begins!)
-
-![Java compatibility](https://img.shields.io/static/v1?label=Java&message=14%2b)
-![Maven Central](https://img.shields.io/maven-central/v/dmyersturnbull/genome-sequence-io)
-[![Documentation](https://readthedocs.org/projects/genome-sequence-io/badge/?version=latest&style=flat-square)](https://readthedocs.org/projects/genome-sequence-io)
-![GitHub last commit](https://img.shields.io/github/last-commit/dmyersturnbull/genome-sequence-io?color=green)

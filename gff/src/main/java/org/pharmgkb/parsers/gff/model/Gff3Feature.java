@@ -25,7 +25,6 @@ import java.util.TreeMap;
 public class Gff3Feature extends BaseGffFeature {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-	private static final long serialVersionUID = 8330668777279186990L;
 
 	private final ImmutableMap<String, List<String>> m_attributes;
 
@@ -55,9 +54,6 @@ public class Gff3Feature extends BaseGffFeature {
 
 		private Map<String, List<String>> m_attributes;
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Nonnull
 		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
 			super(coordinateSystemId, type, start, end);
@@ -77,7 +73,7 @@ public class Gff3Feature extends BaseGffFeature {
 		}
 
 		@Nonnull
-		public Builder putAttributes(@Nonnull Map<String, List<String>> attributes) {
+		public Builder putAttributes(@Nonnull Map<String, ? extends List<String>> attributes) {
 			m_attributes.putAll(attributes);
 			return this;
 		}

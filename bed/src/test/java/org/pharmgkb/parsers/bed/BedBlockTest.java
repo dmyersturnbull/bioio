@@ -1,9 +1,10 @@
 package org.pharmgkb.parsers.bed;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.bed.model.BedBlock;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Tests {@link BedBlock}.

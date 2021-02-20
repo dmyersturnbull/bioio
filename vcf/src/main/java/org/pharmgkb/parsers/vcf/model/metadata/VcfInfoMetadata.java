@@ -28,11 +28,10 @@ public class VcfInfoMetadata extends VcfIdMetadata {
 	public static final String TYPE = "Type";
 	public static final String SOURCE = "Source"; // should be quoted
 	public static final String VERSION = "Version"; // should be quoted
-	private static final long serialVersionUID = 8959638735279037977L;
 
-	private VcfInfoType m_type;
+	private final VcfInfoType m_type;
 
-	private VcfFormatNumber m_number;
+	private final VcfFormatNumber m_number;
 
 	public VcfInfoMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Info, props);
@@ -42,8 +41,11 @@ public class VcfInfoMetadata extends VcfIdMetadata {
 		m_number = new VcfFormatNumber(props.get(NUMBER));
 	}
 
-	public VcfInfoMetadata(@Nonnull String id, @Nonnull String description, @Nonnull String number, @Nonnull VcfInfoType type,
-						   @Nullable String source, @Nullable String version) {
+	public VcfInfoMetadata(
+			@Nonnull String id, @Nonnull String description,
+			@Nonnull String number, @Nonnull VcfInfoType type,
+			@Nullable String source, @Nullable String version
+	) {
 		this(new PropertyMapBuilder()
 				.put(ID, id)
 				.put(DESCRIPTION, description)
@@ -52,8 +54,9 @@ public class VcfInfoMetadata extends VcfIdMetadata {
 				.put(SOURCE, source)
 				.put(VERSION, version)
 				.build());
-		m_number = new VcfFormatNumber(number);
-		m_type = type;
+		// TODO: This isn't needed, right?
+		//m_number = new VcfFormatNumber(number);
+		//m_type = type;
 	}
 
 	@Nonnull
@@ -69,35 +72,35 @@ public class VcfInfoMetadata extends VcfIdMetadata {
 	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<VcfInfoMetadata> {
 
-		private final String id;
-		private final String description;
-		private final String number;
-		private final VcfInfoType type;
+		private final String m_id;
+		private final String m_description;
+		private final String m_number;
+		private final VcfInfoType m_type;
 
-		private String source = null;
-		private String version = null;
+		private String m_source = null;
+		private String m_version = null;
 
 		public Builder(@Nonnull String id, @Nonnull String description, @Nonnull String number, @Nonnull VcfInfoType type) {
-			this.id = id;
-			this.description = description;
-			this.number = number;
-			this.type = type;
+			m_id = id;
+			m_description = description;
+			m_number = number;
+			m_type = type;
 		}
 
 		public Builder setSource(@Nullable String source) {
-			this.source = source;
+			m_source = source;
 			return this;
 		}
 
 		public Builder setVersion(@Nullable String version) {
-			this.version = version;
+			m_version = version;
 			return this;
 		}
 
 		@Nonnull
 		@Override
 		public VcfInfoMetadata build() {
-			return new VcfInfoMetadata(id, description, number, type, source, version);
+			return new VcfInfoMetadata(m_id, m_description, m_number, m_type, m_source, m_version);
 		}
 	}
 

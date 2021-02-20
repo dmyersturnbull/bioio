@@ -14,13 +14,13 @@ import java.util.Optional;
 @Immutable
 public class ReferenceAnnotation implements GenbankAnnotation {
 
-	private String m_header;
-	private Optional<String> m_authors;
-	private Optional<String> m_consortium;
-	private Optional<String> m_title;
-	private Optional<String> m_journal;
-	private Optional<Integer> m_pubmedId;
-	private Optional<String> m_remark;
+	private final String m_header;
+	private final Optional<String> m_authors;
+	private final Optional<String> m_consortium;
+	private final Optional<String> m_title;
+	private final Optional<String> m_journal;
+	private final Optional<Integer> m_pubmedId;
+	private final Optional<String> m_remark;
 
 	public ReferenceAnnotation(
 			@Nonnull String header,
@@ -31,13 +31,13 @@ public class ReferenceAnnotation implements GenbankAnnotation {
 			@Nonnull Optional<Integer> pubmedId,
 			@Nonnull Optional<String> remark
 	) {
-		this.m_header = header;
-		this.m_authors = authors;
-		this.m_consortium = consortium;
-		this.m_title = title;
-		this.m_journal = journal;
-		this.m_pubmedId = pubmedId;
-		this.m_remark = remark;
+		m_header = header;
+		m_authors = authors;
+		m_consortium = consortium;
+		m_title = title;
+		m_journal = journal;
+		m_pubmedId = pubmedId;
+		m_remark = remark;
 	}
 
 	@Nonnull

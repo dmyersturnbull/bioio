@@ -4,7 +4,6 @@ import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
 
 
@@ -12,9 +11,7 @@ import java.util.Objects;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Triple implements Serializable {
-
-	private static final long serialVersionUID = -7740391672210012465L;
+public class Triple {
 
 	private final Node m_subject;
 	private final Node m_predicate;

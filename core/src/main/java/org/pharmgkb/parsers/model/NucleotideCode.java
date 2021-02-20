@@ -29,20 +29,20 @@ public enum NucleotideCode {
 	public final String name;
 	public final CodeType type;
 
+	@SuppressWarnings("ParameterHidesMemberVariable")
 	NucleotideCode(char character, String name, CodeType type) {
 		this.character = character;
 		this.name = name;
 		this.type = type;
 	}
 
-	private static Map<Character, NucleotideCode> sf_lookup = null;
-	public static NucleotideCode fromChar(char character) {
-		if (sf_lookup == null) {
-			sf_lookup = new HashMap<>(NucleotideCode.values().length);
-			for (NucleotideCode c : NucleotideCode.values()) {
-				sf_lookup.put(c.character, c);
-			}
+	private static Map<Character, NucleotideCode> sf_lookup = new HashMap<>(NucleotideCode.values().length);
+	static {
+		for (NucleotideCode nc : NucleotideCode.values()) {
+			sf_lookup.put(nc.character, nc);
 		}
+	}
+	public static NucleotideCode fromChar(char character) {
 		if (sf_lookup.containsKey(character)) {
 			return sf_lookup.get(character);
 		} else {

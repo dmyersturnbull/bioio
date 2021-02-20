@@ -15,6 +15,7 @@ public enum CdsPhase {
 
 	private final int m_n;
 
+	@SuppressWarnings("ConstantConditions")
 	@Nonnull
 	public static CdsPhase fromOffset(@Nonnegative int offset) {
 		Preconditions.checkArgument(offset > -1, "Offset must be nonnegative but was " + offset);

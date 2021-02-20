@@ -13,7 +13,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,10 +24,9 @@ import java.util.stream.Collectors;
 public abstract class VcfMapMetadata implements VcfMetadata {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-	private static final long serialVersionUID = -1475818005852776833L;
 
-	private VcfMetadataType m_type;
-	private ImmutableMap<String, String> m_properties;
+	private final VcfMetadataType m_type;
+	private final ImmutableMap<String, String> m_properties;
 
 	public VcfMapMetadata(@Nonnull VcfMetadataType type, @Nonnull Map<String, String> properties) {
 		m_type = type;
@@ -91,6 +89,7 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 				sf_logger.warn("Metadata line contains unexpected property {}", property));
 	}
 
+	@SuppressWarnings("EqualsCalledOnEnumConstant")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -124,7 +123,7 @@ public abstract class VcfMapMetadata implements VcfMetadata {
 				+ ">";
 	}
 
-	private static String ifUnquoted(Function<String, String> fn, String value) {
+	private static String ifUnquoted(Function<? super String, String> fn, String value) {
 		return value.startsWith("\"") && value.endsWith("\"") ? value.charAt(0) + fn.apply(value.substring(1, value.length() - 1)) + value.charAt(value.length() - 1) : fn.apply(value);
 	}
 

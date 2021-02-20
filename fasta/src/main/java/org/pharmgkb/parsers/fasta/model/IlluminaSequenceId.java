@@ -9,17 +9,17 @@ import java.util.stream.Collectors;
 
 public class IlluminaSequenceId {
 
-	private final String instrument;
-	private final String runId;
-	private final String flowcellId;
-	private final String flowcellLane;
-	private final String titleInFlowcellLane;
-	private final int clusterXCoordinateInTile;
-	private final int clusterYCoordinateInFile;
-	private final byte pairMember;
-	private final boolean readIsFiltered;
-	private final int controlBits;
-	private final String indexSequence;
+	private final String m_instrument;
+	private final String m_runId;
+	private final String m_flowcellId;
+	private final String m_flowcellLane;
+	private final String m_titleInFlowcellLane;
+	private final int m_clusterXCoordinateInTile;
+	private final int m_clusterYCoordinateInFile;
+	private final byte m_pairMember;
+	private final boolean m_readIsFiltered;
+	private final int m_controlBits;
+	private final String m_indexSequence;
 
 	public IlluminaSequenceId(
 			@Nonnull String instrument, @Nonnull String runId,
@@ -30,17 +30,17 @@ public class IlluminaSequenceId {
 			@Nonnegative int controlBits,
 			@Nonnull String indexSequence
 	) {
-		this.instrument = instrument;
-		this.runId = runId;
-		this.flowcellId = flowcellId;
-		this.flowcellLane = flowcellLane;
-		this.titleInFlowcellLane = titleInFlowcellLane;
-		this.clusterXCoordinateInTile = clusterXCoordinateInTile;
-		this.clusterYCoordinateInFile = clusterYCoordinateInFile;
-		this.pairMember = pairMember;
-		this.readIsFiltered = readIsFiltered;
-		this.controlBits = controlBits;
-		this.indexSequence = indexSequence;
+		m_instrument = instrument;
+		m_runId = runId;
+		m_flowcellId = flowcellId;
+		m_flowcellLane = flowcellLane;
+		m_titleInFlowcellLane = titleInFlowcellLane;
+		m_clusterXCoordinateInTile = clusterXCoordinateInTile;
+		m_clusterYCoordinateInFile = clusterYCoordinateInFile;
+		m_pairMember = pairMember;
+		m_readIsFiltered = readIsFiltered;
+		m_controlBits = controlBits;
+		m_indexSequence = indexSequence;
 	}
 
 	@Nonnull

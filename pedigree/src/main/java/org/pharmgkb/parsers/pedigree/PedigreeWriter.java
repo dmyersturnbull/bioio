@@ -52,7 +52,7 @@ public class PedigreeWriter implements LineStructureWriter<Pedigree> {
 								sf_logger.debug("Reading line #{}", m_lineNumber);
 							}
 
-							StringBuilder sb = new StringBuilder();
+							StringBuilder sb = new StringBuilder(64);
 							sb.append(family.getId()).append(m_fieldSeparator);
 							sb.append(individual.getId()).append(m_fieldSeparator);
 							sb.append(

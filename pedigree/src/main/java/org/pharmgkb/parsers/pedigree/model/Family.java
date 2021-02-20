@@ -2,18 +2,7 @@ package org.pharmgkb.parsers.pedigree.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * A collection of related individuals. Associated with an {@link #getId() Id} that is unique for this {@link Pedigree}.
@@ -22,9 +11,7 @@ import java.util.TreeSet;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Family implements Subtree<Individual>, Serializable {
-
-	private static final long serialVersionUID = 1305199874793758907L;
+public class Family implements Subtree<Individual> {
 
 	private String m_id;
 
@@ -83,12 +70,12 @@ public class Family implements Subtree<Individual>, Serializable {
 	@Nonnull
 	@Override
 	public Iterator<Individual> depthFirst() {
-		Set<Individual> visited = new LinkedHashSet<>();
+		Set<Individual> visited = new LinkedHashSet<>(16);
 		for (Individual root : m_roots) {
 			for (Individual child : root.getChildrenRaw()) {
-				Iterator<Individual> i = child.depthFirst();
-				while (i.hasNext()) {
-					visited.add(i.next());
+				Iterator<Individual> ind = child.depthFirst();
+				while (ind.hasNext()) {
+					visited.add(ind.next());
 				}
 			}
 			visited.add(root);
@@ -124,9 +111,9 @@ public class Family implements Subtree<Individual>, Serializable {
 	@Nonnull
 	@Override
 	public Iterator<Individual> topologicalOrder() {
-		Set<Individual> fathersRemoved = new HashSet<>();
-		Set<Individual> mothersRemoved = new HashSet<>();
-		List<Individual> visited = new ArrayList<>();
+		Set<Individual> fathersRemoved = new HashSet<>(16);
+		Set<Individual> mothersRemoved = new HashSet<>(16);
+		List<Individual> visited = new ArrayList<>(16);
 		Queue<Individual> queue = new ArrayDeque<>(m_roots);
 		for (Individual root : m_roots) {
 			PedigreeUtils.computeTopologicalOrdering(visited, queue, fathersRemoved, mothersRemoved, root, m_id);

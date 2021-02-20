@@ -24,7 +24,7 @@ public class VcfFileWriter implements Closeable {
 	private final int m_flushEvery;
 
 	@Nonnull
-	public static Stream<String> concat(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<VcfPosition> positions) {
+	public static Stream<String> concat(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<? extends VcfPosition> positions) {
 		return Stream.concat(
 				metadata.getLines().stream().map(new VcfMetadataWriter()),
 				positions.map(new VcfDataWriter())
@@ -36,13 +36,13 @@ public class VcfFileWriter implements Closeable {
 		m_flushEvery = builder.m_flushEvery;
 	}
 
-	public void write(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<VcfPosition> positions) {
+	public void write(@Nonnull VcfMetadataCollection metadata, @Nonnull Stream<? extends VcfPosition> positions) {
 		Preconditions.checkNotNull(positions, "Positions cannot be null");
 		Preconditions.checkNotNull(metadata, "Metadata cannot be null");
 		write(metadata.getLines().stream(), positions);
 	}
 
-	public void write(@Nonnull Stream<VcfMetadata> metadata, @Nonnull Stream<VcfPosition> positions) {
+	public void write(@Nonnull Stream<? extends VcfMetadata> metadata, @Nonnull Stream<? extends VcfPosition> positions) {
 		Preconditions.checkNotNull(metadata, "Metadata cannot be null");
 		Preconditions.checkNotNull(positions, "Positions cannot be null");
 		metadata.map(new VcfMetadataWriter())
@@ -86,6 +86,7 @@ public class VcfFileWriter implements Closeable {
 		/**
 		 * @param flushEvery 0 means flush only when finished
 		 */
+		@SuppressWarnings("ConstantConditions")
 		public Builder setFlushEvery(@Nonnegative int flushEvery) {
 			Preconditions.checkArgument(flushEvery > -1, "Flush frequency must be at least 0");
 			m_flushEvery = flushEvery;

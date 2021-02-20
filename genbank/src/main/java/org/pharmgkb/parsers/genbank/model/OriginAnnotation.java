@@ -12,8 +12,8 @@ import java.util.Objects;
 @Immutable
 public class OriginAnnotation implements GenbankAnnotation {
 
-	private String m_header;
-	private String m_sequence;
+	private final String m_header;
+	private final String m_sequence;
 
 	public OriginAnnotation(@Nonnull String data, @Nonnull String sequence) {
 		m_header = data;

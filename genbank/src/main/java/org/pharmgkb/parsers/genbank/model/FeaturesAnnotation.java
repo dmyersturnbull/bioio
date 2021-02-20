@@ -13,8 +13,8 @@ import java.util.Objects;
 @Immutable
 public class FeaturesAnnotation implements GenbankAnnotation {
 
-	private String m_header;
-	private ImmutableList<GenbankFeature> m_features;
+	private final String m_header;
+	private final ImmutableList<GenbankFeature> m_features;
 
 	public FeaturesAnnotation(@Nonnull String header, @Nonnull ImmutableList<GenbankFeature> features) {
 		m_header = header;

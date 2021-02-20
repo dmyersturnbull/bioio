@@ -30,7 +30,7 @@ public class HttpHeadResponse {
 	private final URL m_url;
 	private final int m_code;
 	private final String m_message;
-	private final Map<String, List<String>> m_headers;
+	private final Map<String, ? extends List<String>> m_headers;
 
 	@Nonnull
 	public static HttpHeadResponse fromConnection(@Nonnull HttpURLConnection connection) {
@@ -51,12 +51,12 @@ public class HttpHeadResponse {
 	public HttpHeadResponse(
 			@Nonnull URL url,
 			@Nonnegative int code, @Nonnull String message,
-			@Nonnull Map<String, List<String>> headers
+			@Nonnull Map<String, ? extends List<String>> headers
 	) {
-		this.m_url = url;
-		this.m_code = code;
-		this.m_message = message;
-		this.m_headers = headers;
+		m_url = url;
+		m_code = code;
+		m_message = message;
+		m_headers = Map.copyOf(headers);
 	}
 
 	@Nonnegative
@@ -111,7 +111,7 @@ public class HttpHeadResponse {
 	@Nonnull
 	public Optional<String> getSingle(@Nonnull String field) throws InvalidResponseException {
 		List<String> values = m_headers.get(field);
-		if (values.size() < 0) {
+		if (values.isEmpty()) {
 			return Optional.empty();
 		} else if (values.size() > 1) {
 			throw new InvalidResponseException("Header " + field + " set " + values.size() + " times");

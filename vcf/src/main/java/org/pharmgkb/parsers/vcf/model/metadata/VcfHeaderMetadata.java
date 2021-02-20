@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 @Immutable
 public class VcfHeaderMetadata implements VcfMetadata {
 
-	private static final long serialVersionUID = 6641034538235680113L;
-	private ImmutableList<String> m_sampleNames;
+	private final ImmutableList<String> m_sampleNames;
 
 	public VcfHeaderMetadata(@Nonnull List<String> sampleNames) {
 		Preconditions.checkNotNull(sampleNames, "List of sample names can be empty but not null");

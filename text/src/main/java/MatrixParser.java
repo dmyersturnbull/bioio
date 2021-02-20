@@ -1,9 +1,9 @@
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineParser;
 import org.pharmgkb.parsers.ObjectBuilder;
+import org.pharmgkb.parsers.utils.ReflectingConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.pharmgkb.parsers.utils.ReflectingConstructor;
 
 /**
  * Parses a matrix or table from text.
@@ -48,13 +46,13 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	private MatrixParser(@Nonnull Builder<T> builder) {
-		this.m_converter = builder.m_converter;
-		this.m_delimiter = builder.m_delimiter;
-		this.m_lineExtractor = builder.m_lineExtractor;
-		this.m_valueExtractor = builder.m_lineExtractor;
-		this.m_splitter = Splitter.on(builder.m_delimiter);
-		this.m_jaggedDimensions = builder.m_jaggedDimensions;
-		this.m_lengths = new LinkedHashSet<>();
+		m_converter = builder.m_converter;
+		m_delimiter = builder.m_delimiter;
+		m_lineExtractor = builder.m_lineExtractor;
+		m_valueExtractor = builder.m_lineExtractor;
+		m_splitter = Splitter.on(builder.m_delimiter);
+		m_jaggedDimensions = builder.m_jaggedDimensions;
+		m_lengths = new LinkedHashSet<>(16);
 	}
 
 	@Nonnull
@@ -74,15 +72,15 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 			throw new BadDataFormatException("Line " + line + " does not match");
 		}
 		String fixed = match.group(1);
-		List<T> list = this.m_splitter
+		List<T> list = m_splitter
 				.splitToList(fixed).stream()
 				.map(this::readItem)
 				.collect(Collectors.toList());
-		this.m_lengths.add(list.size());
-		if (this.m_lengths.size() > 1 && !this.m_jaggedDimensions) {
+		m_lengths.add(list.size());
+		if (m_lengths.size() > 1 && !m_jaggedDimensions) {
 			throw new BadDataFormatException(
 					"Mismatched row lengths: {}"
-					+ this.m_lengths.stream().map(Object::toString).collect(Collectors.joining(","))
+					+ m_lengths.stream().map(Object::toString).collect(Collectors.joining(","))
 			);
 		}
 		return list;
@@ -140,14 +138,14 @@ public class MatrixParser<T> implements LineParser<List<T>> {
 		}
 
 		@Nonnull
-		public static <A> Builder<A> reflecting(Class<A> clazz) {
+		public static <A> Builder<A> reflecting(Class<? extends A> clazz) {
 			return new Builder<>(s -> new ReflectingConstructor<>(clazz, String.class).instance(s));
 		}
 
 		public Builder(@Nonnull Function<String, T> converter) {
-			this.m_converter = converter;
-			this.m_lineExtractor = sf_bracketed;
-			this.m_valueExtractor = sf_quoted;
+			m_converter = converter;
+			m_lineExtractor = sf_bracketed;
+			m_valueExtractor = sf_quoted;
 		}
 
 		@Nonnull

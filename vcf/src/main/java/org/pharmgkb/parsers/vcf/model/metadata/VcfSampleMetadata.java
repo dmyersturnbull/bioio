@@ -13,7 +13,6 @@ public class VcfSampleMetadata extends VcfIdDescriptionMetadata {
 
 	public static final String ID = "ID";
 	public static final String DESCRIPTION = "Description";
-	private static final long serialVersionUID = -4294361656055427579L;
 
 	public VcfSampleMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Sample, props);

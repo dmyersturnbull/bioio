@@ -14,10 +14,10 @@ import java.util.Objects;
 @Immutable
 public class GenbankFeature {
 
-	private String m_kind;
-	private GenbankSequenceRange m_range;
-	private ImmutableMap<String, String> m_properties;
-	private ImmutableList<String> m_extraLines;
+	private final String m_kind;
+	private final GenbankSequenceRange m_range;
+	private final ImmutableMap<String, String> m_properties;
+	private final ImmutableList<String> m_extraLines;
 
 	public GenbankFeature(
 			@Nonnull String kind,

@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.chain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.chain.model.GenomeChain;
 import org.pharmgkb.parsers.model.Locus;
 import org.pharmgkb.parsers.model.Strand;
@@ -9,7 +9,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link GenomeChainParser}.

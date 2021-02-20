@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * <code>
  *     // "lift over" a list of loci, ignoring ones that couldn't be lifted over
  *     GenomeChain chain = new GenomeChainParser().apply(Files.lines(null));
- *     List<Locus> liftedOver = lociList.parallelStream()
+ *     List&lt;Locus&gt; liftedOver = lociList.parallelStream()
  *                                      .map(chain).filter(Optional::isPresent)
  *                                      .collect(Collectors.toList());
  * </code>
@@ -98,8 +98,9 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 					targetStrand = Strand.lookupBySymbol(parts[9]);
 					//noinspection OptionalGetWithoutIsPresent
 					sf_logger.trace(
-							"\nCHAIN: " + new Locus(sourceChr, sourcePosition, sourceStrand.get())
-							+ "    ---->    " + new Locus(targetChr, targetPosition, targetStrand.get())
+							"\nCHAIN: {}    ---->    {}",
+							new Locus(sourceChr, sourcePosition, sourceStrand.get()),
+							new Locus(targetChr, targetPosition, targetStrand.get())
 					);
 					sf_logger.trace("------------------------------------------------");
 
@@ -123,7 +124,7 @@ public class GenomeChainParser implements LineStructureParser<GenomeChain> {
 							new Locus(targetChr, targetPosition + diagonal, targetStrand.get())
 					);
 
-					sf_logger.trace(source + "    ---->    " + target);
+					sf_logger.trace("{}    ---->    {}", source, target);
 					m_chain.add(source, target);
 					sourcePosition += diagonal + sourceGap;
 					targetPosition += diagonal + targetGap;

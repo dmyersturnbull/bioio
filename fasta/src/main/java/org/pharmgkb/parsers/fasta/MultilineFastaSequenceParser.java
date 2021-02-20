@@ -9,7 +9,9 @@ import org.pharmgkb.parsers.fasta.model.FastaSequence;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.io.*;
+import java.io.File;
+import java.io.UncheckedIOException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -29,7 +31,7 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 	private boolean m_hitTerm = false;
 	private boolean m_hasTerm = false;
 
-	private static int m_nLines = 0;
+	private AtomicLong m_nLines = new AtomicLong(0);
 
 	public MultilineFastaSequenceParser(@Nonnull Builder builder) {
 		m_allowComments = builder.m_allowComments;
@@ -65,7 +67,7 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 		if (!m_hasTerm) {
 			throw new IllegalStateException("Must call with parseAll or collectAll rather than apply");
 		}
-		m_nLines++;
+		m_nLines.incrementAndGet();
 		if (line.equals(m_terminationString)) {
 			m_hitTerm = true;
 			if (currentHeader == null) { // happens if we read an empty source
@@ -115,7 +117,7 @@ public class MultilineFastaSequenceParser implements MultilineParser<FastaSequen
 
 	@Override
 	public long nLinesProcessed() {
-		return m_nLines;
+		return m_nLines.get();
 	}
 
 	@NotThreadSafe

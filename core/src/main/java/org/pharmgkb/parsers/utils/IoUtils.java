@@ -53,8 +53,11 @@ public class IoUtils {
 	public static void downloadBytesTo(@Nonnull URL url, @Nonnull Path path) throws UncheckedIOException {
 		try {
 			ReadableByteChannel in = Channels.newChannel(url.openStream());
-			FileChannel out = new FileOutputStream(path.toFile()).getChannel();
-			out.transferFrom(in, 0, Long.MAX_VALUE);
+			try (FileOutputStream out = new FileOutputStream(path.toFile())) {
+				try (FileChannel channel = out.getChannel()) {
+					channel.transferFrom(in, 0, Long.MAX_VALUE);
+				}
+			}
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -133,13 +136,15 @@ public class IoUtils {
 	}
 
 	public static void writeUtf8Lines(@Nonnull Path path, @Nonnull Stream<String> lines) throws UncheckedIOException {
-		PrintWriter pw = openUtf8Writer(path, false);
-		lines.forEach(pw::println);
+		try (PrintWriter pw = openUtf8Writer(path, false)) {
+			lines.forEach(pw::println);
+		}
 	}
 
 	public static void appendUtf8Lines(@Nonnull Path path, @Nonnull Stream<String> lines) throws UncheckedIOException {
-		PrintWriter pw = openUtf8Writer(path, true);
-		lines.forEach(pw::println);
+		try (PrintWriter pw = openUtf8Writer(path, true)) {
+			lines.forEach(pw::println);
+		}
 	}
 
 	@Nonnull

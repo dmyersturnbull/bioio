@@ -13,21 +13,21 @@ import java.util.Objects;
 @Immutable
 public class KeywordsAnnotation implements GenbankAnnotation {
 
-	private ImmutableList<String> keywords;
+	private final ImmutableList<String> m_keywords;
 
 	public KeywordsAnnotation(@Nonnull ImmutableList<String> keywords) {
-		this.keywords = keywords;
+		m_keywords = keywords;
 	}
 
 	@Nonnull
 	public ImmutableList<String> getKeywords() {
-		return keywords;
+		return m_keywords;
 	}
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				.add("keywords", keywords)
+				.add("keywords", m_keywords)
 				.toString();
 	}
 
@@ -36,11 +36,11 @@ public class KeywordsAnnotation implements GenbankAnnotation {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		KeywordsAnnotation that = (KeywordsAnnotation) o;
-		return Objects.equals(keywords, that.keywords);
+		return Objects.equals(m_keywords, that.m_keywords);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(keywords);
+		return Objects.hash(m_keywords);
 	}
 }

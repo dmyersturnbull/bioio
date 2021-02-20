@@ -1,7 +1,7 @@
 package org.pharmgkb.parsers.fasta;
 
 import com.google.common.io.Files;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests {@link SimpleFastaBaseReader}.
@@ -63,34 +63,34 @@ public class SimpleFastaBaseReaderTest {
 		for (int i = 0; i < 4; i++) {
 			Optional<Character> next = stream.readNextBase();
 			assertTrue(next.isPresent());
-			assertEquals("i=" + i, "1", stream.currentHeader().get());
-			assertEquals("i=" + i, 1 + i, stream.nBasesSinceHeader());
-			assertEquals("i=" + i, 1 + i, stream.nBasesReadTotal());
-			assertEquals("i=" + i, 1, stream.nHeadersRead());
-			assertEquals("i=" + i, expected.get("1").charAt(i), (char)next.get());
-			assertEquals("i=" + i, 4 + i, stream.nBytesReadTotal());
+			assertEquals("1", stream.currentHeader().get());
+			assertEquals(1 + i, stream.nBasesSinceHeader());
+			assertEquals(1 + i, stream.nBasesReadTotal());
+			assertEquals(1, stream.nHeadersRead());
+			assertEquals(expected.get("1").charAt(i), (char)next.get());
+			assertEquals(4 + i, stream.nBytesReadTotal());
 		}
 		long prevBytesRead = stream.nBytesReadTotal();
 
 		for (int i = 0; i < 4 * 3; i++) {
 			Optional<Character> next = stream.readNextBase();
 			assertTrue(next.isPresent());
-			assertEquals("i=" + i, "2", stream.currentHeader().get());
-			assertEquals("i=" + i, 1 + i, stream.nBasesSinceHeader());
-			assertEquals("i=" + i, 1 + 4 + i, stream.nBasesReadTotal());
-			assertEquals("i=" + i, 2, stream.nHeadersRead());
-			assertEquals("i=" + i, expected.get("2").charAt(i), (char)next.get());
-			assertEquals("i=" + i, 1 + 4 + prevBytesRead + i + (i / 4), stream.nBytesReadTotal());
+			assertEquals("2", stream.currentHeader().get());
+			assertEquals(1 + i, stream.nBasesSinceHeader());
+			assertEquals(1 + 4 + i, stream.nBasesReadTotal());
+			assertEquals(2, stream.nHeadersRead());
+			assertEquals(expected.get("2").charAt(i), (char)next.get());
+			assertEquals(1 + 4 + prevBytesRead + i + (i / 4), stream.nBytesReadTotal());
 		}
 
 		for (int i = 0; i < 16 * 2; i++) {
 			Optional<Character> next = stream.readNextBase();
 			assertTrue(next.isPresent());
-			assertEquals("i=" + i, "3", stream.currentHeader().get());
-			assertEquals("i=" + i, 1 + i, stream.nBasesSinceHeader());
-			assertEquals("i=" + i, 1 + 4 + 4 * 3 + i, stream.nBasesReadTotal());
-			assertEquals("i=" + i, 3, stream.nHeadersRead());
-			assertEquals("i=" + i, expected.get("3").charAt(i), (char)next.get());
+			assertEquals("3", stream.currentHeader().get());
+			assertEquals(1 + i, stream.nBasesSinceHeader());
+			assertEquals(1 + 4 + 4 * 3 + i, stream.nBasesReadTotal());
+			assertEquals(3, stream.nHeadersRead());
+			assertEquals(expected.get("3").charAt(i), (char)next.get());
 		}
 	}
 

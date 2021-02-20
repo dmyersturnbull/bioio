@@ -4,7 +4,8 @@ import org.pharmgkb.parsers.utils.IoUtils;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import java.io.*;
+import java.io.File;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;

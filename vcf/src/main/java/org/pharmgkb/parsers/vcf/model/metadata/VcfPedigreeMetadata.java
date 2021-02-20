@@ -11,8 +11,6 @@ import java.util.Map;
 @Immutable
 public class VcfPedigreeMetadata extends VcfIdMetadata {
 
-	private static final long serialVersionUID = 3920929764639308395L;
-
 	public VcfPedigreeMetadata(@Nonnull Map<String, String> properties) {
 		super(VcfMetadataType.Pedigree, properties);
 		super.require(ID);

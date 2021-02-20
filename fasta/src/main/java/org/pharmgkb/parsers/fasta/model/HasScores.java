@@ -12,11 +12,11 @@ public interface HasScores {
 
 	@Nonnull
 	default Stream<Character> scoresAsStream() {
-		return getScores().chars().mapToObj(s -> (char)s);
+		return getScores().chars().mapToObj(i -> (char)i);
 	}
 
 	@Nonnull
 	default Stream<Phred33Score> scoresToPhred33() throws BadDataFormatException {
-		return this.scoresAsStream().map(Phred33Score::fromChar);
+		return scoresAsStream().map(Phred33Score::fromChar);
 	}
 }

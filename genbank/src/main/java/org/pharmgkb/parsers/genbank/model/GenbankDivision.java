@@ -29,7 +29,7 @@ public enum GenbankDivision {
 	private String m_description;
 
 	GenbankDivision(@Nonnull String description) {
-		this.m_description = description;
+		m_description = description;
 	}
 
 	@Nonnull

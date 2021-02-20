@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicLong;
@@ -50,7 +49,7 @@ public class FastaSequenceParser implements MultilineParser<FastaSequence> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	private AtomicReference<String> m_currentHeader = new AtomicReference<>(null);
 

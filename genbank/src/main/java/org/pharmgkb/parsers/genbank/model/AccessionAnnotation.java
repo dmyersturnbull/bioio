@@ -12,7 +12,7 @@ import java.util.Objects;
 @Immutable
 public class AccessionAnnotation implements GenbankAnnotation {
 
-	private String m_accession;
+	private final String m_accession;
 
 	public AccessionAnnotation(@Nonnull String accession) {
 		m_accession = accession;

@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * Example usages:
  * <code>
  *     // store in a list
- *     List<BedFeature> features = Files.lines(file).map(new BedParser()).collect(Collectors.toList());
+ *     List&lt;BedFeature&gt; features = Files.lines(file).map(new BedParser()).collect(Collectors.toList());
  * </code>
  * <code>
  *     // get a stream of strings of the ranges, sorted by name (will throw an exception if a name is missing)
@@ -53,7 +53,7 @@ public class BedParser implements LineParser<BedFeature> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	@Nonnull
 	@Override

@@ -2,10 +2,10 @@ package org.pharmgkb.parsers.gff;
 
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.LineParser;
-import org.pharmgkb.parsers.gff.utils.Gff3Escapers;
-import org.pharmgkb.parsers.gff.model.Gff3Feature;
 import org.pharmgkb.parsers.gff.model.CdsPhase;
+import org.pharmgkb.parsers.gff.model.Gff3Feature;
 import org.pharmgkb.parsers.gff.model.GffStrand;
+import org.pharmgkb.parsers.gff.utils.Gff3Escapers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,12 +16,7 @@ import java.io.File;
 import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,10 +27,10 @@ import java.util.stream.Stream;
  *
  * Calling {@link #parseAll(Stream)} or {@link #collectAll(File)} will filter comment and metadata lines.
  *
- * <h4>Example usages:</h4>
+ * <h2>Example usages:</h2>
  * <code>
  *     // store in a list
- *     List<Gff3Feature> features = new Gff3Parser().collectAll(file);
+ *     List&lt;Gff3Feature&gt; features = new Gff3Parser().collectAll(file);
  * </code>
  * <code>
  *     // get a stream of the ranges
@@ -43,7 +38,7 @@ import java.util.stream.Stream;
  *          .map(f -> f.getStart() + "-" + f.getEnd());
  * </code>
  *
- * <h4>Important notes:</h4>
+ * <h2>Important notes:</h2>
  * <ul>
  * <li>This class does not support the ##FASTA directive, which allows FASTA lines to follow GFF3. Such lines
  * will cause the parser to throw a {@link BadDataFormatException}.</li>
@@ -53,7 +48,7 @@ import java.util.stream.Stream;
  * for more details.</li>
  * </ul>
  *
- * <h4>Assumptions made</h4>
+ * <h2>Assumptions made</h2>
  * This class follows the <a href="http://www.sequenceontology.org/gff3.shtml">Sequence Ontology specification</a>.
  * Because the specification is not completely clear, this package makes a few assumptions:
  * <ul>

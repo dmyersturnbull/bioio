@@ -1,18 +1,16 @@
 package org.pharmgkb.parsers.bed;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.bed.model.BedBlock;
 import org.pharmgkb.parsers.bed.model.BedFeature;
 import org.pharmgkb.parsers.model.Strand;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -27,61 +25,81 @@ public class BedFeatureTest {
 				.setColorFromString("2,3,4").build().getColor();
 		assertTrue(color.isPresent());
 		assertEquals(new Color(2, 3, 4), color.get());
-		assertFalse(new BedFeature.Builder("chr1", 1, 2)
-				            .build().getColor().isPresent());
+		assertFalse(
+				new BedFeature.Builder("chr1", 1, 2)
+				.build().getColor().isPresent()
+		);
 	}
 
 	@Test
 	public void testBadColor1() {
-		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5"))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("color");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("chr1", 1, 2).setColorFromString("2,3,4,5")
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("color"));
 	}
 
 	@Test
 	public void testContainsTab() {
-		assertThatThrownBy(() -> new BedFeature.Builder("a\tb", 1, 2))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("tab");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("a\tb", 1, 2)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("tab"));
 	}
 
 	@Test
-	public void testContainsNewline() {
-		assertThatThrownBy(() -> new BedFeature.Builder("a\nb", 1, 2))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("newline");
-		assertThatThrownBy(() -> new BedFeature.Builder("a\rb", 1, 2))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("newline");
+	public void testContainsNewline1() {
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("a\nb", 1, 2)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("newline"));
+	}
+
+	@Test
+	public void testContainsNewline2() {
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("a\rb", 1, 2)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("newline"));
 	}
 
 	@Test
 	public void testBadColor2() {
-		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5)))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Color");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("chr1", 1, 2).setColor(new Color(2, 3, 4, 5))
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("color"));
 	}
 
 	@Test
 	public void testNegativeScore() {
-		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(-1))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Score")
-				.hasMessageContaining("< 0");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("chr1", 0, 15).setScore(-1)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("score"));
+		assertTrue(e.getMessage().contains("< 0"));
 	}
 
 	@Test
 	public void testLargeScore() {
-		assertThatThrownBy(() -> new BedFeature.Builder("chr1", 0, 15).setScore(1001))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Score")
-				.hasMessageContaining("> 1000");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> new BedFeature.Builder("chr1", 0, 15).setScore(1001)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("score"));
+		assertTrue(e.getMessage().contains("> 1000"));
 	}
 
 	@Test
 	public void testNoBlocks() {
 		assertTrue(new BedFeature.Builder("chr1", 0, 15).build()
-				           .getBlocks().isEmpty());
+				.getBlocks().isEmpty());
 	}
 
 	@Test
@@ -89,43 +107,51 @@ public class BedFeatureTest {
 		BedBlock block1 = new BedBlock(0, 8);
 		BedBlock block2 = new BedBlock(8, 15);
 		assertEquals(Arrays.asList(block1, block2),
-		             new BedFeature.Builder("chr1", 0, 15)
-				             .addBlock(0, 8).addBlock(8, 15)
-				             .build().getBlocks());
+				new BedFeature.Builder("chr1", 0, 15)
+						.addBlock(0, 8).addBlock(8, 15)
+						.build().getBlocks());
 	}
 
 	@Test
 	public void testOverlappingBlocks1() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8);
-		assertThatThrownBy(() -> builder.addBlock(7, 15))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("overlap");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> builder.addBlock(7, 15)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("overlap"));
 	}
 
 	@Test
 	public void testOverlappingBlocks2() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 5).addBlock(9, 12);
-		assertThatThrownBy(() -> builder.addBlock(8, 10))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("overlap");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> builder.addBlock(8, 10)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("overlap"));
 	}
 
 	@Test
 	public void testBadBlockStart() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15);
-		assertThatThrownBy(() -> builder.addBlock(1, 8))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("start")
-				.hasMessageContaining("!= 0");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				() -> builder.addBlock(1, 8)
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("start"));
+		assertTrue(e.getMessage().contains("!= 0"));
 	}
 
 	@Test
 	public void testBadBlockEnd() {
 		BedFeature.Builder builder = new BedFeature.Builder("chr1", 0, 15).addBlock(0, 8).addBlock(8, 14);
-		assertThatThrownBy(builder::build)
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("The end of the last block must be the end of the feature")
-				.hasMessageEndingWith("instead of 15");
+		IllegalArgumentException e = assertThrows(
+				IllegalArgumentException.class,
+				builder::build
+		);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("end of the last block must be the end of the feature"));
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("instead of 15"));
 	}
 
 	@Test

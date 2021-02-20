@@ -1,16 +1,17 @@
 package org.pharmgkb.parsers.fasta;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.BadDataFormatException;
 import org.pharmgkb.parsers.fasta.model.FastaSequence;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Tests {@link FastaSequenceParser}.
@@ -39,46 +40,43 @@ public class FastaSequenceParserTest {
 	}
 
 	@Test
-	public void testParallelStream() throws Exception {
+	public void testParallelStream() {
 		List<String> lines = Arrays.asList(
 				">header1",
 				"sequence1"
 		);
-		assertThatThrownBy(() -> new FastaSequenceParser().parseAll(lines.parallelStream())
-				.count())
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("parallel");
+		Stream<FastaSequence> stream = new FastaSequenceParser().parseAll(lines.parallelStream());
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, stream::count);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("parallel"));
 	}
 
 	@Test
-	public void testMissingHeader() throws Exception {
+	public void testMissingHeader() {
 		Stream<String> lines = Stream.of(
 				"sequence1"
 		);
-		assertThatThrownBy(() -> new FastaSequenceParser().parseAll(lines).count())
-				.isInstanceOf(BadDataFormatException.class)
-				.hasMessageContaining("No header");
+		Stream<FastaSequence> stream = new FastaSequenceParser().parseAll(lines);
+		BadDataFormatException e = assertThrows(BadDataFormatException.class, stream::count);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("header"));
 	}
 
 	@Test
-	public void testMissingSequence() throws Exception {
+	public void testMissingSequence() {
 		Stream<String> lines = Stream.of(
 				">header1",
 				">header2"
 		);
-		assertThatThrownBy(() -> new FastaSequenceParser().parseAll(lines).count())
-				.isInstanceOf(BadDataFormatException.class)
-				.hasMessageContaining("No sequence");
+		Stream<FastaSequence> stream = new FastaSequenceParser().parseAll(lines);
+		BadDataFormatException e = assertThrows(BadDataFormatException.class, stream::count);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("sequence"));
 	}
 
 	@Test
-	public void testSanityCheckFinished() throws Exception {
+	public void testSanityCheckFinished() {
 
 		FastaSequenceParser parser = new FastaSequenceParser();
 		parser.parseAll(Stream.of(">xxx")).count();
-
-		assertThatThrownBy(parser::sanityCheckFinished)
-				.isInstanceOf(IllegalStateException.class)
-				.hasMessageContaining("last line processed");
+		IllegalStateException e = assertThrows(IllegalStateException.class, () -> parser.parseAll(Stream.of(">xxx")).count());
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("last line processed"));
 	}
 }

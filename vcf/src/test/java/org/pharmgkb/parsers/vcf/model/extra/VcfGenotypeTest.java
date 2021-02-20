@@ -1,8 +1,6 @@
 package org.pharmgkb.parsers.vcf.model.extra;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link VcfGenotype}.

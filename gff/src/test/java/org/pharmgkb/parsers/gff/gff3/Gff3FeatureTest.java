@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.gff.gff3;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.gff.model.Gff3Feature;
 
 import java.math.BigDecimal;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test {@link Gff3Feature}.

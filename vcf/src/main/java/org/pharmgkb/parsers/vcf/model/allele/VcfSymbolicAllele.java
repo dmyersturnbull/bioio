@@ -6,16 +6,13 @@ import org.pharmgkb.parsers.vcf.utils.VcfEscapers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A VCF named allele, using the {@code <ID>} notation.
  * @author Douglas Myers-Turnbull
  */
-public class VcfSymbolicAllele implements VcfAllele, Serializable {
-
-	private static final long serialVersionUID = -7549822687429031748L;
+public class VcfSymbolicAllele implements VcfAllele {
 
 	private final String m_id;
 

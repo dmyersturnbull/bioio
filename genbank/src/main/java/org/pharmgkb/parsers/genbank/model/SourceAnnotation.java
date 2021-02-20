@@ -13,14 +13,14 @@ import java.util.Objects;
 @Immutable
 public class SourceAnnotation implements GenbankAnnotation {
 
-	private String m_name;
-	private String m_formalName;
-	private ImmutableList<String> m_lineage;
+	private final String m_name;
+	private final String m_formalName;
+	private final ImmutableList<String> m_lineage;
 
 	public SourceAnnotation(@Nonnull String name, @Nonnull String formalName, @Nonnull ImmutableList<String> lineage) {
-		this.m_name = name;
-		this.m_formalName = formalName;
-		this.m_lineage = lineage;
+		m_name = name;
+		m_formalName = formalName;
+		m_lineage = lineage;
 	}
 
 	@Nonnull

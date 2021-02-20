@@ -4,7 +4,6 @@ import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.function.Function;
 
 /**

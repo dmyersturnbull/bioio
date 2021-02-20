@@ -8,17 +8,17 @@ import org.pharmgkb.parsers.vcf.utils.VcfPatterns;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * A VCF ALT or REF that follows the breakpoint specification (with {@code [} and {@code ]}).
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class VcfBreakpointAllele implements VcfAllele, Serializable {
+public class VcfBreakpointAllele implements VcfAllele {
 
-	private static final long serialVersionUID = -8875925263270240877L;
+	private static final Pattern sf_bracketSplitter = Pattern.compile("\\[]");
 	private final String m_replacementString;
 	private final Locus m_locus;
 	private final JoinSequencePlacement m_placement;
@@ -62,7 +62,7 @@ public class VcfBreakpointAllele implements VcfAllele, Serializable {
 		Preconditions.checkArgument(VcfPatterns.ALT_BREAKPOINT_PATTERN.matcher(string).matches(), "Invalid VCF breakpoint " + string);
 
 		Orientation orientation = string.contains("[")? Orientation.Forward : Orientation.Reverse;
-		String[] parts = string.split("\\[]");
+		String[] parts = sf_bracketSplitter.split(string);
 		String replacementString;
 		Locus locus;
 		JoinSequencePlacement placement;

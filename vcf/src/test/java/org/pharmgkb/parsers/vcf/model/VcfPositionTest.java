@@ -1,16 +1,13 @@
 package org.pharmgkb.parsers.vcf.model;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.model.Locus;
 import org.pharmgkb.parsers.model.Strand;
 import org.pharmgkb.parsers.vcf.model.allele.VcfAllele;
 import org.pharmgkb.parsers.vcf.model.allele.VcfBasesAllele;
 
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link VcfPosition}.
@@ -19,7 +16,7 @@ import static org.junit.Assert.*;
 public class VcfPositionTest {
 
 	@Test
-	public void test() throws Exception {
+	public void test() {
 
 		VcfPosition position = new VcfPosition.Builder("chr1", -1, "A")
 				.addAlt("T")

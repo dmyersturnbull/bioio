@@ -1,9 +1,9 @@
 package org.pharmgkb.parsers.vcf.utils;
 
 import org.pharmgkb.parsers.model.GeneralizedBigDecimal;
+import org.pharmgkb.parsers.vcf.model.extra.ReservedProperty;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfFormatType;
 import org.pharmgkb.parsers.vcf.model.metadata.VcfInfoType;
-import org.pharmgkb.parsers.vcf.model.extra.ReservedProperty;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class VcfConversionUtils {
 	@SuppressWarnings("unchecked")
 	@Nonnull
 	public static <T> Optional<T> convertProperty(@Nonnull Class<?> clas, @Nonnull Optional<String> value, boolean isList) {
-		if (!value.isPresent()) {
+		if (value.isEmpty()) {
 			return Optional.empty();
 		}
 		if (!isList) {
@@ -50,7 +50,7 @@ public class VcfConversionUtils {
 				throw new IllegalArgumentException("Wrong type specified", e);
 			}
 		}
-		List<Object> list = new ArrayList<>();
+		List<Object> list = new ArrayList<>(64);
 		for (String part : value.get().split(",")) {
 			list.add(convertElement(clas, Optional.of(part)));
 		}
@@ -86,7 +86,7 @@ public class VcfConversionUtils {
 
 	@Nonnull
 	private static Optional<?> convertElement(@Nonnull Class<?> clas, @Nonnull Optional<String> value) {
-		if (!value.isPresent()) {
+		if (value.isEmpty()) {
 			return Optional.empty();
 		}
 		String val = value.get();

@@ -14,11 +14,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -64,7 +60,7 @@ public class PedigreeParser implements LineStructureParser<Pedigree> {
 	private final ImmutableSet<String> m_unknownCodes;
 	private final boolean m_parentsAddedFirst;
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	private PedigreeParser(@Nonnull Builder builder) {
 		m_noParentMarker = builder.m_noParentMarker;

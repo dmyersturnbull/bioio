@@ -2,9 +2,6 @@ package org.pharmgkb.parsers.vcf.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import org.pharmgkb.parsers.vcf.model.metadata.VcfAltMetadata;
-import org.pharmgkb.parsers.vcf.model.metadata.VcfFormatMetadata;
-import org.pharmgkb.parsers.vcf.model.metadata.VcfInfoMetadata;
 import org.pharmgkb.parsers.vcf.model.metadata.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +80,7 @@ public class VcfMetadataFactory {
 
 	@Nonnull
 	private static List<String> split(@Nonnull String input, char delimiter) {
-		List<String> result = new ArrayList<>();
+		List<String> result = new ArrayList<>(input.length() + 1);
 		int start = 0;
 		boolean inQuotes = false;
 		for (int current = 0; current < input.length(); current++) {

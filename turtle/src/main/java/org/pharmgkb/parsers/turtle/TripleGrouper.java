@@ -22,7 +22,7 @@ public class TripleGrouper implements Function<Triple, Stream<TripleGroup>> {
 
 	private String m_previousSubject = null;
 	private String m_subject = null;
-	private Map<String, Node> m_list = new HashMap<>();
+	private Map<String, Node> m_list = new HashMap<>(16);
 
 	@Nonnull
 	public Stream<TripleGroup> apply(@Nonnull Triple triple) {
@@ -47,7 +47,7 @@ public class TripleGrouper implements Function<Triple, Stream<TripleGroup>> {
 	}
 
 	@Nonnull
-	public Stream<TripleGroup> convert(@Nonnull Stream<Triple> triples) {
+	public Stream<TripleGroup> convert(@Nonnull Stream<? extends Triple> triples) {
 		return triples.flatMap(this);
 	}
 }

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,13 +11,13 @@ import java.util.Objects;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedBlock implements Serializable {
+public class BedBlock {
 
-	private static final long serialVersionUID = 3728077750509042933L;
 	private final long m_start;
 
 	private final long m_end;
 
+	@SuppressWarnings("ConstantConditions")
 	public BedBlock(@Nonnegative long start, @Nonnegative long end) {
 		Preconditions.checkArgument(start > -1, "Block start" + start + " is negative");
 		Preconditions.checkArgument(end > -1, "Block end" + end + " is negative");

@@ -1,20 +1,17 @@
 package org.pharmgkb.parsers.vcf;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.vcf.model.VcfPosition;
 import org.pharmgkb.parsers.vcf.model.extra.ReservedFormatProperty;
-import org.pharmgkb.parsers.vcf.model.extra.VcfGenotype;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Douglas Myers-Turnbull

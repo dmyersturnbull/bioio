@@ -15,7 +15,6 @@ public abstract class VcfIdDescriptionMetadata extends VcfIdMetadata {
 
 	public static final String ID = "ID";
 	public static final String DESCRIPTION = "Description";
-	private static final long serialVersionUID = 1069963979940331972L;
 
 	public VcfIdDescriptionMetadata(@Nonnull  VcfMetadataType type, @Nonnull Map<String, String> props) {
 		super(type, props);

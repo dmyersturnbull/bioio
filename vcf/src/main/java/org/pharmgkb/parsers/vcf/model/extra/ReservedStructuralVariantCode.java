@@ -2,6 +2,7 @@ package org.pharmgkb.parsers.vcf.model.extra;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,6 @@ public enum ReservedStructuralVariantCode {
 
 	@Nonnull
 	public List<String> getCodes() {
-		return m_codes;
+		return Collections.unmodifiableList(m_codes);
 	}
 }

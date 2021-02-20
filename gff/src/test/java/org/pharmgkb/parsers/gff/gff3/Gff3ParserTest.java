@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.gff.gff3;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.gff.Gff3Parser;
 import org.pharmgkb.parsers.gff.model.CdsPhase;
 import org.pharmgkb.parsers.gff.model.Gff3Feature;
@@ -9,13 +9,9 @@ import org.pharmgkb.parsers.gff.model.GffStrand;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test {@link Gff3Parser}.

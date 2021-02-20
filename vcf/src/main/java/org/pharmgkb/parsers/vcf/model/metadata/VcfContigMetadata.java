@@ -29,9 +29,8 @@ public class VcfContigMetadata extends VcfIdMetadata {
 	public static final String SPECIES = "species";
 	public static final String TAXONOMY = "taxonomy";
 	public static final String URL = "URL";
-	private static final long serialVersionUID = 3284516873126365443L;
 
-	private static ImmutableSet<String> m_forbiddenIds;
+	private static final ImmutableSet<String> m_forbiddenIds;
 	static {
 		ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<>();
 		for (ReservedStructuralVariantCode code : ReservedStructuralVariantCode.values()) {
@@ -40,7 +39,7 @@ public class VcfContigMetadata extends VcfIdMetadata {
 		m_forbiddenIds = builder.build();
 	}
 
-	private long m_length;
+	private final long m_length;
 
 	public VcfContigMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Contig, props);
@@ -57,8 +56,10 @@ public class VcfContigMetadata extends VcfIdMetadata {
 		m_length = Long.parseLong(props.get(LENGTH));
 	}
 
-  public VcfContigMetadata(@Nonnull String id, long length, @Nonnull String assembly, @Nullable String md5,
-						   @Nullable String species, @Nullable String taxonomy, @Nullable String url) {
+  public VcfContigMetadata(
+  		@Nonnull String id, long length, @Nonnull String assembly, @Nullable String md5,
+		@Nullable String species, @Nullable String taxonomy, @Nullable String url
+  ) {
 		this(new PropertyMapBuilder()
 				.put(ID, id)
 				.put(LENGTH, String.valueOf(length))
@@ -68,7 +69,8 @@ public class VcfContigMetadata extends VcfIdMetadata {
 				.put(URL, url)
 				.put(LENGTH, String.valueOf(length))
 				.build());
-		m_length = length;
+		// TODO: This isn't needed, right?
+		//m_length = length;
 	}
 
 
@@ -104,54 +106,54 @@ public class VcfContigMetadata extends VcfIdMetadata {
 	@NotThreadSafe
 	public static class Builder implements ObjectBuilder<VcfContigMetadata> {
 
-		private final String id;
-		private final int length;
+		private final String m_id;
+		private final int m_length;
 
-		private String assembly = null;
-		private String md5 = null;
-		private String species = null;
-		private String taxonomy = null;
-		private String url = null;
+		private String m_assembly = null;
+		private String m_md5 = null;
+		private String m_species = null;
+		private String m_taxonomy = null;
+		private String m_url = null;
 
 		public Builder(@Nonnull String id, @Nonnegative int length) {
-			this.id = id;
-			this.length = length;
+			m_id = id;
+			m_length = length;
 		}
 
 		@Nonnull
 		public Builder setAssembly(@Nullable String assembly) {
-			this.assembly = assembly;
+			m_assembly = assembly;
 			return this;
 		}
 
 		@Nonnull
 		public Builder setMd5(@Nullable String md5) {
-			this.md5 = md5;
+			m_md5 = md5;
 			return this;
 		}
 
 		@Nonnull
 		public Builder setSpecies(@Nullable String species) {
-			this.species = species;
+			m_species = species;
 			return this;
 		}
 
 		@Nonnull
 		public Builder setTaxonomy(@Nullable String taxonomy) {
-			this.taxonomy = taxonomy;
+			m_taxonomy = taxonomy;
 			return this;
 		}
 
 		@Nonnull
 		public Builder setUrl(@Nullable String url) {
-			this.url = url;
+			m_url = url;
 			return this;
 		}
 
 		@Nonnull
 		@Override
 		public VcfContigMetadata build() {
-			return new VcfContigMetadata(id, length, assembly, md5, species, taxonomy, url);
+			return new VcfContigMetadata(m_id, m_length, m_assembly, m_md5, m_species, m_taxonomy, m_url);
 		}
 	}
 

@@ -9,7 +9,10 @@ import org.pharmgkb.parsers.vcf.model.metadata.*;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Stores an ordered list of VCF metadata lines, including the {@code ##vcfVersion} and header ({@code #CHROM...}) lines.
@@ -169,6 +172,7 @@ public class VcfMetadataCollection {
 			}
 		}
 
+		@SuppressWarnings("OverlyStrongTypeCast")
 		@Nonnull
 		public Builder addLine(@Nonnull VcfMetadata line) {
 			Preconditions.checkNotNull(line, "VcfMetadata cannot be null");

@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.chain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.chain.model.GenomeChain;
 import org.pharmgkb.parsers.model.Locus;
 import org.pharmgkb.parsers.model.LocusRange;
@@ -8,9 +8,8 @@ import org.pharmgkb.parsers.model.Strand;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Tests {@link GenomeChain}.
@@ -24,7 +23,7 @@ public class GenomeChainTest {
 		addToChain(chain, 1, 5, 3, 7);
 		GenomeChain c = chain.build();
 		Optional<Locus> got = c.apply(new Locus("chr1", 2, Strand.PLUS));
-		assertEquals(Optional.of(new Locus("chr1", 4, Strand.PLUS)), got);
+		assertEquals(got, Optional.of(new Locus("chr1", 4, Strand.PLUS)));
 	}
 
 	@Test
@@ -71,50 +70,50 @@ public class GenomeChainTest {
 		assertEquals(Optional.of(new Locus("chr1", 21, Strand.PLUS)), got3);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testSourceOverlapBefore() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 4, 6, 10, 11);
 		addToChain(chain, 1, 5, 3, 7);
-		chain.build();
+		assertThrows(IllegalArgumentException.class, chain::build);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testSourceOverlapAfter() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 4, 6, 10, 11);
-		chain.build();
+		assertThrows(IllegalArgumentException.class, chain::build);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testTargetOverlapBefore() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 6, 7, 6, 8);
 		addToChain(chain, 1, 5, 3, 7);
-		chain.build();
+		assertThrows(IllegalArgumentException.class, chain::build);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testTargetOverlapAfter() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 7);
 		addToChain(chain, 6, 7, 6, 8);
-		chain.build();
+		assertThrows(IllegalArgumentException.class, chain::build);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testWrongSize() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		addToChain(chain, 1, 5, 3, 6);
-		chain.build();
+		assertThrows(IllegalArgumentException.class, chain::build);
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testWrongChromosome() {
 		GenomeChain.Builder chain = new GenomeChain.Builder();
 		LocusRange source = new LocusRange(new Locus("chr1", 5, Strand.PLUS), new Locus("chr2", 10, Strand.PLUS));
-		chain.add(source, source);
+		assertThrows(IllegalArgumentException.class, () -> chain.add(source, source));
 	}
 
 	@Test

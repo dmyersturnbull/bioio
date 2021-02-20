@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableList;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +29,14 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class AltStructuralVariant implements Serializable {
+public class AltStructuralVariant {
 
 	public AltStructuralVariant(@Nonnull List<String> components) {
 		if (components instanceof ImmutableList) {
+			//noinspection AssignmentOrReturnOfFieldWithMutableType
 			m_components = ((ImmutableList<String>)components);
 		} else {
-			this.m_components = ImmutableList.copyOf(components);
+			m_components = ImmutableList.copyOf(components);
 		}
 	}
 
@@ -57,8 +57,10 @@ public class AltStructuralVariant implements Serializable {
 		List<String> components = sf_colon.splitToList(string);
 		List<String> comps = new ArrayList<>(components.size());
 
+		//noinspection NonConstantStringShouldBeStringBuffer
 		String stringFromTop = "";
 		int level = 0;
+		// TODO: This is extremely confusing
 		for (; level < components.size(); level++) {
 			stringFromTop += components.get(level);
 			Optional<ReservedStructuralVariantCode> topLevel = ReservedStructuralVariantCode.fromId(stringFromTop);

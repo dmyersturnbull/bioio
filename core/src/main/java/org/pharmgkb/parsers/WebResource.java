@@ -28,22 +28,22 @@ public class WebResource<T extends WebResource<T>> {
 	private final boolean m_isGzip;
 	private final Path m_path;
 
-	protected WebResource(@Nonnull String url, boolean isGzip, @Nonnull Optional<Path> cachePath) {
+	protected WebResource(@Nonnull String url, boolean isGzip, @Nonnull Optional<? extends Path> cachePath) {
 		this(IoUtils.getUrl(url), isGzip, cachePath);
 	}
-	protected WebResource(@Nonnull URL url, boolean isGzip, @Nonnull Optional<Path> cachePath) {
+	protected WebResource(@Nonnull URL url, boolean isGzip, @Nonnull Optional<? extends Path> cachePath) {
 		Path path = cachePath.orElse(null);
 		if (path != null && isGzip && !path.endsWith(".gzip") && !path.endsWith(".gz")) {
-			sf_logger.warn("Modifying cache path " + path + " to end with .gz");
-			this.m_path = Paths.get(path.toString() + ".gz");
+			sf_logger.warn("Modifying cache path {} to end with .gz", path);
+			m_path = Paths.get(path + ".gz");
 		} else if (path != null && !isGzip && (path.endsWith(".gzip") || path.endsWith(".gz"))) {
-			sf_logger.warn("Modifying cache path " + path + " to end with .txt");
-			this.m_path = Paths.get(path.toString() + ".txt");
+			sf_logger.warn("Modifying cache path {} to end with .txt", path);
+			m_path = Paths.get(path + ".txt");
 		} else {
-			this.m_path = path;
+			m_path = path;
 		}
-		this.m_url = url;
-		this.m_isGzip = isGzip;
+		m_url = url;
+		m_isGzip = isGzip;
 	}
 
 	public URL getUrl() {
@@ -56,10 +56,10 @@ public class WebResource<T extends WebResource<T>> {
 	}
 
 	public boolean hasCache() {
-		return this.m_path != null;
+		return m_path != null;
 	}
 	public boolean isCached() {
-		return this.m_path != null && this.m_path.toFile().exists() && this.m_path.toFile().length() > 0;
+		return m_path != null && m_path.toFile().exists() && m_path.toFile().length() > 0;
 	}
 
 	@Nonnull
@@ -69,8 +69,8 @@ public class WebResource<T extends WebResource<T>> {
 
 	@Nonnull
 	public Stream<String> readLines() throws UncheckedIOException  {
-		if (this.hasCache()) {
-			if (!this.isCached()) {
+		if (hasCache()) {
+			if (!isCached()) {
 				IoUtils.downloadBytesTo(m_url, m_path);
 			}
 			return IoUtils.readUtf8Lines(m_path);

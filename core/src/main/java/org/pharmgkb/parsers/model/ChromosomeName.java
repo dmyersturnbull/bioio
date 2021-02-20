@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -17,12 +16,10 @@ import java.util.regex.Pattern;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class ChromosomeName implements Comparable<ChromosomeName>, Serializable {
+public class ChromosomeName implements Comparable<ChromosomeName> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private static final Pattern sf_pattern = Pattern.compile("^(?:chr)?(\\d{1,2}|X|Y|M|(?:MT))(_[A-Z]+[0-9]+v\\d+?(?:_(?:random)|(?:alt)))?$");
-
-	private static final long serialVersionUID = -6557660181659148787L;
 
 	private final String m_originalName;
 	private final String m_name;
@@ -55,7 +52,7 @@ public class ChromosomeName implements Comparable<ChromosomeName>, Serializable 
 	}
 
 	@Nonnull
-	public static ChromosomeName standardized(@Nonnull String name, @Nonnull Function<String, String> standardizer) {
+	public static ChromosomeName standardized(@Nonnull String name, @Nonnull Function<? super String, String> standardizer) {
 		return new ChromosomeName(name, standardizer.apply(name));
 	}
 

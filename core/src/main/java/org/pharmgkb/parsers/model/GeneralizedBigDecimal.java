@@ -5,7 +5,6 @@ import com.google.common.collect.Range;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
@@ -15,12 +14,11 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>, Serializable {
+public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal> {
 
 	public static final GeneralizedBigDecimal NAN = new GeneralizedBigDecimal("NaN");
 	public static final GeneralizedBigDecimal POSITIVE_INFINITY = new GeneralizedBigDecimal("Inf");
 	public static final GeneralizedBigDecimal NEGATIVE_INFINITY = new GeneralizedBigDecimal("-Inf");
-	private static final long serialVersionUID = 8608688553173129002L;
 
 	private final Optional<BigDecimal> m_digits;
 	private final String m_string;
@@ -29,8 +27,8 @@ public class GeneralizedBigDecimal implements Comparable<GeneralizedBigDecimal>,
 		this(String.valueOf(i));
 	}
 
-	public GeneralizedBigDecimal(long i) {
-		this(String.valueOf(i));
+	public GeneralizedBigDecimal(long ell) {
+		this(String.valueOf(ell));
 	}
 
 	public GeneralizedBigDecimal(@Nonnull String string) {

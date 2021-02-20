@@ -1,5 +1,4 @@
 
 dependencies {
-	implementation 'com.codepoetics:protonpack:1.16'
 	compile project(':core')
 }

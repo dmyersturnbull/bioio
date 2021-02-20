@@ -1,7 +1,8 @@
 package org.pharmgkb.parsers.vcf.model;
 
-import com.google.common.base.*;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import org.pharmgkb.parsers.ObjectBuilder;
 import org.pharmgkb.parsers.model.GeneralizedBigDecimal;
@@ -23,7 +24,6 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.invoke.MethodHandles;
 import java.util.*;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -210,6 +210,7 @@ public class VcfPosition {
 		private List<String> m_format = new ArrayList<>();
 		private List<VcfSample> m_samples = new ArrayList<>();
 
+		@SuppressWarnings("DuplicatedCode")
 		public Builder(@Nonnull Builder builder) {
 			Preconditions.checkNotNull(builder, "Builder cannot be null");
 			m_chromosome = builder.m_chromosome;
@@ -225,6 +226,7 @@ public class VcfPosition {
 			m_samples.addAll(builder.m_samples);
 		}
 
+		@SuppressWarnings("DuplicatedCode")
 		public Builder(@Nonnull VcfPosition position) {
 			Preconditions.checkNotNull(position, "VcfPosition cannot be null");
 			m_chromosome = position.m_chromosome;
@@ -375,7 +377,7 @@ public class VcfPosition {
 		public Builder putInfo(@Nonnull String key, @Nonnull String value) {
 			Preconditions.checkNotNull(key, "INFO key cannot be null");
 			Preconditions.checkNotNull(value, "INFO value cannot be null");
-			Preconditions.checkArgument(!value.equals("") || !m_info.containsKey(key),
+			Preconditions.checkArgument(!value.isEmpty() || !m_info.containsKey(key),
 					"INFO value can only be a singleton list of an empty string or a list of non-empty strings");
 			check("INFO key", key, VcfPatterns.SINGLE_INFO_KEY_PATTERN);
 			m_info.put(key, value);
@@ -397,7 +399,7 @@ public class VcfPosition {
 		}
 
 		@Nonnull
-		public Builder addSamples(@Nonnull Collection<VcfSample> samples) {
+		public Builder addSamples(@Nonnull Collection<? extends VcfSample> samples) {
 			samples.forEach(this::addSample);
 			return this;
 		}

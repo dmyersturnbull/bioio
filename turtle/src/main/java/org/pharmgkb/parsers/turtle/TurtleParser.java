@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.lang.invoke.MethodHandles;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -53,9 +54,9 @@ public class TurtleParser implements MultilineParser<Triple> {
 		this(true);
 	}
 	public TurtleParser(boolean usePrefixes) {
-		this.m_usePrefixes = usePrefixes;
-		this.m_prefixes = new HashMap<>();
-		this.m_subject = new AtomicReference<>();
+		m_usePrefixes = usePrefixes;
+		m_prefixes = new HashMap<>(8);
+		m_subject = new AtomicReference<>();
 		m_lineNumber = new AtomicLong(0L);
 	}
 
@@ -70,6 +71,7 @@ public class TurtleParser implements MultilineParser<Triple> {
 	public Stream<Triple> apply(@Nonnull String line) {
 		try {
 			m_lineNumber.addAndGet(1);
+			//noinspection AssignmentToMethodParameter
 			line = line.trim(); // NOTE!
 			if (line.isEmpty() || line.startsWith("#")) {
 				return Stream.empty();
@@ -88,7 +90,7 @@ public class TurtleParser implements MultilineParser<Triple> {
 			} else if (line.endsWith(".")) {
 				m_subject.set(null);
 			} else {
-				sf_logger.warn("Line ending " + line.charAt(line.length() - 1) + " not recognized");
+				sf_logger.warn("Line ending {} not recognized", line.charAt(line.length() - 1));
 				m_subject.set(null);
 			}
 			return Stream.of(triple);
@@ -109,7 +111,7 @@ public class TurtleParser implements MultilineParser<Triple> {
 
 	@Nonnull
 	public Map<String, Prefix> getPrefixes() {
-		return m_prefixes;
+		return Collections.unmodifiableMap(m_prefixes);
 	}
 
 	protected Prefix parsePrefix(String line) {

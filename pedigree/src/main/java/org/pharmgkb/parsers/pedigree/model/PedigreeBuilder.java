@@ -5,12 +5,7 @@ import org.pharmgkb.parsers.ObjectBuilder;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A builder for {@link Pedigree Pedigrees}.
@@ -112,7 +107,7 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 
 		Individual individual = new Individual(individualId, sex, family, info);
 
-		if (!fatherId.isPresent() && !motherId.isPresent()) {
+		if (fatherId.isEmpty() && motherId.isEmpty()) {
 			family.getRootsRaw().add(individual);
 		} else {
 			if (fatherId.isPresent()) {
@@ -146,6 +141,7 @@ public class PedigreeBuilder implements ObjectBuilder<Pedigree> {
 	public Pedigree build() {
 		attachRemaining(true);
 		Pedigree pedigree = m_pedigree;
+		//noinspection AssignmentToNull
 		m_pedigree = null; // ensure immutability of Pedigree
 		return pedigree;
 	}

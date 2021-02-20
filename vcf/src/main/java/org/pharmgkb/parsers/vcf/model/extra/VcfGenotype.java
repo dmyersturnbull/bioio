@@ -184,6 +184,7 @@ public class VcfGenotype {
 		 * If this is called, then {@link #build()} will throw an {@link IllegalStateException} if there are not exactly
 		 * this many alleles.
 		 */
+		@SuppressWarnings("ConstantConditions")
 		@Nonnull
 		public Builder requirePloidy(@Nonnegative int ploidy) {
 			Preconditions.checkArgument(ploidy > -1, "Ploidy must be nonnegative");

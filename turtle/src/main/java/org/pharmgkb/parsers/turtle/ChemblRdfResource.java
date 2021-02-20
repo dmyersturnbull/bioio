@@ -29,14 +29,14 @@ public class ChemblRdfResource extends WebResource<ChemblRdfResource> {
 			"source", "target", "targetcmpt", "targetcmpt_uniprot_ls", "targetrel", "unichem"
 	);
 
-	protected ChemblRdfResource(@Nonnull String url, @Nonnull Optional<Path> cachePath) {
+	protected ChemblRdfResource(@Nonnull String url, @Nonnull Optional<? extends Path> cachePath) {
 		super(url, true, cachePath);
 	}
 
 	public ChemblRdfResource of(@Nonnull String type, @Nonnull String version) {
-		Matcher m = versionPattern.matcher(version);
-		if (!m.matches() || (Integer.parseInt(m.group(1)) < 26 && !ChemblRdfResource.KNOWN_VERSIONS.contains(version))) {
-			sf_logger.warn("Probable invalid ChEMBL RDF version # " + version);
+		Matcher matcher = versionPattern.matcher(version);
+		if (!matcher.matches() || (Integer.parseInt(matcher.group(1)) < 26 && !ChemblRdfResource.KNOWN_VERSIONS.contains(version))) {
+			sf_logger.warn("Probable invalid ChEMBL RDF version # {}", version);
 		}
 		// TODO damn, this is FTP!
 		String url = "http://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/$1/chembl_$1_$2.ttl.gz"

@@ -13,7 +13,6 @@ public class VcfAltMetadata extends VcfIdDescriptionMetadata {
 
 	public static final String ID = "ID";
 	public static final String DESCRIPTION = "Description";
-	private static final long serialVersionUID = -856010915426592771L;
 
 	public VcfAltMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Alt, props);

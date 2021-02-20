@@ -23,10 +23,9 @@ public class VcfFormatMetadata extends VcfIdMetadata {
 	public static final String DESCRIPTION = "Description";
 	public static final String NUMBER = "Number";
 	public static final String TYPE = "Type";
-	private static final long serialVersionUID = -3853613827342596608L;
 
-	private VcfFormatNumber m_number;
-	private VcfFormatType m_type;
+	private final VcfFormatNumber m_number;
+	private final VcfFormatType m_type;
 
 	public VcfFormatMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Format, props);
@@ -44,8 +43,9 @@ public class VcfFormatMetadata extends VcfIdMetadata {
 				.put(NUMBER, number)
 				.put(TYPE, type.name())
 				.build());
-		m_number = new VcfFormatNumber(number);
-		m_type = type;
+		// TODO: This isn't needed, right?
+		//m_number = new VcfFormatNumber(number);
+		//m_type = type;
 	}
 
 	@Nonnull

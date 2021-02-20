@@ -5,7 +5,6 @@ import org.pharmgkb.parsers.BadDataFormatException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
@@ -13,13 +12,11 @@ import java.util.Optional;
 
 
 @Immutable
-public class Node implements Serializable {
+public class Node {
 
-	private static final long serialVersionUID = -7100391673710012465L;
-
-	private String m_value;
-	private Optional<String> m_language;
-	private Optional<String> m_dataType;
+	private final String m_value;
+	private final Optional<String> m_language;
+	private final Optional<String> m_dataType;
 
 	public Node(@Nonnull String value, @Nonnull Optional<String> language, @Nonnull Optional<String> dataType) {
 		m_value = value;
@@ -99,14 +96,14 @@ public class Node implements Serializable {
 
 	@Override
 	public String toString() {
-		MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this)
+		MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(this)
 				.add("", m_value);
 		if (m_language.isPresent()) {
-			s = s.add("language", m_language.get());
+			helper = helper.add("language", m_language.get());
 		}
 		if (m_dataType.isPresent()) {
-			s.add("dataType", m_dataType.get());
+			helper.add("dataType", m_dataType.get());
 		}
-		return s.toString();
+		return helper.toString();
 	}
 }

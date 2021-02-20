@@ -12,7 +12,7 @@ import java.util.Objects;
 @Immutable
 public class CommentAnnotation implements GenbankAnnotation {
 
-	private String m_text;
+	private final String m_text;
 
 	public CommentAnnotation(@Nonnull String text) {
 		m_text = text;

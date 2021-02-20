@@ -1,8 +1,8 @@
 package org.pharmgkb.parsers.gff;
 
 import org.pharmgkb.parsers.LineWriter;
-import org.pharmgkb.parsers.gff.utils.Gff3Escapers;
 import org.pharmgkb.parsers.gff.model.Gff3Feature;
+import org.pharmgkb.parsers.gff.utils.Gff3Escapers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,26 +31,26 @@ public class Gff3Writer implements LineWriter<Gff3Feature> {
 
 	@Nonnull
 	@Override
-	public String apply(@Nonnull Gff3Feature f) {
+	public String apply(@Nonnull Gff3Feature feat) {
 
 		if (m_lineNumber.incrementAndGet() % sf_logEvery == 0) {
 			sf_logger.debug("Reading line #{}", m_lineNumber);
 		}
 
 		return tabify(
-				Gff3Escapers.COORDINATE_SYSTEM_IDS.escape(f.getCoordinateSystemName()),
-				f.getSource().map(Gff3Escapers.FIELDS::escape).orElse(null),
-				Gff3Escapers.FIELDS.escape(f.getType()),
-				f.getStart() + 1, f.getEnd() + 1,
-				f.getScore().orElse(null),
-				f.getStrand().getSymbol(),
-				f.getPhase().orElse(null),
-				mapToString(f.getAttributes())
+				Gff3Escapers.COORDINATE_SYSTEM_IDS.escape(feat.getCoordinateSystemName()),
+				feat.getSource().map(Gff3Escapers.FIELDS::escape).orElse(null),
+				Gff3Escapers.FIELDS.escape(feat.getType()),
+				feat.getStart() + 1, feat.getEnd() + 1,
+				feat.getScore().orElse(null),
+				feat.getStrand().getSymbol(),
+				feat.getPhase().orElse(null),
+				mapToString(feat.getAttributes())
 		);
 	}
 
 	@Nonnull
-	private static String mapToString(@Nonnull Map<String, List<String>> attributes) {
+	private static String mapToString(@Nonnull Map<String, ? extends List<String>> attributes) {
 		if (attributes.isEmpty()) {
 			return ".";
 		}

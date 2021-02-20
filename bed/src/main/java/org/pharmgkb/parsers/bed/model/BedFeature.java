@@ -11,8 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.awt.Color;
-import java.io.Serializable;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +23,7 @@ import java.util.Optional;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class BedFeature implements Serializable {
+public class BedFeature {
 
 	private final String m_chromosome;
 
@@ -139,7 +138,7 @@ public class BedFeature implements Serializable {
 				&& Objects.equals(m_end, that.m_end)
 				&& Objects.equals(m_name, that.m_name)
 				&& Objects.equals(m_score, that.m_score)
-				&& Objects.equals(m_strand, that.m_strand)
+				&& m_strand == that.m_strand
 				&& Objects.equals(m_thickStart, that.m_thickStart)
 				&& Objects.equals(m_thickEnd, that.m_thickEnd)
 				&& Objects.equals(m_color, that.m_color)
@@ -180,6 +179,7 @@ public class BedFeature implements Serializable {
 
 		private final List<BedBlock> m_blocks;
 
+		@SuppressWarnings("ConstantConditions")
 		public Builder(@Nonnull String chromosome, @Nonnegative long start, @Nonnegative long end) {
 			Preconditions.checkArgument(!chromosome.contains("\t"), "Chromosome name " + chromosome + " contains a tab");
 			Preconditions.checkArgument(
@@ -198,7 +198,7 @@ public class BedFeature implements Serializable {
 			m_thickStart = null;
 			m_thickEnd = null;
 			m_color = null;
-			m_blocks = new ArrayList<>();
+			m_blocks = new ArrayList<>(16);
 		}
 
 		public Builder(@Nonnull BedFeature feature) {
@@ -228,6 +228,7 @@ public class BedFeature implements Serializable {
 			return this;
 		}
 
+		@SuppressWarnings("ConstantConditions")
 		@Nonnull
 		public Builder setStart(@Nonnegative long start) {
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
@@ -235,6 +236,7 @@ public class BedFeature implements Serializable {
 			return this;
 		}
 
+		@SuppressWarnings("ConstantConditions")
 		@Nonnull
 		public Builder setEnd(@Nonnegative long end) {
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
@@ -246,14 +248,15 @@ public class BedFeature implements Serializable {
 		public Builder setName(@Nullable String name) {
 			return setName(Optional.ofNullable(name));
 		}
+
 		@Nonnull
 		public Builder setName(@Nonnull Optional<String> name) {
 			Preconditions.checkArgument(
-					!name.isPresent() || !name.get().contains("\t"),
+					name.isEmpty() || !name.get().contains("\t"),
 			         "Feature name contains a tab"
 			);
 			Preconditions.checkArgument(
-					!name.isPresent() || !name.get().contains(System.lineSeparator()),
+					name.isEmpty() || !name.get().contains(System.lineSeparator()),
 			         "Feature name contains a newline"
 			);
 			m_name = name.orElse(null);
@@ -291,7 +294,7 @@ public class BedFeature implements Serializable {
 		@Nonnull
 		public Builder setThickStart(@Nonnull @Nonnegative Optional<Long> thickStart) {
 			Preconditions.checkArgument(
-					!thickStart.isPresent() || thickStart.get() > -1,
+					thickStart.isEmpty() || thickStart.get() > -1,
 					"Thick start " + thickStart + " < 0"
 			);
 			m_thickStart = thickStart.orElse(null);
@@ -304,7 +307,7 @@ public class BedFeature implements Serializable {
 		}
 		@Nonnull
 		public Builder setThickEnd(@Nonnull @Nonnegative Optional<Long> thickEnd) {
-			Preconditions.checkArgument(!thickEnd.isPresent() || thickEnd.get() > -1, "Thick end " + thickEnd + " < 0");
+			Preconditions.checkArgument(thickEnd.isEmpty() || thickEnd.get() > -1, "Thick end " + thickEnd + " < 0");
 			m_thickEnd = thickEnd.orElse(null);
 			return this;
 		}
@@ -338,7 +341,7 @@ public class BedFeature implements Serializable {
 			return setColor(Optional.ofNullable(color));
 		}
 		@Nonnull
-		public Builder setColor(@Nonnull Optional<Color> color) {
+		public Builder setColor(@Nonnull Optional<? extends Color> color) {
 			color.ifPresent(
 					color1 -> Preconditions.checkArgument(
 							color1.getAlpha() == 255,

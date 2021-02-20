@@ -2,7 +2,6 @@ package org.pharmgkb.parsers.gff.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import org.pharmgkb.parsers.ObjectBuilder;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
@@ -104,6 +103,7 @@ public abstract class BaseGffFeature {
 				.add("strand", m_strand).add("phase", m_phase).toString();
 	}
 
+	@SuppressWarnings("EqualsCalledOnEnumConstant")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -161,6 +161,7 @@ public abstract class BaseGffFeature {
 		 * @param start <strong>0-based</strong>
 		 * @param end <strong>0-based</strong>
 		 */
+		@SuppressWarnings("ConstantConditions")
 		public Builder(@Nonnull String coordinateSystemId, @Nonnull String type, @Nonnegative long start, @Nonnegative long end) {
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");
@@ -213,7 +214,7 @@ public abstract class BaseGffFeature {
 			return (B) this;
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({"unchecked", "ConstantConditions"})
 		@Nonnull
 		public B setStart(@Nonnegative long start) {
 			Preconditions.checkArgument(start > -1, "Start " + start + " < 0");
@@ -221,7 +222,7 @@ public abstract class BaseGffFeature {
 			return (B) this;
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({"unchecked", "ConstantConditions"})
 		@Nonnull
 		public B setEnd(@Nonnegative long end) {
 			Preconditions.checkArgument(end > -1, "End " + end + " < 0");

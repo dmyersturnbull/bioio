@@ -8,7 +8,6 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -19,16 +18,15 @@ import java.util.regex.Pattern;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Locus implements Comparable<Locus>, Serializable {
+public class Locus implements Comparable<Locus> {
 
 	private static final Pattern sf_pattern = Pattern.compile("^(chr(?:(?:\\d{1,2})|X|Y|M))\\(([+\\-?])\\):(-?\\d+)$");
-	private static final long serialVersionUID = -5433030717744488483L;
 
-	private ChromosomeName m_chromosome;
+	private final ChromosomeName m_chromosome;
 
-    private long m_position;
+    private final long m_position;
 
-    private Strand m_strand;
+    private final Strand m_strand;
 
 	@Nonnull
 	public static Locus parse(@Nonnull String string) {
@@ -52,9 +50,13 @@ public class Locus implements Comparable<Locus>, Serializable {
 	 * @param strand "+", "-", "?"
 	 */
 	public Locus(@Nonnull String chromosome, @Nonnegative long position, @Nonnull String strand) {
-        Optional<Strand> s = Strand.lookupBySymbol(strand);
-        Preconditions.checkArgument(s.isPresent(), "Bad strand " + strand);
-        init(new ChromosomeName(chromosome), position, s.get());
+		Preconditions.checkNotNull(chromosome);
+		Preconditions.checkNotNull(strand);
+        Optional<Strand> strandInstance = Strand.lookupBySymbol(strand);
+        Preconditions.checkArgument(strandInstance.isPresent(), "Unknown strand " + strand);
+		m_chromosome = new ChromosomeName(chromosome);
+		m_position = position;
+		m_strand = strandInstance.get();
 	}
 
     /**
@@ -62,20 +64,20 @@ public class Locus implements Comparable<Locus>, Serializable {
      * @param position A 0-based position on the chromosome
      */
     public Locus(@Nonnull ChromosomeName chromosome, long position, @Nonnull Strand strand) {
-        init(chromosome, position, strand);
+		Preconditions.checkNotNull(chromosome);
+		Preconditions.checkNotNull(strand);
+		m_chromosome = chromosome;
+		m_position = position;
+		m_strand = strand;
     }
 
 	public Locus(@Nonnull String chromosome, long position, @Nonnull Strand strand) {
-		init(new ChromosomeName(chromosome), position, strand);
+		Preconditions.checkNotNull(chromosome);
+		Preconditions.checkNotNull(strand);
+		m_chromosome = new ChromosomeName(chromosome);
+		m_position = position;
+		m_strand = strand;
 	}
-
-    private void init(@Nonnull ChromosomeName chromosome, long position, @Nonnull Strand strand) {
-        Preconditions.checkNotNull(chromosome);
-        Preconditions.checkNotNull(strand);
-        m_chromosome = chromosome;
-        m_position = position;
-        m_strand = strand;
-    }
 
 	/**
      * @return A standard chromosome name

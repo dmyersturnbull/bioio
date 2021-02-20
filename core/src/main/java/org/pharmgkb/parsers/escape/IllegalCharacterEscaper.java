@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 /**
  * Escapes and unescapes characters in a set of illegal characters.
  * Can also escape and unescape every character that is <em>not</em> in the set.
- * </code>
  * @author Douglas Myers-Turnbull
  */
 @ThreadSafe
@@ -36,7 +35,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 	 */
 	protected IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull char... illegalChars) {
 		m_inverseIllegality = inverseIllegality;
-		m_illegalChars = new HashSet<>();
+		m_illegalChars = new HashSet<>(16);
 		for (char c : illegalChars) {
 			m_illegalChars.add(c);
 		}
@@ -47,13 +46,13 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 	 */
 	protected IllegalCharacterEscaper(boolean inverseIllegality, @Nonnull Set<Character> illegalChars) {
 		m_inverseIllegality = inverseIllegality;
-		m_illegalChars = illegalChars;
+		m_illegalChars = Set.copyOf(illegalChars);
 	}
 
 	@Nonnull
 	@Override
 	public String escape(@Nonnull String string) {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(string.length() + m_illegalChars.size()*6);
 		for (Character c : string.toCharArray()) {
 			if (m_illegalChars.contains(c) ^ m_inverseIllegality) {
 				sb.append(encoder().apply(c));
@@ -70,7 +69,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 
 		if (m_inverseIllegality) {
 
-			StringBuilder sb = new StringBuilder(); // the string we'll build up
+			StringBuilder sb = new StringBuilder(string.length() + m_illegalChars.size()*6); // the string we'll build up
 
 			// the digits for a hex we've been reading
 			// null if we're not reading a digit
@@ -88,6 +87,7 @@ public abstract class IllegalCharacterEscaper implements CharacterEscaper {
 					if (onDigit.size() > 1) {
 						String unescapedHex = "%" + onDigit.get(0) + onDigit.get(1);
 						sb.append(unencoder().apply(unescapedHex));
+						//noinspection AssignmentToNull
 						onDigit = null;
 					}
 

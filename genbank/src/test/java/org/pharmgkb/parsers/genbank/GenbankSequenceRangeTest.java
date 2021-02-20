@@ -1,9 +1,9 @@
 package org.pharmgkb.parsers.genbank;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.genbank.model.GenbankSequenceRange;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Author Douglas Myers-Turnbull

@@ -10,8 +10,12 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.*;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -58,7 +62,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 
 	private File m_tempFile;
 
-	private LinkedHashMap<String, Long> m_headerToPosition = new LinkedHashMap<>();
+	private LinkedHashMap<String, Long> m_headerToPosition = new LinkedHashMap<>(128);
 	private BufferedRandomAccessFile m_stream;
 	private String m_currentHeader;
 
@@ -88,13 +92,13 @@ public class RandomAccessFastaBaseReader implements Closeable {
 		// 1) writing each base and each new header
 		// 2) keeping track of how many bytes into the new file we are
 		try (SimpleFastaBaseReader simple = new SimpleFastaBaseReader.Builder(file).build()) {
-			try (PrintWriter pw = new PrintWriter(m_tempFile)) {
+			try (PrintWriter pw = new PrintWriter(m_tempFile, StandardCharsets.UTF_8)) {
 
 				long nBytesInNewFile = 0; // we'll use this for header positions
 				String currentHeader = null; // we'll need this to know whether a header is new
-				Optional<Character> c;
+				Optional<Character> nextChar;
 
-				while (((c = simple.readNextBase()).isPresent())) {
+				while (((nextChar = simple.readNextBase()).isPresent())) {
 
 					//noinspection OptionalGetWithoutIsPresent
 					final String headerRead = simple.currentHeader().get(); // not null because we read a base
@@ -121,7 +125,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 					}
 
 					nBytesInNewFile++;
-					pw.print(c.get());
+					pw.print(nextChar.get());
 					if (nBytesInNewFile % 1000 == 0) {
 						pw.flush();
 					}
@@ -178,7 +182,7 @@ public class RandomAccessFastaBaseReader implements Closeable {
 			throw new IOException("Negative seek offset of " + (start + position) + " reading FASTA file " + m_tempFile);
 		}
 		m_stream.seek(start + position);
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(512);
 		for (int i = 0; i < length; i++) {
 			builder.append((char)m_stream.read());
 		}

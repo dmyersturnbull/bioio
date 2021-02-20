@@ -13,7 +13,6 @@ public class VcfFilterMetadata extends VcfIdDescriptionMetadata {
 
 	public static final String ID = "ID";
 	public static final String DESCRIPTION = "Description";
-	private static final long serialVersionUID = -3853216816832351437L;
 
 	public VcfFilterMetadata(@Nonnull Map<String, String> props) {
 		super(VcfMetadataType.Filter, props);

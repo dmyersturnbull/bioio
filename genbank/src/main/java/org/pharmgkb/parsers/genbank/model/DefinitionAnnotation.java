@@ -12,10 +12,10 @@ import java.util.Objects;
 @Immutable
 public class DefinitionAnnotation implements GenbankAnnotation {
 
-	private String m_definition;
+	private final String m_definition;
 
-	public DefinitionAnnotation(@Nonnull String m_definition) {
-		this.m_definition = m_definition;
+	public DefinitionAnnotation(@Nonnull String definition) {
+		m_definition = definition;
 	}
 
 	@Nonnull

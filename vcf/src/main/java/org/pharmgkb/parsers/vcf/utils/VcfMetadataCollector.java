@@ -31,7 +31,7 @@ public class VcfMetadataCollector implements Collector<VcfMetadata, VcfMetadataC
 
 	@Override
 	public BinaryOperator<VcfMetadataCollection.Builder> combiner() {
-		return (a, b) -> new VcfMetadataCollection.Builder(a, b);
+		return VcfMetadataCollection.Builder::new;
 	}
 
 	@Override

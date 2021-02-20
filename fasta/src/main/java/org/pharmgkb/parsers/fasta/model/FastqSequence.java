@@ -5,7 +5,6 @@ import com.google.common.collect.ComparisonChain;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -14,9 +13,7 @@ import java.util.Objects;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class FastqSequence implements Comparable<FastqSequence>, HasSequence, HasScores, Serializable {
-
-	private static final long serialVersionUID = -9016565377345851470L;
+public class FastqSequence implements Comparable<FastqSequence>, HasSequence, HasScores {
 
 	private final String m_header;
 	private final String m_sequence;

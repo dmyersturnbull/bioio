@@ -1,6 +1,5 @@
 package org.pharmgkb.parsers.vcf;
 
-import com.codepoetics.protonpack.StreamUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import org.pharmgkb.parsers.BadDataFormatException;
@@ -36,7 +35,7 @@ public class VcfMetadataParser implements LineStructureParser<VcfMetadataCollect
 	public VcfMetadataCollection apply(@Nonnull Stream<String> stream) throws BadDataFormatException {
 		Preconditions.checkNotNull(stream, "Stream cannot be null");
 		final VcfMetadataCollection.Builder builder = new VcfMetadataCollection.Builder();
-		StreamUtils.takeWhile(stream, s -> s.startsWith("#"))
+		stream.takeWhile(s -> s.startsWith("#"))
 				.forEachOrdered(line -> {
 
 					try {

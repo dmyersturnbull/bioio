@@ -1,13 +1,13 @@
 package org.pharmgkb.parsers.fasta;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Locale;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link RandomAccessFastaBaseReader}.
@@ -27,12 +27,12 @@ public class RandomAccessFastaBaseReaderTest {
 		File file = Paths.get(RandomAccessFastaBaseReaderTest.class.getResource("test1.fasta").toURI()).toFile();
 		RandomAccessFastaBaseReader.Builder builder = new RandomAccessFastaBaseReader.Builder(file).setnCharsInBuffer(5)
 				.keepTempFileOnExit();
-		assertThatThrownBy(builder::build)
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("already exists")
-				.hasMessageStartingWith("Temporary file " + file.getPath() + ".no_breaks");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, builder::build);
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).contains("already exists"));
+		assertTrue(e.getMessage().toLowerCase(Locale.ROOT).startsWith("temporary file " + file.getPath() + ".no_breaks"));
 	}
 
+	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public void debugTest() throws Exception {
 		File file = Paths.get(RandomAccessFastaBaseReaderTest.class.getResource("test1.fasta").toURI()).toFile();
 		RandomAccessFastaBaseReader stream = new RandomAccessFastaBaseReader.Builder(file).setnCharsInBuffer(5).build();

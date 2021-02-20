@@ -22,7 +22,7 @@ public interface HasSequence {
 
 	@Nonnull
 	default Stream<Character> sequenceAsStream() {
-		return this.getSequence().chars().mapToObj(s -> (char)s);
+		return getSequence().chars().mapToObj(i -> (char)i);
 	}
 
 	@Nonnull

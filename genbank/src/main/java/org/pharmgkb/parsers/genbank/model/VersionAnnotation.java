@@ -12,12 +12,12 @@ import java.util.Objects;
 @Immutable
 public class VersionAnnotation implements GenbankAnnotation {
 
-	private String m_accession;
-	private String m_versionNumber;
+	private final String m_accession;
+	private final String m_versionNumber;
 
 	public VersionAnnotation(@Nonnull String accession, @Nonnull String versionNumber) {
-		this.m_accession = accession;
-		this.m_versionNumber = versionNumber;
+		m_accession = accession;
+		m_versionNumber = versionNumber;
 	}
 
 	@Nonnull

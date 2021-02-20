@@ -35,7 +35,7 @@ public class VcfMetadataWriter implements LineWriter<VcfMetadata> {
 
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private long m_lineNumber = 0l;
+	private long m_lineNumber = 0L;
 
 	@Nonnegative
 	@Override

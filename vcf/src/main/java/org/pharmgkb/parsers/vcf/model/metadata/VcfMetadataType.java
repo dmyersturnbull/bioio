@@ -9,7 +9,14 @@ import javax.annotation.Nonnull;
  */
 public enum VcfMetadataType {
 
-	Alt("ALT"), Contig("contig"), Filter("FILTER"), Format("FORMAT"), Info("INFO"), Pedigree("PEDIGREE"), Sample("SAMPLE");
+	Alt("ALT"),
+	Contig("contig"),
+	Filter("FILTER"),
+	Format("FORMAT"),
+	Info("INFO"),
+	Pedigree("PEDIGREE"),
+	Sample("SAMPLE")
+	;
 
 	private final String m_id;
 

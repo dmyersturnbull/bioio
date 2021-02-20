@@ -1,11 +1,10 @@
 package org.pharmgkb.parsers.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link GeneralizedBigDecimal}.
@@ -15,7 +14,7 @@ public class GeneralizedBigDecimalTest {
 
 	@Test
 	public void testGetValue() {
-		assertEquals(new BigDecimal("0.5"), new GeneralizedBigDecimal("0.5").getValue().get());
+		assertEquals(new GeneralizedBigDecimal("0.5").getValue().get(), new BigDecimal("0.5"));
 		assertFalse(new GeneralizedBigDecimal("Inf").getValue().isPresent());
 		assertFalse(new GeneralizedBigDecimal("+Inf").getValue().isPresent());
 		assertFalse(new GeneralizedBigDecimal("-Inf").getValue().isPresent());
@@ -24,10 +23,10 @@ public class GeneralizedBigDecimalTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("0.5", new GeneralizedBigDecimal("0.5").toString());
-		assertEquals("Inf", new GeneralizedBigDecimal("Inf").toString());
-		assertEquals("+Inf", new GeneralizedBigDecimal("+Inf").toString());
-		assertEquals("-Inf", new GeneralizedBigDecimal("-Inf").toString());
+		assertEquals(new GeneralizedBigDecimal("0.5").toString(), "0.5");
+		assertEquals(new GeneralizedBigDecimal("Inf").toString(), "Inf");
+		assertEquals(new GeneralizedBigDecimal("+Inf").toString(), "+Inf");
+		assertEquals(new GeneralizedBigDecimal("-Inf").toString(), "-Inf");
 	}
 
 	@Test
@@ -54,13 +53,17 @@ public class GeneralizedBigDecimalTest {
 		assertFalse(GeneralizedBigDecimal.NEGATIVE_INFINITY.greaterThan(GeneralizedBigDecimal.NEGATIVE_INFINITY));
 		assertTrue(GeneralizedBigDecimal.NEGATIVE_INFINITY.greaterThanOrEqual(GeneralizedBigDecimal.NEGATIVE_INFINITY));
 
-		assertThatThrownBy(() -> GeneralizedBigDecimal.NAN.compareTo(GeneralizedBigDecimal.POSITIVE_INFINITY))
-				.isInstanceOf(UnsupportedOperationException.class)
-				.hasMessageContaining("NaN");
+		UnsupportedOperationException e = assertThrows(
+				UnsupportedOperationException.class,
+				() -> GeneralizedBigDecimal.NAN.compareTo(GeneralizedBigDecimal.POSITIVE_INFINITY)
+		);
+		assertTrue(e.getMessage().contains("NaN"));
 
-		assertThatThrownBy(() -> GeneralizedBigDecimal.POSITIVE_INFINITY.compareTo(GeneralizedBigDecimal.NAN))
-				.isInstanceOf(UnsupportedOperationException.class)
-				.hasMessageContaining("NaN");
+		UnsupportedOperationException e2 = assertThrows(
+				UnsupportedOperationException.class,
+				() -> GeneralizedBigDecimal.POSITIVE_INFINITY.compareTo(GeneralizedBigDecimal.NAN)
+		);
+		assertTrue(e2.getMessage().contains("NaN"));
 
 	}
 }

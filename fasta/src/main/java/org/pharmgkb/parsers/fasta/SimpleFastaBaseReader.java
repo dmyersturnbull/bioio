@@ -5,13 +5,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import java.io.Closeable;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.CharBuffer;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -155,7 +149,7 @@ public class SimpleFastaBaseReader implements Closeable {
 	}
 
 	private void readHeader() throws IOException {
-		StringBuilder header = new StringBuilder();
+		StringBuilder header = new StringBuilder(256);
 		Character c;
 		do {
 			c = doRead();

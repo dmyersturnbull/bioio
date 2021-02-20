@@ -20,13 +20,14 @@ import java.util.stream.Collectors;
  * Writes matrices, CSV, etc.
  * @author Douglas Myers-Turnbull
  */
+@SuppressWarnings("ALL")
 @ThreadSafe
 public class MatrixWriter<T> implements LineWriter<List<T>> {
 
     private static final long sf_logEvery = 10000;
     private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private AtomicLong m_lineNumber = new AtomicLong(0L);
+    private final AtomicLong m_lineNumber = new AtomicLong(0L);
     private final Function<T, String> m_converter;
     private final String m_delimiter;
     private final String m_linePrefix;

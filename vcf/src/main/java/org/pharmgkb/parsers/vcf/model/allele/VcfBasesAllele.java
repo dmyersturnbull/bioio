@@ -5,17 +5,15 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
  * A simple VcfAllele that only contains A, T, G, C, and N (and lowercase variants).
  * @author Douglas Myers-Turnbull
  */
-public class VcfBasesAllele implements VcfAllele, Serializable {
+public class VcfBasesAllele implements VcfAllele {
 
 	private static final Pattern sf_pattern = Pattern.compile("[AaCcGgTtNn]+");
-	private static final long serialVersionUID = 5408492328766377110L;
 	private final String m_string;
 
 	@Nonnull

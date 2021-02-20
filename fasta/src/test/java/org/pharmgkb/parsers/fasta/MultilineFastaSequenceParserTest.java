@@ -1,13 +1,14 @@
 package org.pharmgkb.parsers.fasta;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.fasta.model.FastaSequence;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Reads a FASTA file line by line.
@@ -36,9 +37,10 @@ public class MultilineFastaSequenceParserTest {
 		assertEquals(new FastaSequence("header2", "ns2p1"), seqs.get(1));
 	}
 
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testApply3() {
 		MultilineFastaSequenceParser parser = new MultilineFastaSequenceParser.Builder().setTermination((char)0x01).build();
-		Stream.of(">header1", "ns1p1", "ns1p2", ">header2", "ns2p1").flatMap(parser).collect(Collectors.toList());
+		Stream<FastaSequence> stream = Stream.of(">header1", "ns1p1", "ns1p2", ">header2", "ns2p1").flatMap(parser);
+		assertThrows(IllegalStateException.class, () -> stream.collect(Collectors.toList()));
 	}
 }

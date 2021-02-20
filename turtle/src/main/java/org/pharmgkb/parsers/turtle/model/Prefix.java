@@ -4,7 +4,6 @@ import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 import java.util.Objects;
 
 
@@ -12,12 +11,10 @@ import java.util.Objects;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Prefix implements Serializable {
+public class Prefix {
 
-	private static final long serialVersionUID = -6130391673700012465L;
-
-	private String m_prefix;
-	private String m_uri;
+	private final String m_prefix;
+	private final String m_uri;
 
 	public Prefix(@Nonnull String prefix, @Nonnull String uri) {
 		m_prefix = prefix;

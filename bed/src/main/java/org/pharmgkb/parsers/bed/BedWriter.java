@@ -29,7 +29,7 @@ public class BedWriter implements LineWriter<BedFeature> {
 	private static final long sf_logEvery = 10000;
 	private static final Logger sf_logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private AtomicLong m_lineNumber = new AtomicLong(0l);
+	private final AtomicLong m_lineNumber = new AtomicLong(0L);
 
 	@Nonnull
 	@Override

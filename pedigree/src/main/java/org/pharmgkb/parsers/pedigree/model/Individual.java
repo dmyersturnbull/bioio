@@ -3,18 +3,7 @@ package org.pharmgkb.parsers.pedigree.model;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,9 +17,7 @@ import java.util.stream.Collectors;
  * @author Douglas Myers-Turnbull
  */
 @Immutable
-public class Individual implements Subtree<Individual>, Comparable<Individual>, Serializable {
-
-	private static final long serialVersionUID = 6429782113364423410L;
+public class Individual implements Subtree<Individual>, Comparable<Individual> {
 
 	private String m_id;
 

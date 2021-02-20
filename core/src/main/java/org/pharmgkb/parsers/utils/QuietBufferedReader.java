@@ -17,7 +17,7 @@ public class QuietBufferedReader extends BufferedReader {
 
 	public QuietBufferedReader(@Nonnull Reader in, @Nonnegative int sz) {
 		super(in, sz);
-		this.bufferSize = sz;
+		bufferSize = sz;
 	}
 	public QuietBufferedReader(@Nonnull Reader in) {
 		this(in, DEFAULT_BUFFER_SIZE);
@@ -37,7 +37,7 @@ public class QuietBufferedReader extends BufferedReader {
 	@Nonnull
 	public String readLineQuietly() throws UncheckedIOException {
 		try {
-			return this.readLine();
+			return readLine();
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -45,7 +45,8 @@ public class QuietBufferedReader extends BufferedReader {
 
 	public char readCharQuietly() throws UncheckedIOException {
 		try {
-			return (char)this.read();
+			//noinspection NumericCastThatLosesPrecision
+			return (char) read();
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -55,7 +56,7 @@ public class QuietBufferedReader extends BufferedReader {
 	public String readCharsQuietly(int nChars) throws UncheckedIOException {
 		char[] z = new char[nChars];
 		try {
-			int val = this.read(z);
+			int val = read(z);
 			return new String(z);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);

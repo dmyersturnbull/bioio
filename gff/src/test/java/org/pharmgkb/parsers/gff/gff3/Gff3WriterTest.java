@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.gff.gff3;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.gff.Gff3Writer;
 import org.pharmgkb.parsers.gff.model.CdsPhase;
 import org.pharmgkb.parsers.gff.model.Gff3Feature;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link Gff3Writer}.

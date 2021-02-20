@@ -37,20 +37,21 @@ public enum AminoAcidCode {
 	public final String name;
 	public final CodeType type;
 
+	@SuppressWarnings("ParameterHidesMemberVariable")
 	AminoAcidCode(char character, String name, CodeType type) {
 		this.character = character;
 		this.name = name;
 		this.type = type;
 	}
 
-	private static Map<Character, AminoAcidCode> sf_lookup = null;
-	public static AminoAcidCode fromChar(char character) {
-		if (sf_lookup == null) {
-			sf_lookup = new HashMap<>(AminoAcidCode.values().length);
-			for (AminoAcidCode c : AminoAcidCode.values()) {
-				sf_lookup.put(c.character, c);
-			}
+	private static Map<Character, AminoAcidCode> sf_lookup = new HashMap<>(AminoAcidCode.values().length);
+	static {
+		for (AminoAcidCode aac : AminoAcidCode.values()) {
+			sf_lookup.put(aac.character, aac);
 		}
+	}
+
+	public static AminoAcidCode fromChar(char character) {
         if (sf_lookup.containsKey(character)) {
             return sf_lookup.get(character);
         } else {

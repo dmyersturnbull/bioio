@@ -1,6 +1,6 @@
 package org.pharmgkb.parsers.pedigree;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pharmgkb.parsers.pedigree.model.Family;
 import org.pharmgkb.parsers.pedigree.model.Individual;
 import org.pharmgkb.parsers.pedigree.model.Pedigree;
@@ -13,10 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Tests {@link PedigreeParser}.

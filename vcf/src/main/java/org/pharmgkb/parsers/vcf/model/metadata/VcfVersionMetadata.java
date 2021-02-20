@@ -15,8 +15,7 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public class VcfVersionMetadata implements VcfMetadata {
 
-	private static final long serialVersionUID = 2612974006753036364L;
-	private String m_versionNumber;
+	private final String m_versionNumber;
 
 	public VcfVersionMetadata(@Nonnull String versionNumber) {
 		Preconditions.checkNotNull(versionNumber, "Version number cannot be null");
