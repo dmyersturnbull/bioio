@@ -1,36 +1,50 @@
-# IntelliJ files
-/.idea/libraries/Gradle__*.xml
-/.idea/dataSources.xml
-/.idea/dataSources.ids
-/.idea/scssLintPlugin.xml
-/.idea/shelf
-/.idea/workspace.xml
-/.idea/watcherTasks.xml
+~*
+*~
+*#
+Thumbs.db
+*.bak
+*.swp
+tmp/
+
+# Log files and binary files
+# Committing a huge file could be really bad
+*.log
+*.zip
+*.tar.gz
+*.tgz
+*.gz
+*.tar
+*.z7
+*.exe
+*.msi
+*.pkg
+*.dll
+*.so
 
 # Gradle files
-.gradle/
 gradle/
-gradlew
-gradlew.bat
 **/build/
 **/out/
-
-# Node files
-/node_modules/
-
-# OS files
-.DS_Store
-._.DS_Store
-
-# Temporary files
-/.sass-cache
-*~
+gradlew*
+.gradle/
+gradle.properties
 
 /atlassian-ide-plugin.xml
-build/
 rebel.xml
 *.css.map
 Gemfile.lock
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Keep these config files
+!/.gitignore
+!/.travis.yml
+!/.circleci/config.yml
+!/.github
+!/.appveyor.yml
+!/.readthedocs.yml
+!/.dockerignore
+!/.editorconfig
+!/.pre-commit-config.yaml
+!/.scrutinizer.yml
